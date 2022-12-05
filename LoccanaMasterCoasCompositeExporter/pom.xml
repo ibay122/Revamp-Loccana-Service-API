@@ -14,38 +14,20 @@
   <name>LoccanaMasterCoasCompositeExporter</name>
   <description>LoccanaMasterCoasCompositeExporter</description>
   <properties>
-    <com.loccana.master.coas.dataservice_._MasterPartnerTypesDataService>capp/DataServicesServer</com.loccana.master.coas.dataservice_._MasterPartnerTypesDataService>
-    <com.loccana.master.coas.resource_._LoccanaMasterPartnerTypesUpsert>capp/EnterpriseIntegrator</com.loccana.master.coas.resource_._LoccanaMasterPartnerTypesUpsert>
-    <com.loccana.master.coas.metadata_._LoccanaMasterPartnerTypes_swagger>capp/EnterpriseServiceBus</com.loccana.master.coas.metadata_._LoccanaMasterPartnerTypes_swagger>
-    <com.loccana.master.coas.api_._LoccanaMasterPartnerTypes>capp/EnterpriseServiceBus</com.loccana.master.coas.api_._LoccanaMasterPartnerTypes>
+    <com.loccana.master.coas.sequence_._LoccanaMasterItemTypesGetDetail>capp/EnterpriseServiceBus</com.loccana.master.coas.sequence_._LoccanaMasterItemTypesGetDetail>
     <com.loccana.master.coas.sequence_._LoccanaMasterCoasGetResponseSuccess>capp/EnterpriseServiceBus</com.loccana.master.coas.sequence_._LoccanaMasterCoasGetResponseSuccess>
     <com.loccana.master.coas.sequence_._LoccanaMasterCoasGetResponseError>capp/EnterpriseServiceBus</com.loccana.master.coas.sequence_._LoccanaMasterCoasGetResponseError>
-    <com.loccana.master.coas.metadata_._LoccanaMasterPartnerTypes_metadata>capp/EnterpriseServiceBus</com.loccana.master.coas.metadata_._LoccanaMasterPartnerTypes_metadata>
-    <com.loccana.master.coas.sequence_._LoccanaMasterPartnerTypesGetDetail>capp/EnterpriseServiceBus</com.loccana.master.coas.sequence_._LoccanaMasterPartnerTypesGetDetail>
+    <com.loccana.master.coas.metadata_._LoccanaMasterItemTypes_swagger>capp/EnterpriseServiceBus</com.loccana.master.coas.metadata_._LoccanaMasterItemTypes_swagger>
+    <com.loccana.master.coas.api_._LoccanaMasterItemTypes>capp/EnterpriseServiceBus</com.loccana.master.coas.api_._LoccanaMasterItemTypes>
+    <com.loccana.master.coas.metadata_._LoccanaMasterItemTypes_metadata>capp/EnterpriseServiceBus</com.loccana.master.coas.metadata_._LoccanaMasterItemTypes_metadata>
     <artifact.types>jaggery/app=zip,synapse/priority-executor=xml,synapse/inbound-endpoint=xml,service/rule=aar,synapse/message-store=xml,event/stream=json,service/meta=xml,datasource/datasource=xml,synapse/proxy-service=xml,bpel/workflow=zip,synapse/sequence=xml,synapse/endpointTemplate=xml,carbon/application=car,wso2/gadget=dar,synapse/api=xml,synapse/event-source=xml,synapse/message-processors=xml,event/receiver=xml,lib/dataservice/validator=jar,synapse/template=xml,synapse/endpoint=xml,lib/carbon/ui=jar,lib/synapse/mediator=jar,synapse/metadata=yaml,event/publisher=xml,synapse/local-entry=xml,synapse/task=xml,webapp/jaxws=war,registry/resource=zip,synapse/configuration=xml,service/axis2=aar,synapse/lib=zip,synapse/sequenceTemplate=xml,event/execution-plan=siddhiql,service/dataservice=dbs,web/application=war,lib/library/bundle=jar</artifact.types>
+    <com.loccana.master.coas.resource_._LoccanaMasterItemTypesUpsert>capp/EnterpriseIntegrator</com.loccana.master.coas.resource_._LoccanaMasterItemTypesUpsert>
+    <com.loccana.master.coas.dataservice_._MasterItemTypesDataService>capp/DataServicesServer</com.loccana.master.coas.dataservice_._MasterItemTypesDataService>
   </properties>
   <dependencies>
     <dependency>
-      <groupId>com.loccana.master.coas.dataservice</groupId>
-      <artifactId>MasterPartnerTypesDataService</artifactId>
-      <version>1.0.0</version>
-      <type>dbs</type>
-    </dependency>
-    <dependency>
-      <groupId>com.loccana.master.coas.resource</groupId>
-      <artifactId>LoccanaMasterPartnerTypesUpsert</artifactId>
-      <version>1.0.0</version>
-      <type>zip</type>
-    </dependency>
-    <dependency>
-      <groupId>com.loccana.master.coas.metadata</groupId>
-      <artifactId>LoccanaMasterPartnerTypes_swagger</artifactId>
-      <version>1.0.0</version>
-      <type>yaml</type>
-    </dependency>
-    <dependency>
-      <groupId>com.loccana.master.coas.api</groupId>
-      <artifactId>LoccanaMasterPartnerTypes</artifactId>
+      <groupId>com.loccana.master.coas.sequence</groupId>
+      <artifactId>LoccanaMasterItemTypesGetDetail</artifactId>
       <version>1.0.0</version>
       <type>xml</type>
     </dependency>
@@ -63,15 +45,33 @@
     </dependency>
     <dependency>
       <groupId>com.loccana.master.coas.metadata</groupId>
-      <artifactId>LoccanaMasterPartnerTypes_metadata</artifactId>
+      <artifactId>LoccanaMasterItemTypes_swagger</artifactId>
       <version>1.0.0</version>
       <type>yaml</type>
     </dependency>
     <dependency>
-      <groupId>com.loccana.master.coas.sequence</groupId>
-      <artifactId>LoccanaMasterPartnerTypesGetDetail</artifactId>
+      <groupId>com.loccana.master.coas.api</groupId>
+      <artifactId>LoccanaMasterItemTypes</artifactId>
       <version>1.0.0</version>
       <type>xml</type>
+    </dependency>
+    <dependency>
+      <groupId>com.loccana.master.coas.metadata</groupId>
+      <artifactId>LoccanaMasterItemTypes_metadata</artifactId>
+      <version>1.0.0</version>
+      <type>yaml</type>
+    </dependency>
+    <dependency>
+      <groupId>com.loccana.master.coas.resource</groupId>
+      <artifactId>LoccanaMasterItemTypesUpsert</artifactId>
+      <version>1.0.0</version>
+      <type>zip</type>
+    </dependency>
+    <dependency>
+      <groupId>com.loccana.master.coas.dataservice</groupId>
+      <artifactId>MasterItemTypesDataService</artifactId>
+      <version>1.0.0</version>
+      <type>dbs</type>
     </dependency>
   </dependencies>
   <repositories>

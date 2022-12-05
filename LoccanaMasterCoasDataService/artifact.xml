@@ -8,4 +8,7 @@
     <artifact name="MasterPartnerTypesDataService" groupId="com.loccana.master.coas.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
         <file>dataservice/MasterPartnerTypesDataService.dbs</file>
     </artifact>
+    <artifact name="MasterItemTypesDataService" groupId="com.loccana.master.coas.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/MasterItemTypesDataService.dbs</file>
+    </artifact>
 </artifacts>
