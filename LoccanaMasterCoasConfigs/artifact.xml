@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?><artifacts>
+    <artifact name="LoccanaMasterCoasGetDetail" groupId="com.loccana.master.coas.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/LoccanaMasterCoasGetDetail.xml</file>
+    </artifact>
+    <artifact name="LoccanaMasterCoasGetResponseSuccess" groupId="com.loccana.master.coas.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/LoccanaMasterCoasGetResponseSuccess.xml</file>
+    </artifact>
+    <artifact name="LoccanaMasterCoasGetResponseError" groupId="com.loccana.master.coas.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/LoccanaMasterCoasGetResponseError.xml</file>
+    </artifact>
+    <artifact name="LoccanaMasterCoas" groupId="com.loccana.master.coas.api" version="1.0.0" type="synapse/api" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/api/LoccanaMasterCoas.xml</file>
+    </artifact>
+    <artifact name="LoccanaMasterCoas_swagger" groupId="com.loccana.master.coas.metadata" version="1.0.0" type="synapse/metadata" serverRole="EnterpriseServiceBus">
+        <file>src/main/resources/metadata/LoccanaMasterCoas_swagger.yaml</file>
+    </artifact>
+    <artifact name="LoccanaMasterCoas_metadata" groupId="com.loccana.master.coas.metadata" version="1.0.0" type="synapse/metadata" serverRole="EnterpriseServiceBus">
+        <file>src/main/resources/metadata/LoccanaMasterCoas_metadata.yaml</file>
+    </artifact>
+</artifacts>

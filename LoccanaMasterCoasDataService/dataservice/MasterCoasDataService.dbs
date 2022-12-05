@@ -1,0 +1,138 @@
+<data name="MasterCoasDataService" serviceNamespace="" serviceGroup="" transports="http https">
+  <description />
+  <operation name="getCoasDetail">
+    <call-query href="getCoasDetailQuery">
+      <with-param name="id" query-param="id" />
+    </call-query>
+  </operation>
+  <operation name="updateCoas">
+    <call-query href="updateCoasQuery">
+      <with-param name="id_parent" query-param="id_parent" />
+      <with-param name="coa" query-param="coa" />
+      <with-param name="description" query-param="description" />
+      <with-param name="status" query-param="status" />
+      <with-param name="updated_at" query-param="updated_at" />
+      <with-param name="id" query-param="id" />
+    </call-query>
+  </operation>
+  <operation name="deleteCoas">
+    <call-query href="deleteCoasQuery">
+      <with-param name="updated_at" query-param="updated_at" />
+      <with-param name="id" query-param="id" />
+    </call-query>
+  </operation>
+  <operation name="createCoas">
+    <call-query href="createCoasQuery">
+      <with-param name="id_parent" query-param="id_parent" />
+      <with-param name="coa" query-param="coa" />
+      <with-param name="description" query-param="description" />
+      <with-param name="created_at" query-param="created_at" />
+      <with-param name="updated_at" query-param="updated_at" />
+    </call-query>
+  </operation>
+  <operation name="getCoas">
+    <call-query href="getCoasQuery">
+      <with-param name="search" query-param="search" />
+      <with-param name="limit" query-param="limit" />
+      <with-param name="offset" query-param="offset" />
+    </call-query>
+  </operation>
+  <operation name="getCoasCount">
+    <call-query href="getCoasCountQuery">
+      <with-param name="search" query-param="search" />
+    </call-query>
+  </operation>
+  <query id="getCoasDetailQuery" useConfig="DatasourceMasterData">
+    <sql>SELECT id,id_parent,coa,description,status,created_at,updated_at FROM coa WHERE status = 0 AND id = :id</sql>
+    <param name="id" paramType="SCALAR" sqlType="STRING" />
+    <result outputType="json">{
+   "data":{
+            "id":"$id",
+            "id_parent":"$id_parent",
+            "coa":"$coa",
+            "description":"$description",
+            "status":"$status",
+            "created_at":"$created_at",
+            "updated_at":"$updated_at"
+   }
+}</result>
+  </query>
+  <query id="updateCoasQuery" useConfig="DatasourceMasterData" returnUpdatedRowCount="true">
+    <sql>UPDATE coa SET id_parent = :id_parent,coa = :coa,description = :description,status = :status, updated_at = :updated_at WHERE id = :id</sql>
+    <param name="id_parent" paramType="SCALAR" sqlType="STRING" />
+    <param name="coa" paramType="SCALAR" sqlType="STRING" />
+    <param name="description" paramType="SCALAR" sqlType="STRING" />
+    <param name="status" paramType="SCALAR" sqlType="STRING" />
+    <param name="updated_at" paramType="SCALAR" sqlType="STRING" />
+    <param name="id" paramType="SCALAR" sqlType="STRING" />
+    <result element="UpdatedRowCount" rowName="" useColumnNumbers="true">
+      <element column="1" name="id" xsdType="integer"/>
+    </result>
+    <result outputType="json" useColumnNumbers="true">{
+   "data":{
+            "id":"$id",
+            "id_parent":"$id_parent",
+            "coa":"$coa",
+            "description":"$description",
+            "status":"$status",
+            "created_at":"$created_at",
+            "updated_at":"$updated_at"
+   }
+}</result>
+  </query>
+  <query id="deleteCoasQuery" useConfig="DatasourceMasterData" returnUpdatedRowCount="true">
+    <sql>UPDATE coa SET status = 1,updated_at = :updated_at where id = :id</sql>
+    <result element="UpdatedRowCount" useColumnNumbers="true" rowName="">
+      <element name="id" column="1" xsdType="integer" />
+    </result>
+    <param name="updated_at" sqlType="STRING" />
+    <param name="id" sqlType="STRING" />
+  </query>
+  <query id="createCoasQuery" useConfig="DatasourceMasterData" returnGeneratedKeys="true" keyColumns="id">
+    <sql>INSERT INTO coa (id_parent,coa,description,created_at,updated_at) VALUES (:id_parent,:coa,:description,:created_at,:updated_at)</sql>
+    <param name="id_parent" sqlType="STRING" />
+    <param name="coa" sqlType="STRING" />
+    <param name="description" sqlType="STRING" />
+    <param name="created_at" sqlType="STRING" />
+    <param name="updated_at" sqlType="STRING" />
+    <result element="return" useColumnNumbers="true">
+      <element name="id" column="1" xsdType="integer" />
+    </result>
+  </query>
+  <query id="getCoasQuery" useConfig="DatasourceMasterData">
+    <sql>SELECT id,coa,description,status,created_at,updated_at FROM coa WHERE status = 0 AND (coa LIKE CONCAT('%',:search,'%') OR description LIKE CONCAT('%',:search,'%')) order by coa ASC limit :limit offset :offset</sql>
+    <param name="search" paramType="SCALAR" sqlType="STRING" />
+    <param name="offset" paramType="SCALAR" sqlType="INTEGER" />
+    <param name="limit" paramType="SCALAR" sqlType="INTEGER" />
+    <result outputType="json">{
+   "data":{
+   		"coas":[
+   		{
+            "id":"$id",
+            "id_parent":"$id_parent",
+            "coa":"$coa",
+            "description":"$description",
+            "status":"$status",
+            "created_at":"$created_at",
+            "updated_at":"$updated_at"
+          }
+        ]
+   }
+}</result>
+  </query>
+  <query id="getCoasCountQuery" useConfig="DatasourceMasterData">
+    <sql>SELECT count(id) as countid FROM coa where status = 0 AND (coa LIKE CONCAT('%',:search,'%') OR description LIKE CONCAT('%',:search,'%'))</sql>
+    <param name="search" paramType="SCALAR" sqlType="STRING" />
+    <result outputType="json">{
+   "data":{
+            "countid":"$countid"
+   }
+}</result>
+  </query>
+  <config id="DatasourceMasterData">
+    <property name="driverClassName">com.mysql.jdbc.Driver</property>
+    <property name="url">jdbc:mysql://localhost:3306/loccana_masterdata</property>
+    <property name="username">root</property>
+    <property name="password">root</property>
+  </config>
+</data>

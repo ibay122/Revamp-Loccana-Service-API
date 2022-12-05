@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?><artifacts>
+    <artifact name="MasterCoasDataService" groupId="com.loccana.master.coas.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/MasterCoasDataService.dbs</file>
+    </artifact>
+</artifacts>
