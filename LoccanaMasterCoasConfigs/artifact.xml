@@ -29,4 +29,16 @@
     <artifact name="LoccanaMasterPartnersGetDetail" groupId="com.loccana.master.coas.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
         <file>src/main/synapse-config/sequences/LoccanaMasterPartnersGetDetail.xml</file>
     </artifact>
+    <artifact name="LoccanaMasterPartnerTypes" groupId="com.loccana.master.coas.api" version="1.0.0" type="synapse/api" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/api/LoccanaMasterPartnerTypes.xml</file>
+    </artifact>
+    <artifact name="LoccanaMasterPartnerTypes_swagger" groupId="com.loccana.master.coas.metadata" version="1.0.0" type="synapse/metadata" serverRole="EnterpriseServiceBus">
+        <file>src/main/resources/metadata/LoccanaMasterPartnerTypes_swagger.yaml</file>
+    </artifact>
+    <artifact name="LoccanaMasterPartnerTypes_metadata" groupId="com.loccana.master.coas.metadata" version="1.0.0" type="synapse/metadata" serverRole="EnterpriseServiceBus">
+        <file>src/main/resources/metadata/LoccanaMasterPartnerTypes_metadata.yaml</file>
+    </artifact>
+    <artifact name="LoccanaMasterPartnerTypesGetDetail" groupId="com.loccana.master.coas.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/LoccanaMasterPartnerTypesGetDetail.xml</file>
+    </artifact>
 </artifacts>
