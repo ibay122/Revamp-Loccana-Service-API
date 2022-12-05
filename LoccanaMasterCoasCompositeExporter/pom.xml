@@ -14,24 +14,17 @@
   <name>LoccanaMasterCoasCompositeExporter</name>
   <description>LoccanaMasterCoasCompositeExporter</description>
   <properties>
-    <com.loccana.master.coas.dataservice_._MasterCoasDataService>capp/DataServicesServer</com.loccana.master.coas.dataservice_._MasterCoasDataService>
-    <com.loccana.master.coas.api_._LoccanaMasterCoas>capp/EnterpriseServiceBus</com.loccana.master.coas.api_._LoccanaMasterCoas>
-    <com.loccana.master.coas.metadata_._LoccanaMasterCoas_swagger>capp/EnterpriseServiceBus</com.loccana.master.coas.metadata_._LoccanaMasterCoas_swagger>
-    <artifact.types>jaggery/app=zip,synapse/priority-executor=xml,synapse/inbound-endpoint=xml,service/rule=aar,synapse/message-store=xml,event/stream=json,service/meta=xml,datasource/datasource=xml,synapse/proxy-service=xml,bpel/workflow=zip,synapse/sequence=xml,synapse/endpointTemplate=xml,carbon/application=car,wso2/gadget=dar,synapse/api=xml,synapse/event-source=xml,synapse/message-processors=xml,event/receiver=xml,lib/dataservice/validator=jar,synapse/template=xml,synapse/endpoint=xml,lib/carbon/ui=jar,lib/synapse/mediator=jar,synapse/metadata=yaml,event/publisher=xml,synapse/local-entry=xml,synapse/task=xml,webapp/jaxws=war,registry/resource=zip,synapse/configuration=xml,service/axis2=aar,synapse/lib=zip,synapse/sequenceTemplate=xml,event/execution-plan=siddhiql,service/dataservice=dbs,web/application=war,lib/library/bundle=jar</artifact.types>
-    <com.loccana.master.coas.resource_._LoccanaMasterCoasUpsert>capp/EnterpriseIntegrator</com.loccana.master.coas.resource_._LoccanaMasterCoasUpsert>
-    <com.loccana.master.coas.resource_._LoccanaMasterCoasList>capp/EnterpriseIntegrator</com.loccana.master.coas.resource_._LoccanaMasterCoasList>
-    <com.loccana.master.coas.metadata_._LoccanaMasterCoas_metadata>capp/EnterpriseServiceBus</com.loccana.master.coas.metadata_._LoccanaMasterCoas_metadata>
     <com.loccana.master.coas.sequence_._LoccanaMasterCoasGetResponseSuccess>capp/EnterpriseServiceBus</com.loccana.master.coas.sequence_._LoccanaMasterCoasGetResponseSuccess>
-    <com.loccana.master.coas.sequence_._LoccanaMasterCoasGetDetail>capp/EnterpriseServiceBus</com.loccana.master.coas.sequence_._LoccanaMasterCoasGetDetail>
     <com.loccana.master.coas.sequence_._LoccanaMasterCoasGetResponseError>capp/EnterpriseServiceBus</com.loccana.master.coas.sequence_._LoccanaMasterCoasGetResponseError>
+    <com.loccana.master.coas.metadata_._LoccanaMasterPartners_metadata>capp/EnterpriseServiceBus</com.loccana.master.coas.metadata_._LoccanaMasterPartners_metadata>
+    <com.loccana.master.coas.api_._LoccanaMasterPartners>capp/EnterpriseServiceBus</com.loccana.master.coas.api_._LoccanaMasterPartners>
+    <com.loccana.master.coas.sequence_._LoccanaMasterPartnersGetDetail>capp/EnterpriseServiceBus</com.loccana.master.coas.sequence_._LoccanaMasterPartnersGetDetail>
+    <com.loccana.master.coas.metadata_._LoccanaMasterPartners_swagger>capp/EnterpriseServiceBus</com.loccana.master.coas.metadata_._LoccanaMasterPartners_swagger>
+    <com.loccana.master.coas.resource_._LoccanaMasterPartnersUpsert>capp/EnterpriseIntegrator</com.loccana.master.coas.resource_._LoccanaMasterPartnersUpsert>
+    <artifact.types>jaggery/app=zip,synapse/priority-executor=xml,synapse/inbound-endpoint=xml,service/rule=aar,synapse/message-store=xml,event/stream=json,service/meta=xml,datasource/datasource=xml,synapse/proxy-service=xml,bpel/workflow=zip,synapse/sequence=xml,synapse/endpointTemplate=xml,carbon/application=car,wso2/gadget=dar,synapse/api=xml,synapse/event-source=xml,synapse/message-processors=xml,event/receiver=xml,lib/dataservice/validator=jar,synapse/template=xml,synapse/endpoint=xml,lib/carbon/ui=jar,lib/synapse/mediator=jar,synapse/metadata=yaml,event/publisher=xml,synapse/local-entry=xml,synapse/task=xml,webapp/jaxws=war,registry/resource=zip,synapse/configuration=xml,service/axis2=aar,synapse/lib=zip,synapse/sequenceTemplate=xml,event/execution-plan=siddhiql,service/dataservice=dbs,web/application=war,lib/library/bundle=jar</artifact.types>
+    <com.loccana.master.coas.dataservice_._MasterPartnersDataService>capp/DataServicesServer</com.loccana.master.coas.dataservice_._MasterPartnersDataService>
   </properties>
   <dependencies>
-    <dependency>
-      <groupId>com.loccana.master.coas.resource</groupId>
-      <artifactId>LoccanaMasterCoasList</artifactId>
-      <version>1.0.0</version>
-      <type>zip</type>
-    </dependency>
     <dependency>
       <groupId>com.loccana.master.coas.sequence</groupId>
       <artifactId>LoccanaMasterCoasGetResponseSuccess</artifactId>
@@ -46,37 +39,37 @@
     </dependency>
     <dependency>
       <groupId>com.loccana.master.coas.metadata</groupId>
-      <artifactId>LoccanaMasterCoas_metadata</artifactId>
-      <version>1.0.0</version>
-      <type>yaml</type>
-    </dependency>
-    <dependency>
-      <groupId>com.loccana.master.coas.resource</groupId>
-      <artifactId>LoccanaMasterCoasUpsert</artifactId>
-      <version>1.0.0</version>
-      <type>zip</type>
-    </dependency>
-    <dependency>
-      <groupId>com.loccana.master.coas.metadata</groupId>
-      <artifactId>LoccanaMasterCoas_swagger</artifactId>
+      <artifactId>LoccanaMasterPartners_metadata</artifactId>
       <version>1.0.0</version>
       <type>yaml</type>
     </dependency>
     <dependency>
       <groupId>com.loccana.master.coas.api</groupId>
-      <artifactId>LoccanaMasterCoas</artifactId>
+      <artifactId>LoccanaMasterPartners</artifactId>
       <version>1.0.0</version>
       <type>xml</type>
     </dependency>
     <dependency>
       <groupId>com.loccana.master.coas.sequence</groupId>
-      <artifactId>LoccanaMasterCoasGetDetail</artifactId>
+      <artifactId>LoccanaMasterPartnersGetDetail</artifactId>
       <version>1.0.0</version>
       <type>xml</type>
     </dependency>
     <dependency>
+      <groupId>com.loccana.master.coas.metadata</groupId>
+      <artifactId>LoccanaMasterPartners_swagger</artifactId>
+      <version>1.0.0</version>
+      <type>yaml</type>
+    </dependency>
+    <dependency>
+      <groupId>com.loccana.master.coas.resource</groupId>
+      <artifactId>LoccanaMasterPartnersUpsert</artifactId>
+      <version>1.0.0</version>
+      <type>zip</type>
+    </dependency>
+    <dependency>
       <groupId>com.loccana.master.coas.dataservice</groupId>
-      <artifactId>MasterCoasDataService</artifactId>
+      <artifactId>MasterPartnersDataService</artifactId>
       <version>1.0.0</version>
       <type>dbs</type>
     </dependency>

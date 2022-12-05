@@ -58,7 +58,7 @@
 }</result>
   </query>
   <query id="updateCoasQuery" useConfig="DatasourceMasterData" returnUpdatedRowCount="true">
-    <sql>UPDATE coa SET id_parent = :id_parent,coa = :coa,description = :description,status = :status, updated_at = :updated_at WHERE id = :id</sql>
+    <sql>UPDATE partners SET code = :code, name = :name, partner_type = :partner_type, phone = :phone, fax = :fax, email = :email, address = :address, ship_address = :ship_address, bank_name = :bank_name, account_number = :bank_name WHERE id = :id</sql>
     <param name="id_parent" paramType="SCALAR" sqlType="STRING" />
     <param name="coa" paramType="SCALAR" sqlType="STRING" />
     <param name="description" paramType="SCALAR" sqlType="STRING" />

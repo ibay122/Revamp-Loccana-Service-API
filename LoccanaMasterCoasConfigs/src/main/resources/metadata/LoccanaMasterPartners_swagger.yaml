@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: LoccanaMasterPartners
-  description: API Definition of LoccanaMasterCoas
+  description: API Definition of LoccanaMasterPartners
   version: 1.0.0
 servers:
 - url: http://localhost:8290/loccana/master/partners

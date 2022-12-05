@@ -15,4 +15,12 @@
             <properties/>
         </item>
     </artifact>
+    <artifact name="LoccanaMasterPartnersUpsert" groupId="com.loccana.master.coas.resource" version="1.0.0" type="registry/resource" serverRole="EnterpriseIntegrator">
+        <item>
+            <file>LoccanaMasterPartnersUpsert.json</file>
+            <path>/_system/config/schema</path>
+            <mediaType>application/json</mediaType>
+            <properties/>
+        </item>
+    </artifact>
 </artifacts>
