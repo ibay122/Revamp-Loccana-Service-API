@@ -1,0 +1,30 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "properties": {
+        "item_code": {
+            "type": "string"
+        },
+        "item_name": {
+            "type": "string"
+        },
+        "type_id": {
+            "type": "string"
+        },
+        "uom_id": {
+            "type": "integer"
+        },
+        "partner_id": {
+            "type": "integer"
+        },
+        "vat": {
+            "type": "string"
+        },
+        "status": {
+            "type": "string"
+        }
+    },
+    "required": [
+        "item_code","item_name","type_id","uom_id","partner_id","vat","status"
+    ]
+}

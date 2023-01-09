@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/loccana/master/item_price" name="LoccanaMasterItemPrices" xmlns="http://ws.apache.org/ns/synapse">
+    <resource methods="GET" uri-template="/{id}">
+        <inSequence>
+            <property description="Item Price Id" expression="get-property('uri.var.id')" name="itemPriceId" scope="default" type="STRING"/>
+            <log description="Log start" level="custom">
+                <property expression="get-property('itemPriceId')" name="Get detail item price id"/>
+            </log>
+            <sequence key="LoccanaMasterItemPricesGetDetail"/>
+            <filter regex="false" source="boolean(get-property('data'))">
+                <then>
+                    <property description="Error Message" name="message" scope="default" type="STRING" value="Item Price tidak ditemukan."/>
+                    <sequence key="LoccanaMasterGetResponseError"/>
+                </then>
+                <else>
+                    <property description="Success Message" name="message" scope="default" type="STRING" value="Item Price ditemukan."/>
+                    <sequence key="LoccanaMasterGetResponseSuccess"/>
+                </else>
+            </filter>
+        </inSequence>
+        <outSequence/>
+        <faultSequence>
+            <property description="ErrorMessage" expression="get-property('ERROR_MESSAGE')" name="message" scope="default" type="STRING"/>
+            <sequence key="LoccanaMasterItemPricesGetResponseError"/>
+        </faultSequence>
+    </resource>
+    <!-- <resource methods="GET" uri-template="/{id}">
+        <inSequence>
+            <property description="Item Price Id" expression="get-property('uri.var.id')" name="item_priceId" scope="default" type="STRING"/>
+            <log description="Log start" level="custom">
+                <property expression="get-property('item_priceId')" name="Get detail item_price id"/>
+            </log>
+            <sequence key="LoccanaMasterItemPricesGetDetail"/>
+            <filter regex="false" source="boolean(get-property('data'))">
+                <then>
+                    <property description="Error Message" name="message" scope="default" type="STRING" value="Item Price tidak ditemukan."/>
+                    <sequence key="LoccanaMasterItemPricesGetResponseError"/>
+                </then>
+                <else>
+                    <property description="Success Message" name="message" scope="default" type="STRING" value="Item Price ditemukan."/>
+                    <sequence key="LoccanaMasterItemPricesGetResponseSuccess"/>
+                </else>
+            </filter>
+        </inSequence>
+        <outSequence/>
+        <faultSequence>
+            <property description="ErrorMessage" expression="get-property('ERROR_MESSAGE')" name="message" scope="default" type="STRING"/>
+            <sequence key="LoccanaMasterItemPricesGetResponseError"/>
+        </faultSequence>
+    </resource>
+    <resource methods="POST">
+        <inSequence>
+            <log description="debug start" level="custom">
+                <property expression="json-eval($)" name="debug"/>
+            </log>
+            <validate cache-schema="true" source="json-eval($)">
+                <schema key="conf:schema/LoccanaMasterItemPricesUpsert.json"/>
+                <on-fail>
+                    <property description="Error Message" expression="$ctx:ERROR_MESSAGE" name="message" scope="default" type="STRING"/>
+                    <sequence key="LoccanaMasterItemPricesGetResponseError"/>
+                </on-fail>
+            </validate>
+            <log description="Log start" level="custom">
+                <property name="Log Message" value="Insert data partner"/>
+            </log>
+            <propertyGroup description="Parameter Input">
+                <property expression="json-eval($.item_id)" name="item_id" scope="default" type="STRING"/>
+                <property expression="json-eval($.base_price)" name="base_price" scope="default" type="STRING"/>
+                <property expression="json-eval($.top_price)" name="top_price" scope="default" type="STRING"/>
+                <property expression="json-eval($.bottom_price)" name="bottom_price" scope="default" type="STRING"/>
+                <property expression="json-eval($.price_pcs)" name="price_pcs" scope="default" type="STRING"/>
+                <property expression="json-eval($.buy_price)" name="buy_price" scope="default" type="STRING"/>
+                <property expression="get-property('SYSTEM_DATE', 'yyyy-MM-dd HH:mm:ss')" name="currentDate" scope="default" type="STRING"/>
+            </propertyGroup>
+            <log description="Log start" level="custom">
+                <property expression="get-property('currentDate')" name="debug time"/>
+            </log>
+            <dataServiceCall description="Create item price" serviceName="MasterItemPricesDataService">
+                <operations type="single">
+                    <operation name="createItemPrices">
+                        <param evaluator="xml" expression="get-property('item_id')" name="item_id"/>
+                        <param evaluator="xml" expression="get-property('base_price')" name="base_price"/>
+                        <param evaluator="xml" expression="get-property('top_price')" name="top_price"/>
+                        <param evaluator="xml" expression="get-property('bottom_price')" name="bottom_price"/>
+                        <param evaluator="xml" expression="get-property('price_pcs')" name="price_pcs"/>
+                        <param evaluator="xml" expression="get-property('buy_price')" name="buy_price"/>
+                        <param evaluator="xml" expression="get-property('currentDate')" name="created_at"/>
+                        <param evaluator="xml" expression="get-property('currentDate')" name="updated_at"/>
+                    </operation>
+                </operations>
+                <source type="inline"/>
+                <target type="body"/>
+            </dataServiceCall>
+            <property name="messageType" scope="axis2" type="STRING" value="application/json"/>
+            <property description="Result" expression="json-eval($)" name="result" scope="default" type="STRING"/>
+            <filter regex="false" source="boolean(get-property('result'))">
+                <then>
+                    <property description="Error Message" name="message" scope="default" type="STRING" value="Gagal menambahkan Item Price."/>
+                    <sequence key="LoccanaMasterItemPricesGetResponseError"/>
+                </then>
+                <else>
+                    <property description="Success Message" name="message" scope="default" type="STRING" value="Tambah item price berhasil."/>
+                    <property description="Success data" expression="json-eval($.return)" name="data" scope="default" type="STRING"/>
+                    <sequence key="LoccanaMasterItemPricesGetResponseSuccess"/>
+                </else>
+            </filter>
+        </inSequence>
+        <outSequence/>
+        <faultSequence>
+            <property description="ErrorMessage" expression="get-property('ERROR_MESSAGE')" name="message" scope="default" type="STRING"/>
+            <sequence key="LoccanaMasterItemPricesGetResponseError"/>
+        </faultSequence>
+    </resource> -->
+</api>

@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/loccana/master/item_types" name="LoccanaMasterItemTypes" xmlns="http://ws.apache.org/ns/synapse">
+    <resource methods="POST">
+        <inSequence>
+            <log description="debug start" level="custom">
+                <property expression="json-eval($)" name="debug"/>
+            </log>
+            <validate cache-schema="true" source="json-eval($)">
+                <schema key="conf:schema/itemTypes_validator.json"/>
+                <on-fail>
+                    <property description="Error Message" expression="$ctx:ERROR_MESSAGE" name="message" scope="default" type="STRING"/>
+                    <sequence key="LoccanaMasterGetResponseError"/>
+                </on-fail>
+            </validate>
+            <log description="Log start" level="custom">
+                <property name="Log Message" value="Insert data item types"/>
+            </log>
+            <propertyGroup description="Parameter Input">
+                <property expression="json-eval($.coa_id)" name="coa_id" scope="default" type="STRING"/>
+                <property expression="json-eval($.name_type)" name="name_type" scope="default" type="STRING"/>
+                <property expression="json-eval($.description)" name="description" scope="default" type="STRING"/>
+                <property expression="json-eval($.status)" name="status" scope="default" type="STRING"/>
+                <property expression="get-property('SYSTEM_DATE', 'yyyy-MM-dd HH:mm:ss')" name="currentDate" scope="default" type="STRING"/>
+            </propertyGroup>
+            <dataServiceCall description="Create item" serviceName="LoccanaMasterdataDataService">
+                <operations type="single">
+                    <operation name="createItemTypes">
+                        <param evaluator="xml" expression="get-property('coa_id')" name="coa_id"/>
+                        <param evaluator="xml" expression="get-property('name_type')" name="name_type"/>
+                        <param evaluator="xml" expression="get-property('description')" name="description"/>
+                        <param evaluator="xml" expression="get-property('status')" name="status"/>
+                        <param evaluator="xml" expression="get-property('currentDate')" name="created_at"/>
+                        <param evaluator="xml" expression="get-property('currentDate')" name="updated_at"/>
+                    </operation>
+                </operations>
+                <source type="inline"/>
+                <target type="body"/>
+            </dataServiceCall>
+            <property name="messageType" scope="axis2" type="STRING" value="application/json"/>
+            <property description="Result" expression="json-eval($)" name="result" scope="default" type="STRING"/>
+            <filter regex="false" source="boolean(get-property('result'))">
+                <then>
+                    <property description="Error Message" name="message" scope="default" type="STRING" value="Gagal menambahkan item types."/>
+                    <sequence key="LoccanaMasterGetResponseError"/>
+                </then>
+                <else>
+                    <property description="Success Message" name="message" scope="default" type="STRING" value="Tambah item types berhasil."/>
+                    <property description="Success data" expression="json-eval($.return)" name="data" scope="default" type="STRING"/>
+                    <sequence key="LoccanaMasterGetResponseSuccess"/>
+                </else>
+            </filter>
+        </inSequence>
+        <outSequence/>
+        <faultSequence>
+            <property description="ErrorMessage" expression="get-property('ERROR_MESSAGE')" name="message" scope="default" type="STRING"/>
+            <sequence key="LoccanaMasterGetResponseError"/>
+        </faultSequence>
+    </resource>
+    <resource methods="GET" uri-template="/{id}">
+        <inSequence>
+            <property description="get item types Id" expression="get-property('uri.var.id')" name="itemTypesId" scope="default" type="STRING"/>
+            <log description="Log start" level="custom">
+                <property expression="get-property('itemTypesId')" name="Get detail item types id"/>
+            </log>
+            <sequence key="LoccanaMasterItemTypesGetDetail"/>
+            <filter regex="false" source="boolean(get-property('data'))">
+                <then>
+                    <property description="Error Message" name="message" scope="default" type="STRING" value="item types tidak ditemukan."/>
+                    <sequence key="LoccanaMasterGetResponseError"/>
+                </then>
+                <else>
+                    <property description="Success Message" name="message" scope="default" type="STRING" value="item types ditemukan."/>
+                    <sequence key="LoccanaMasterGetResponseSuccess"/>
+                </else>
+            </filter>
+        </inSequence>
+        <outSequence/>
+        <faultSequence>
+            <property description="ErrorMessage" expression="get-property('ERROR_MESSAGE')" name="message" scope="default" type="STRING"/>
+            <sequence key="LoccanaMasterGetResponseError"/>
+        </faultSequence>
+    </resource>
+    <resource methods="PUT" uri-template="/{id}">
+        <inSequence>
+            <property description="get item types id" expression="get-property('uri.var.id')" name="itemTypesId" scope="default" type="STRING"/>
+            <validate cache-schema="true" source="json-eval($)">
+                <schema key="conf:schema/itemTypes_validator.json"/>
+                <on-fail>
+                    <property description="Error Message" expression="$ctx:ERROR_MESSAGE" name="message" scope="default" type="STRING"/>
+                    <sequence key="LoccanaMasterGetResponseError"/>
+                </on-fail>
+            </validate>
+            <propertyGroup description="Parameter Update">
+                <property expression="get-property('uri.var.id')" name="itemTypeId" scope="default" type="STRING"/>
+                <property expression="json-eval($.coa_id)" name="coa_id" scope="default" type="STRING"/>
+                <property expression="json-eval($.name_type)" name="name_type" scope="default" type="STRING"/>
+                <property expression="json-eval($.description)" name="description" scope="default" type="STRING"/>
+                <property expression="json-eval($.status)" name="status" scope="default" type="STRING"/>
+                <property expression="get-property('SYSTEM_DATE', 'yyyy-MM-dd HH:mm:ss')" name="currentDate" scope="default" type="STRING"/>
+            </propertyGroup>
+            <log description="Log start" level="custom">
+                <property expression="get-property('itemTypesId')" name="Update item types id"/>
+            </log>
+            <sequence key="LoccanaMasterItemTypesGetDetail"/>
+            <filter regex="false" source="boolean(get-property('data'))">
+                <then>
+                    <property description="Error Message" name="message" scope="default" type="STRING" value="item types tidak ditemukan."/>
+                    <sequence key="LoccanaMasterGetResponseError"/>
+                </then>
+                <else>
+                    <property action="remove" name="data" scope="default"/>
+                    <log description="Log start" level="custom">
+                        <property expression="get-property('result')" name="debug"/>
+                    </log>
+                </else>
+            </filter>
+            <dataServiceCall description="Update item" serviceName="LoccanaMasterdataDataService">
+                <operations type="single">
+                    <operation name="updateItemTypes">
+                        <param evaluator="xml" expression="get-property('coa_id')" name="coa_id"/>
+                        <param evaluator="xml" expression="get-property('name_type')" name="name_type"/>
+                        <param evaluator="xml" expression="get-property('description')" name="description"/>
+                        <param evaluator="xml" expression="get-property('status')" name="status"/>
+                        <param evaluator="xml" expression="get-property('currentDate')" name="updated_at"/>
+                        <param evaluator="xml" expression="get-property('itemTypesId')" name="id"/>
+                    </operation>
+                </operations>
+                <source type="inline"/>
+                <target type="body"/>
+            </dataServiceCall>
+            <property name="messageType" scope="axis2" type="STRING" value="application/json"/>
+            <property description="Get update status" expression="json-eval($.UpdatedRowCount.id)" name="result" scope="default" type="STRING"/>
+            <log description="Log start" level="custom">
+                <property expression="get-property('result')" name="debug"/>
+            </log>
+            <filter regex="1" source="get-property('result')">
+                <then>
+                    <property description="Success Message" name="message" scope="default" type="STRING" value="Update item types berhasil."/>
+                    <sequence key="LoccanaMasterGetResponseSuccess"/>
+                </then>
+                <else>
+                    <property description="Error Message" name="message" scope="default" type="STRING" value="Update item types gagal."/>
+                    <sequence key="LoccanaMasterGetResponseError"/>
+                </else>
+            </filter>
+        </inSequence>
+        <outSequence/>
+        <faultSequence>
+            <property description="ErrorMessage" expression="get-property('ERROR_MESSAGE')" name="message" scope="default" type="STRING"/>
+            <sequence key="LoccanaMasterResponseError"/>
+        </faultSequence>
+    </resource>
+    <resource methods="DELETE" uri-template="/{id}">
+        <inSequence>
+            <propertyGroup description="Parameter Update">
+                <property expression="get-property('uri.var.id')" name="itemTypesId" scope="default" type="STRING"/>
+            </propertyGroup>
+            <log description="Log start" level="custom">
+                <property expression="get-property('itemTypesId')" name="Delete item id"/>
+            </log>
+            <sequence key="LoccanaMasterItemTypesGetDetail"/>
+            <filter regex="false" source="boolean(get-property('data'))">
+                <then>
+                    <property description="Error Message" name="message" scope="default" type="STRING" value="item types tidak ditemukan."/>
+                    <sequence key="LoccanaMasterResponseError"/>
+                </then>
+                <else>
+                    <property action="remove" name="data" scope="default"/>
+                </else>
+            </filter>
+            <dataServiceCall description="Delete item" serviceName="LoccanaMasterdataDataService">
+                <operations type="single">
+                    <operation name="deleteItemTypes">
+                        <param evaluator="xml" expression="get-property('itemTypesId')" name="id"/>
+                    </operation>
+                </operations>
+                <source type="inline"/>
+                <target type="body"/>
+            </dataServiceCall>
+            <property name="messageType" scope="axis2" type="STRING" value="application/json"/>
+            <property description="Get update status" expression="json-eval($.UpdatedRowCount.id)" name="result" scope="default" type="STRING"/>
+            <filter regex="1" source="get-property('result')">
+                <then>
+                    <property description="Success Message" name="message" scope="default" type="STRING" value="Delete item types berhasil."/>
+                    <sequence key="LoccanaMasterGetResponseSuccess"/>
+                </then>
+                <else>
+                    <property description="Error Message" name="message" scope="default" type="STRING" value="Delete item types gagal."/>
+                    <sequence key="LoccanaMasterGetResponseError"/>
+                </else>
+            </filter>
+        </inSequence>
+        <outSequence/>
+        <faultSequence>
+            <property description="ErrorMessage" expression="get-property('ERROR_MESSAGE')" name="message" scope="default" type="STRING"/>
+            <sequence key="LoccanaMasterGetResponseError"/>
+        </faultSequence>
+    </resource>
+</api>

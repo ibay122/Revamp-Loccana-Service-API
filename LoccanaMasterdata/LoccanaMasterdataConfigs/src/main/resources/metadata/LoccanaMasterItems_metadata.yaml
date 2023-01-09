@@ -1,0 +1,11 @@
+---
+key: "LoccanaMasterItems-1.0.0"
+name : "LoccanaMasterItems"
+displayName : "LoccanaMasterItems"
+description: "Sample API"
+version: "1.0.0"
+serviceUrl: "https://{MI_HOST}:{MI_PORT}/loccana/master/items"
+definitionType: "OAS3"
+securityType: "BASIC"
+mutualSSLEnabled: false
+apiId : "null"

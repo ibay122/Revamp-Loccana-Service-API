@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?><artifacts>
+    <artifact name="LoccanaMasterBankAccounts" groupId="com.loccana.masterdata.api" version="1.0.0" type="synapse/api" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/api/LoccanaMasterBankAccounts.xml</file>
+    </artifact>
+    <artifact name="LoccanaMasterBankAccounts_swagger" groupId="com.loccana.masterdata.metadata" version="1.0.0" type="synapse/metadata" serverRole="EnterpriseServiceBus">
+        <file>src/main/resources/metadata/LoccanaMasterBankAccounts_swagger.yaml</file>
+    </artifact>
+    <artifact name="LoccanaMasterBankAccounts_metadata" groupId="com.loccana.masterdata.metadata" version="1.0.0" type="synapse/metadata" serverRole="EnterpriseServiceBus">
+        <file>src/main/resources/metadata/LoccanaMasterBankAccounts_metadata.yaml</file>
+    </artifact>
+    <artifact name="LoccanaMasterBankAccountsGetDetail" groupId="com.loccana.masterdata.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/LoccanaMasterBankAccountsGetDetail.xml</file>
+    </artifact>
+    <artifact name="LoccanaMasterGetResponseError" groupId="com.loccana.masterdata.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/LoccanaMasterGetResponseError.xml</file>
+    </artifact>
+    <artifact name="LoccanaMasterGetResponseSuccess" groupId="com.loccana.masterdata.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/LoccanaMasterGetResponseSuccess.xml</file>
+    </artifact>
+    <artifact name="LoccanaMasterCoas" groupId="com.loccana.masterdata.api" version="1.0.0" type="synapse/api" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/api/LoccanaMasterCoas.xml</file>
+    </artifact>
+    <artifact name="LoccanaMasterCoas_swagger" groupId="com.loccana.masterdata.metadata" version="1.0.0" type="synapse/metadata" serverRole="EnterpriseServiceBus">
+        <file>src/main/resources/metadata/LoccanaMasterCoas_swagger.yaml</file>
+    </artifact>
+    <artifact name="LoccanaMasterCoas_metadata" groupId="com.loccana.masterdata.metadata" version="1.0.0" type="synapse/metadata" serverRole="EnterpriseServiceBus">
+        <file>src/main/resources/metadata/LoccanaMasterCoas_metadata.yaml</file>
+    </artifact>
+    <artifact name="LoccanaMasterCoasGetDetail" groupId="com.loccana.masterdata.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/LoccanaMasterCoasGetDetail.xml</file>
+    </artifact>
+    <artifact name="LoccanaMasterUoms" groupId="com.loccana.masterdata.api" version="1.0.0" type="synapse/api" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/api/LoccanaMasterUoms.xml</file>
+    </artifact>
+    <artifact name="LoccanaMasterUoms_swagger" groupId="com.loccana.masterdata.metadata" version="1.0.0" type="synapse/metadata" serverRole="EnterpriseServiceBus">
+        <file>src/main/resources/metadata/LoccanaMasterUoms_swagger.yaml</file>
+    </artifact>
+    <artifact name="LoccanaMasterUoms_metadata" groupId="com.loccana.masterdata.metadata" version="1.0.0" type="synapse/metadata" serverRole="EnterpriseServiceBus">
+        <file>src/main/resources/metadata/LoccanaMasterUoms_metadata.yaml</file>
+    </artifact>
+    <artifact name="LoccanaMasterUomsGetDetail" groupId="com.loccana.masterdata.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/LoccanaMasterUomsGetDetail.xml</file>
+    </artifact>
+    <artifact name="LoccanaMasterPartners" groupId="com.loccana.masterdata.api" version="1.0.0" type="synapse/api" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/api/LoccanaMasterPartners.xml</file>
+    </artifact>
+    <artifact name="LoccanaMasterPartners_swagger" groupId="com.loccana.masterdata.metadata" version="1.0.0" type="synapse/metadata" serverRole="EnterpriseServiceBus">
+        <file>src/main/resources/metadata/LoccanaMasterPartners_swagger.yaml</file>
+    </artifact>
+    <artifact name="LoccanaMasterPartners_metadata" groupId="com.loccana.masterdata.metadata" version="1.0.0" type="synapse/metadata" serverRole="EnterpriseServiceBus">
+        <file>src/main/resources/metadata/LoccanaMasterPartners_metadata.yaml</file>
+    </artifact>
+    <artifact name="LoccanaMasterPartnersGetDetail" groupId="com.loccana.masterdata.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/LoccanaMasterPartnersGetDetail.xml</file>
+    </artifact>
+    <artifact name="LoccanaMasterPartnerTypesGetDetail" groupId="com.loccana.masterdata.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/LoccanaMasterPartnerTypesGetDetail.xml</file>
+    </artifact>
+    <artifact name="LoccanaMasterPartnerTypes" groupId="com.loccana.masterdata.api" version="1.0.0" type="synapse/api" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/api/LoccanaMasterPartnerTypes.xml</file>
+    </artifact>
+    <artifact name="LoccanaMasterPartnerTypes_swagger" groupId="com.loccana.masterdata.metadata" version="1.0.0" type="synapse/metadata" serverRole="EnterpriseServiceBus">
+        <file>src/main/resources/metadata/LoccanaMasterPartnerTypes_swagger.yaml</file>
+    </artifact>
+    <artifact name="LoccanaMasterPartnerTypes_metadata" groupId="com.loccana.masterdata.metadata" version="1.0.0" type="synapse/metadata" serverRole="EnterpriseServiceBus">
+        <file>src/main/resources/metadata/LoccanaMasterPartnerTypes_metadata.yaml</file>
+    </artifact>
+    <artifact name="LoccanaMasterItemTypes" groupId="com.loccana.masterdata.api" version="1.0.0" type="synapse/api" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/api/LoccanaMasterItemTypes.xml</file>
+    </artifact>
+    <artifact name="LoccanaMasterItemTypes_swagger" groupId="com.loccana.masterdata.metadata" version="1.0.0" type="synapse/metadata" serverRole="EnterpriseServiceBus">
+        <file>src/main/resources/metadata/LoccanaMasterItemTypes_swagger.yaml</file>
+    </artifact>
+    <artifact name="LoccanaMasterItemTypes_metadata" groupId="com.loccana.masterdata.metadata" version="1.0.0" type="synapse/metadata" serverRole="EnterpriseServiceBus">
+        <file>src/main/resources/metadata/LoccanaMasterItemTypes_metadata.yaml</file>
+    </artifact>
+    <artifact name="LoccanaMasterItemTypesGetDetail" groupId="com.loccana.masterdata.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/LoccanaMasterItemTypesGetDetail.xml</file>
+    </artifact>
+    <artifact name="LoccanaMasterItemPrices" groupId="com.loccana.masterdata.api" version="1.0.0" type="synapse/api" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/api/LoccanaMasterItemPrices.xml</file>
+    </artifact>
+    <artifact name="LoccanaMasterItemPrices_swagger" groupId="com.loccana.masterdata.metadata" version="1.0.0" type="synapse/metadata" serverRole="EnterpriseServiceBus">
+        <file>src/main/resources/metadata/LoccanaMasterItemPrices_swagger.yaml</file>
+    </artifact>
+    <artifact name="LoccanaMasterItemPrices_metadata" groupId="com.loccana.masterdata.metadata" version="1.0.0" type="synapse/metadata" serverRole="EnterpriseServiceBus">
+        <file>src/main/resources/metadata/LoccanaMasterItemPrices_metadata.yaml</file>
+    </artifact>
+    <artifact name="LoccanaMasterItemPricesGetDetail" groupId="com.loccana.masterdata.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/LoccanaMasterItemPricesGetDetail.xml</file>
+    </artifact>
+    <artifact name="LoccanaMasterItemQtys" groupId="com.loccana.masterdata.api" version="1.0.0" type="synapse/api" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/api/LoccanaMasterItemQtys.xml</file>
+    </artifact>
+    <artifact name="LoccanaMasterItemQtys_swagger" groupId="com.loccana.masterdata.metadata" version="1.0.0" type="synapse/metadata" serverRole="EnterpriseServiceBus">
+        <file>src/main/resources/metadata/LoccanaMasterItemQtys_swagger.yaml</file>
+    </artifact>
+    <artifact name="LoccanaMasterItemQtys_metadata" groupId="com.loccana.masterdata.metadata" version="1.0.0" type="synapse/metadata" serverRole="EnterpriseServiceBus">
+        <file>src/main/resources/metadata/LoccanaMasterItemQtys_metadata.yaml</file>
+    </artifact>
+    <artifact name="LoccanaMasterItems" groupId="com.loccana.masterdata.api" version="1.0.0" type="synapse/api" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/api/LoccanaMasterItems.xml</file>
+    </artifact>
+    <artifact name="LoccanaMasterItems_swagger" groupId="com.loccana.masterdata.metadata" version="1.0.0" type="synapse/metadata" serverRole="EnterpriseServiceBus">
+        <file>src/main/resources/metadata/LoccanaMasterItems_swagger.yaml</file>
+    </artifact>
+    <artifact name="LoccanaMasterItems_metadata" groupId="com.loccana.masterdata.metadata" version="1.0.0" type="synapse/metadata" serverRole="EnterpriseServiceBus">
+        <file>src/main/resources/metadata/LoccanaMasterItems_metadata.yaml</file>
+    </artifact>
+    <artifact name="GetItemsDetail" groupId="com.loccana.masterdata.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/GetItemsDetail.xml</file>
+    </artifact>
+    <artifact name="GetItemsTypeDetail" groupId="com.loccana.masterdata.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/GetItemsTypeDetail.xml</file>
+    </artifact>
+    <artifact name="LoccanaMasterItemQtysGetDetail" groupId="com.loccana.masterdata.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/LoccanaMasterItemQtysGetDetail.xml</file>
+    </artifact>
+    <artifact name="LoccanaMasterCoaParentsGetDetail" groupId="com.loccana.masterdata.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/LoccanaMasterCoaParentsGetDetail.xml</file>
+    </artifact>
+</artifacts>

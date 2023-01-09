@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/loccana/master/bank_accounts" name="LoccanaMasterBankAccounts" xmlns="http://ws.apache.org/ns/synapse">
+    <resource methods="POST">
+        <inSequence>
+            <validate cache-schema="true" source="json-eval($)">
+                <schema key="conf:schema/bankAccounts_validator.json"/>
+                <on-fail>
+                    <property description="Error Message" expression="$ctx:ERROR_MESSAGE" name="message" scope="default" type="STRING"/>
+                    <sequence key="LoccanaMasterGetResponseError"/>
+                </on-fail>
+            </validate>
+            <log description="Log start" level="custom">
+                <property name="Log Message" value="Insert data bank account"/>
+            </log>
+            <propertyGroup description="Parameter Input">
+                <property expression="json-eval($.partner_id)" name="partner_id" scope="default" type="STRING"/>
+                <property expression="json-eval($.name)" name="name" scope="default" type="STRING"/>
+                <property expression="json-eval($.account_number)" name="account_number" scope="default" type="STRING"/>
+                <property expression="json-eval($.description)" name="description" scope="default" type="STRING"/>
+                <property expression="json-eval($.status)" name="status" scope="default" type="STRING"/>
+                <property expression="get-property('SYSTEM_DATE', 'yyyy-MM-dd HH:mm:ss')" name="currentDate" scope="default" type="STRING"/>
+            </propertyGroup>
+            <dataServiceCall description="Create Bank Accounts" serviceName="LoccanaMasterdataDataService">
+                <operations type="single">
+                    <operation name="createBankAccounts">
+                        <param evaluator="xml" expression="get-property('partner_id')" name="partner_id"/>
+                        <param evaluator="xml" expression="get-property('name')" name="name"/>
+                        <param evaluator="xml" expression="get-property('account_number')" name="account_number"/>
+                        <param evaluator="xml" expression="get-property('description')" name="description"/>
+                        <param evaluator="xml" expression="get-property('status')" name="status"/>
+                        <param evaluator="xml" expression="get-property('currentDate')" name="created_at"/>
+                        <param evaluator="xml" expression="get-property('currentDate')" name="updated_at"/>
+                    </operation>
+                </operations>
+                <source type="inline"/>
+                <target type="body"/>
+            </dataServiceCall>
+            <property name="messageType" scope="axis2" type="STRING" value="application/json"/>
+            <property description="Result" expression="json-eval($)" name="result" scope="default" type="STRING"/>
+            <filter regex="false" source="boolean(get-property('result'))">
+                <then>
+                    <property description="Error Message" name="message" scope="default" type="STRING" value="Gagal menambahkan bank account."/>
+                    <sequence key="LoccanaMasterGetResponseError"/>
+                </then>
+                <else>
+                    <property description="Success Message" name="message" scope="default" type="STRING" value="Tambah bank account berhasil."/>
+                    <property description="Success data" expression="json-eval($.return)" name="data" scope="default" type="STRING"/>
+                    <sequence key="LoccanaMasterGetResponseSuccess"/>
+                </else>
+            </filter>
+        </inSequence>
+        <outSequence/>
+        <faultSequence>
+            <property description="ErrorMessage" expression="get-property('ERROR_MESSAGE')" name="message" scope="default" type="STRING"/>
+            <sequence key="LoccanaMasterGetResponseError"/>
+        </faultSequence>
+    </resource>
+    <resource methods="GET" uri-template="/{id}">
+        <inSequence>
+            <property description="bank account Id" expression="get-property('uri.var.id')" name="bankAccountId" scope="default" type="STRING"/>
+            <log description="Log start" level="custom">
+                <property expression="get-property('bankAccountId')" name="Get detail bank account id"/>
+            </log>
+            <sequence key="LoccanaMasterBankAccountsGetDetail"/>
+            <filter regex="false" source="boolean(get-property('data'))">
+                <then>
+                    <property description="Error Message" name="message" scope="default" type="STRING" value="bank account tidak ditemukan."/>
+                    <sequence key="LoccanaMasterGetResponseError"/>
+                </then>
+                <else>
+                    <property description="Success Message" name="message" scope="default" type="STRING" value="bank account ditemukan."/>
+                    <sequence key="LoccanaMasterGetResponseSuccess"/>
+                </else>
+            </filter>
+        </inSequence>
+        <outSequence/>
+        <faultSequence>
+            <property description="ErrorMessage" expression="get-property('ERROR_MESSAGE')" name="message" scope="default" type="STRING"/>
+            <sequence key="LoccanaMasterGetResponseError"/>
+        </faultSequence>
+    </resource>
+    <resource methods="PUT" uri-template="/{id}">
+        <inSequence>
+            <property description="get bank accountid" expression="get-property('uri.var.id')" name="bankAccountId" scope="default" type="STRING"/>
+            <validate cache-schema="true" source="json-eval($)">
+                <schema key="conf:schema/bankAccounts_validator.json"/>
+                <on-fail>
+                    <property description="Error Message" expression="$ctx:ERROR_MESSAGE" name="message" scope="default" type="STRING"/>
+                    <sequence key="LoccanaMasterGetResponseError"/>
+                </on-fail>
+            </validate>
+            <propertyGroup description="Parameter Update">
+                <property expression="get-property('uri.var.id')" name="bankAccountId" scope="default" type="STRING"/>
+                <property expression="json-eval($.partner_id)" name="partner_id" scope="default" type="STRING"/>
+                <property expression="json-eval($.name)" name="name" scope="default" type="STRING"/>
+                <property expression="json-eval($.account_number)" name="account_number" scope="default" type="STRING"/>
+                <property expression="json-eval($.description)" name="description" scope="default" type="STRING"/>
+                <property expression="json-eval($.status)" name="status" scope="default" type="STRING"/>
+                <property expression="get-property('SYSTEM_DATE', 'yyyy-MM-dd HH:mm:ss')" name="currentDate" scope="default" type="STRING"/>
+            </propertyGroup>
+            <log description="Log start" level="custom">
+                <property expression="get-property('bankAccountId')" name="Update bank account id"/>
+            </log>
+            <sequence key="LoccanaMasterBankAccountsGetDetail"/>
+            <filter regex="false" source="boolean(get-property('data'))">
+                <then>
+                    <property description="Error Message" name="message" scope="default" type="STRING" value="bank account tidak ditemukan."/>
+                    <sequence key="LoccanaMasterGetResponseError"/>
+                </then>
+                <else>
+                    <property action="remove" name="data" scope="default"/>
+                    <log description="Log start" level="custom">
+                        <property expression="get-property('result')" name="debug"/>
+                    </log>
+                </else>
+            </filter>
+            <dataServiceCall description="Update bank account" serviceName="LoccanaMasterdataDataService">
+                <operations type="single">
+                    <operation name="updateBankAccounts">
+                        <param evaluator="xml" expression="get-property('partner_id')" name="partner_id"/>
+                        <param evaluator="xml" expression="get-property('name')" name="name"/>
+                        <param evaluator="xml" expression="get-property('account_number')" name="account_number"/>
+                        <param evaluator="xml" expression="get-property('description')" name="description"/>
+                        <param evaluator="xml" expression="get-property('status')" name="status"/>
+                        <param evaluator="xml" expression="get-property('currentDate')" name="updated_at"/>
+                        <param evaluator="xml" expression="get-property('bankAccountId')" name="id"/>
+                    </operation>
+                </operations>
+                <source type="inline"/>
+                <target type="body"/>
+            </dataServiceCall>
+            <property name="messageType" scope="axis2" type="STRING" value="application/json"/>
+            <property description="Get update status" expression="json-eval($.UpdatedRowCount.id)" name="result" scope="default" type="STRING"/>
+            <log description="Log start" level="custom">
+                <property expression="get-property('result')" name="debug"/>
+            </log>
+            <filter regex="1" source="get-property('result')">
+                <then>
+                    <property description="Success Message" name="message" scope="default" type="STRING" value="Update bank account berhasil."/>
+                    <sequence key="LoccanaMasterGetResponseSuccess"/>
+                </then>
+                <else>
+                    <property description="Error Message" name="message" scope="default" type="STRING" value="Update bank account gagal."/>
+                    <sequence key="LoccanaMasterGetResponseError"/>
+                </else>
+            </filter>
+        </inSequence>
+        <outSequence/>
+        <faultSequence>
+            <property description="ErrorMessage" expression="get-property('ERROR_MESSAGE')" name="message" scope="default" type="STRING"/>
+            <sequence key="LoccanaMasterGetResponseError"/>
+        </faultSequence>
+    </resource>
+    <resource methods="DELETE" uri-template="/{id}">
+        <inSequence>
+            <propertyGroup description="Parameter Update">
+                <property expression="get-property('uri.var.id')" name="bankAccountId" scope="default" type="STRING"/>
+            </propertyGroup>
+            <log description="Log start" level="custom">
+                <property expression="get-property('bankAccountId')" name="Delete bank account id"/>
+            </log>
+            <sequence key="LoccanaMasterBankAccountsGetDetail"/>
+            <filter regex="false" source="boolean(get-property('data'))">
+                <then>
+                    <property description="Error Message" name="message" scope="default" type="STRING" value="bank account tidak ditemukan."/>
+                    <sequence key="LoccanaMasterGetResponseError"/>
+                </then>
+                <else>
+                    <property action="remove" name="data" scope="default"/>
+                </else>
+            </filter>
+            <dataServiceCall description="Delete bank account" serviceName="LoccanaMasterdataDataService">
+                <operations type="single">
+                    <operation name="deleteBankAccounts">
+                        <param evaluator="xml" expression="get-property('bankAccountId')" name="id"/>
+                    </operation>
+                </operations>
+                <source type="inline"/>
+                <target type="body"/>
+            </dataServiceCall>
+            <property name="messageType" scope="axis2" type="STRING" value="application/json"/>
+            <property description="Get update status" expression="json-eval($.UpdatedRowCount.id)" name="result" scope="default" type="STRING"/>
+            <filter regex="1" source="get-property('result')">
+                <then>
+                    <property description="Success Message" name="message" scope="default" type="STRING" value="Delete bank account berhasil."/>
+                    <sequence key="LoccanaMasterGetResponseSuccess"/>
+                </then>
+                <else>
+                    <property description="Error Message" name="message" scope="default" type="STRING" value="Delete bank account gagal."/>
+                    <sequence key="LoccanaMasterGetResponseError"/>
+                </else>
+            </filter>
+        </inSequence>
+        <outSequence/>
+        <faultSequence>
+            <property description="ErrorMessage" expression="get-property('ERROR_MESSAGE')" name="message" scope="default" type="STRING"/>
+            <sequence key="LoccanaMasterGetResponseError"/>
+        </faultSequence>
+    </resource>
+</api>
