@@ -119,4 +119,19 @@
     <artifact name="LoccanaMasterCoaParentsGetDetail" groupId="com.loccana.masterdata.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
         <file>src/main/synapse-config/sequences/LoccanaMasterCoaParentsGetDetail.xml</file>
     </artifact>
+    <artifact name="GetPartnersList" groupId="com.loccana.masterdata.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/GetPartnersList.xml</file>
+    </artifact>
+    <artifact name="PostItemQty" groupId="com.loccana.masterdata.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/PostItemQty.xml</file>
+    </artifact>
+    <artifact name="PostItemPrices" groupId="com.loccana.masterdata.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/PostItemPrices.xml</file>
+    </artifact>
+    <artifact name="GetItemLists" groupId="com.loccana.masterdata.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/GetItemLists.xml</file>
+    </artifact>
+    <artifact name="LoccanaMasterCoasGetList" groupId="com.loccana.masterdata.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/LoccanaMasterCoasGetList.xml</file>
+    </artifact>
 </artifacts>

@@ -24,6 +24,26 @@
             <sequence key="LoccanaMasterResponseError"/>
         </faultSequence>
     </resource>
+    <resource methods="GET" uri-template="/lists/partners/">
+        <inSequence>
+            <sequence key="GetPartnersList"/>
+            <filter regex="false" source="boolean(get-property('data'))">
+                <then>
+                    <property description="Error Message" name="message" scope="default" type="STRING" value="partner tidak ditemukan."/>
+                    <sequence key="LoccanaMasterGetResponseError"/>
+                </then>
+                <else>
+                    <property description="Success Message" name="message" scope="default" type="STRING" value="partner ditemukan."/>
+                    <sequence key="LoccanaMasterGetResponseSuccess"/>
+                </else>
+            </filter>
+        </inSequence>
+        <outSequence/>
+        <faultSequence>
+            <property description="ErrorMessage" expression="get-property('ERROR_MESSAGE')" name="message" scope="default" type="STRING"/>
+            <sequence key="LoccanaMasterResponseError"/>
+        </faultSequence>
+    </resource>
     <resource methods="POST">
         <inSequence>
             <log description="debug start" level="custom">

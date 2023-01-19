@@ -19,3 +19,8 @@ paths:
       responses:
         default:
           description: Default response
+  /:
+    post:
+      responses:
+        default:
+          description: Default response

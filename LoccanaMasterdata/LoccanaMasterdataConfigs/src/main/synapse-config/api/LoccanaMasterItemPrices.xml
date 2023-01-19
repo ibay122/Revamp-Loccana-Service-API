@@ -24,30 +24,6 @@
             <sequence key="LoccanaMasterItemPricesGetResponseError"/>
         </faultSequence>
     </resource>
-    <!-- <resource methods="GET" uri-template="/{id}">
-        <inSequence>
-            <property description="Item Price Id" expression="get-property('uri.var.id')" name="item_priceId" scope="default" type="STRING"/>
-            <log description="Log start" level="custom">
-                <property expression="get-property('item_priceId')" name="Get detail item_price id"/>
-            </log>
-            <sequence key="LoccanaMasterItemPricesGetDetail"/>
-            <filter regex="false" source="boolean(get-property('data'))">
-                <then>
-                    <property description="Error Message" name="message" scope="default" type="STRING" value="Item Price tidak ditemukan."/>
-                    <sequence key="LoccanaMasterItemPricesGetResponseError"/>
-                </then>
-                <else>
-                    <property description="Success Message" name="message" scope="default" type="STRING" value="Item Price ditemukan."/>
-                    <sequence key="LoccanaMasterItemPricesGetResponseSuccess"/>
-                </else>
-            </filter>
-        </inSequence>
-        <outSequence/>
-        <faultSequence>
-            <property description="ErrorMessage" expression="get-property('ERROR_MESSAGE')" name="message" scope="default" type="STRING"/>
-            <sequence key="LoccanaMasterItemPricesGetResponseError"/>
-        </faultSequence>
-    </resource>
     <resource methods="POST">
         <inSequence>
             <log description="debug start" level="custom">
@@ -75,7 +51,7 @@
             <log description="Log start" level="custom">
                 <property expression="get-property('currentDate')" name="debug time"/>
             </log>
-            <dataServiceCall description="Create item price" serviceName="MasterItemPricesDataService">
+            <dataServiceCall description="Create item price" serviceName="LoccanaMasterdataDataService">
                 <operations type="single">
                     <operation name="createItemPrices">
                         <param evaluator="xml" expression="get-property('item_id')" name="item_id"/>
@@ -110,5 +86,5 @@
             <property description="ErrorMessage" expression="get-property('ERROR_MESSAGE')" name="message" scope="default" type="STRING"/>
             <sequence key="LoccanaMasterItemPricesGetResponseError"/>
         </faultSequence>
-    </resource> -->
+    </resource>
 </api>

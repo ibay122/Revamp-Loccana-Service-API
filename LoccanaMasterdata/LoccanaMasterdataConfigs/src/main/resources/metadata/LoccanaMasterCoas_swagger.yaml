@@ -58,16 +58,8 @@ paths:
       responses:
         default:
           description: Default response
-  /list/parent/{id}:
+  /listCoas/coas/:
     get:
-      parameters:
-      - name: id
-        in: path
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
       responses:
         default:
           description: Default response

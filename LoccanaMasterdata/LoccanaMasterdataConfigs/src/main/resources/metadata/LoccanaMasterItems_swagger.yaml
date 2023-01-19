@@ -58,10 +58,15 @@ paths:
       responses:
         default:
           description: Default response
-  /list/type/{id}:
+  /listItems/items:
+    get:
+      responses:
+        default:
+          description: Default response
+  /list/type/{type}:
     get:
       parameters:
-      - name: id
+      - name: type
         in: path
         required: true
         style: simple

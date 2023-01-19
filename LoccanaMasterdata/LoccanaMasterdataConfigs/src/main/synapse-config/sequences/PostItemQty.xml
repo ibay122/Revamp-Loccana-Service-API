@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="PostItemQty" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <propertyGroup description="input item-qty">
+        <property expression="get-property('unit_box')" name="unit_box" scope="default" type="STRING"/>
+        <property name="status_qty" scope="default" type="STRING" value="1"/>
+        <property expression="get-property('SYSTEM_DATE', 'yyyy-MM-dd HH:mm:ss')" name="currentDate" scope="default" type="STRING"/>
+    </propertyGroup>
+    <payloadFactory media-type="json">
+        <format>        
+			{
+				"item_id": "$1",
+				"unit_box": "$2",
+				"status_qty": "$3",
+				"created_at": "$4",
+				"updated_at": "$4"
+			}
+		</format>
+        <args>
+            <arg evaluator="xml" expression="get-property('itemId')"/>
+            <arg evaluator="xml" expression="get-property('unit_box')"/>
+            <arg evaluator="xml" expression="get-property('status_qty')"/>
+            <arg evaluator="xml" expression="get-property('currentDate')"/>
+        </args>
+    </payloadFactory>
+    <property description="Get result" expression="json-eval($)" name="resultAddItemQty" scope="default" type="STRING"/>
+    <payloadFactory media-type="json">
+        <format>
+		{
+			"createItemQty_batch_req": {
+				"createItemQty": $1
+			}
+		}
+		</format>
+        <args>
+            <arg evaluator="xml" expression="get-property('resultAddItemQty')"/>
+        </args>
+    </payloadFactory>
+    <property description="Get result" expression="json-eval($)" name="dataItemQty" scope="default" type="STRING"/>
+    <enrich>
+        <source clone="false" property="dataItemQty" type="property"/>
+        <target type="body"/>
+    </enrich>
+    <dataServiceCall description="Batch insert ke item qty" serviceName="LoccanaMasterdataDataService">
+        <source type="body"/>
+        <target type="body"/>
+    </dataServiceCall>
+</sequence>

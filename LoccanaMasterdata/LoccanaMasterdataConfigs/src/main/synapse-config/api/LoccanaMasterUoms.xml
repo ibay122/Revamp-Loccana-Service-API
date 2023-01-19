@@ -79,7 +79,7 @@
     </resource>
     <resource methods="PUT" uri-template="/{id}">
         <inSequence>
-            <property description="get uom id" expression="get-property('uri.var.id')" name="UomTypesId" scope="default" type="STRING"/>
+            <property description="get uom id" expression="get-property('uri.var.id')" name="uomId" scope="default" type="STRING"/>
             <validate cache-schema="true" source="json-eval($)">
                 <schema key="conf:schema/uoms_validator.json"/>
                 <on-fail>
@@ -96,12 +96,12 @@
                 <property expression="get-property('SYSTEM_DATE', 'yyyy-MM-dd HH:mm:ss')" name="currentDate" scope="default" type="STRING"/>
             </propertyGroup>
             <log description="Log start" level="custom">
-                <property expression="get-property('uomTypesId')" name="Update uoms id"/>
+                <property expression="get-property('uomId')" name="Update uoms id"/>
             </log>
             <sequence key="LoccanaMasterUomsGetDetail"/>
             <filter regex="false" source="boolean(get-property('data'))">
                 <then>
-                    <property description="Error Message" name="message" scope="default" type="STRING" value="item types tidak ditemukan."/>
+                    <property description="Error Message" name="message" scope="default" type="STRING" value="uom tidak ditemukan."/>
                     <sequence key="LoccanaMasterGetResponseError"/>
                 </then>
                 <else>
@@ -137,7 +137,7 @@
                 </then>
                 <else>
                     <property description="Error Message" name="message" scope="default" type="STRING" value="Update uom gagal."/>
-                    <sequence key="LoccanaMasterCoasGetResponseError"/>
+                    <sequence key="LoccanaMasterGetResponseError"/>
                 </else>
             </filter>
         </inSequence>
@@ -159,7 +159,7 @@
             <filter regex="false" source="boolean(get-property('data'))">
                 <then>
                     <property description="Error Message" name="message" scope="default" type="STRING" value="uom tidak ditemukan."/>
-                    <sequence key="LoccanaMasterUomsResponseError"/>
+                    <sequence key="LoccanaMasterGetResponseError"/>
                 </then>
                 <else>
                     <property action="remove" name="data" scope="default"/>

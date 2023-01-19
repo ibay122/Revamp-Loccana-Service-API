@@ -53,6 +53,11 @@ paths:
       responses:
         default:
           description: Default response
+  /lists/partners/:
+    get:
+      responses:
+        default:
+          description: Default response
   /:
     post:
       responses:

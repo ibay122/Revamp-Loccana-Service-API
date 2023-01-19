@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="LoccanaMasterCoasGetList" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <dataServiceCall description="Get coas lists" serviceName="LoccanaMasterdataDataService">
+        <operations type="single">
+            <operation name="getCoasList"/>
+        </operations>
+        <source type="inline"/>
+        <target type="body"/>
+    </dataServiceCall>
+    <property expression="json-eval($)" name="resultData" scope="default" type="STRING"/>
+    <filter regex="true" source="boolean(get-property('resultData'))">
+        <then>
+            <property expression="json-eval($.data)" name="data" scope="default" type="STRING"/>
+        </then>
+        <else/>
+    </filter>
+</sequence>

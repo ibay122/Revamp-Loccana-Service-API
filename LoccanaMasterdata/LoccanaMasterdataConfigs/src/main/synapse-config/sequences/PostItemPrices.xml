@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="PostItemPrices" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <propertyGroup description="input item-prices">
+        <property name="status_price" scope="default" type="STRING" value="1"/>
+        <property expression="get-property('SYSTEM_DATE', 'yyyy-MM-dd HH:mm:ss')" name="currentDate" scope="default" type="STRING"/>
+    </propertyGroup>
+    <payloadFactory media-type="json">
+        <format>        
+         	{
+				"item_id": "$1",
+				"status_price": "$2",
+				"created_at": "$3",
+				"updated_at": "$3"
+			}
+		</format>
+        <args>
+            <arg evaluator="xml" expression="get-property('itemId')"/>
+            <arg evaluator="xml" expression="get-property('status_price')"/>
+            <arg evaluator="xml" expression="get-property('currentDate')"/>
+        </args>
+    </payloadFactory>
+    <property description="Get result" expression="json-eval($)" name="resultAddItemPrice" scope="default" type="STRING"/>
+    <payloadFactory media-type="json">
+        <format>
+		{
+			"createItemPrices_batch_req": {
+				"createItemPrices": $1
+			}
+		}
+		</format>
+        <args>
+            <arg evaluator="xml" expression="get-property('resultAddItemPrice')"/>
+        </args>
+    </payloadFactory>
+    <property description="Get result" expression="json-eval($)" name="dataItemPrices" scope="default" type="STRING"/>
+    <enrich>
+        <source clone="false" property="dataItemPrices" type="property"/>
+        <target type="body"/>
+    </enrich>
+    <dataServiceCall description="Batch insert ke item prices" serviceName="LoccanaMasterdataDataService">
+        <source type="body"/>
+        <target type="body"/>
+    </dataServiceCall>
+</sequence>

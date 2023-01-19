@@ -36,6 +36,7 @@
     <com.loccana.masterdata.metadata_._LoccanaMasterCoas_swagger>capp/EnterpriseServiceBus</com.loccana.masterdata.metadata_._LoccanaMasterCoas_swagger>
     <com.loccana.masterdata.metadata_._LoccanaMasterPartners_swagger>capp/EnterpriseServiceBus</com.loccana.masterdata.metadata_._LoccanaMasterPartners_swagger>
     <com.loccana.masterdata.metadata_._LoccanaMasterBankAccounts_swagger>capp/EnterpriseServiceBus</com.loccana.masterdata.metadata_._LoccanaMasterBankAccounts_swagger>
+    <com.loccana.masterdata.sequence_._GetItemLists>capp/EnterpriseServiceBus</com.loccana.masterdata.sequence_._GetItemLists>
     <com.example.resource_._partnerTypes_validator>capp/EnterpriseIntegrator</com.example.resource_._partnerTypes_validator>
     <com.loccana.masterdata.resource_._coas_validator>capp/EnterpriseIntegrator</com.loccana.masterdata.resource_._coas_validator>
     <com.example.resource_._uoms_validator>capp/EnterpriseIntegrator</com.example.resource_._uoms_validator>
@@ -49,14 +50,18 @@
     <com.loccana.masterdata.sequence_._LoccanaMasterItemPricesGetDetail>capp/EnterpriseServiceBus</com.loccana.masterdata.sequence_._LoccanaMasterItemPricesGetDetail>
     <com.loccana.masterdata.metadata_._LoccanaMasterItems_metadata>capp/EnterpriseServiceBus</com.loccana.masterdata.metadata_._LoccanaMasterItems_metadata>
     <com.loccana.masterdata.dataservice_._LoccanaMasterdataDataService>capp/DataServicesServer</com.loccana.masterdata.dataservice_._LoccanaMasterdataDataService>
+    <com.loccana.masterdata.sequence_._GetPartnersList>capp/EnterpriseServiceBus</com.loccana.masterdata.sequence_._GetPartnersList>
     <com.loccana.masterdata.metadata_._LoccanaMasterUoms_swagger>capp/EnterpriseServiceBus</com.loccana.masterdata.metadata_._LoccanaMasterUoms_swagger>
+    <com.example.resource_._itemList_validator>capp/EnterpriseIntegrator</com.example.resource_._itemList_validator>
     <com.loccana.masterdata.metadata_._LoccanaMasterItems_swagger>capp/EnterpriseServiceBus</com.loccana.masterdata.metadata_._LoccanaMasterItems_swagger>
+    <com.loccana.masterdata.sequence_._PostItemQty>capp/EnterpriseServiceBus</com.loccana.masterdata.sequence_._PostItemQty>
     <com.loccana.masterdata.api_._LoccanaMasterPartners>capp/EnterpriseServiceBus</com.loccana.masterdata.api_._LoccanaMasterPartners>
     <com.example.resource_._bankAccounts_validator_json>capp/EnterpriseIntegrator</com.example.resource_._bankAccounts_validator_json>
     <com.loccana.masterdata.metadata_._LoccanaMasterUoms_metadata>capp/EnterpriseServiceBus</com.loccana.masterdata.metadata_._LoccanaMasterUoms_metadata>
     <com.loccana.masterdata.api_._LoccanaMasterItemPrices>capp/EnterpriseServiceBus</com.loccana.masterdata.api_._LoccanaMasterItemPrices>
     <com.loccana.masterdata.metadata_._LoccanaMasterItemQtys_metadata>capp/EnterpriseServiceBus</com.loccana.masterdata.metadata_._LoccanaMasterItemQtys_metadata>
     <com.loccana.masterdata.metadata_._LoccanaMasterItemTypes_swagger>capp/EnterpriseServiceBus</com.loccana.masterdata.metadata_._LoccanaMasterItemTypes_swagger>
+    <com.loccana.masterdata.sequence_._PostItemPrices>capp/EnterpriseServiceBus</com.loccana.masterdata.sequence_._PostItemPrices>
     <com.loccana.masterdata.metadata_._LoccanaMasterItemQtys_swagger>capp/EnterpriseServiceBus</com.loccana.masterdata.metadata_._LoccanaMasterItemQtys_swagger>
     <com.loccana.masterdata.resource_._LoccanaMasterPartnerTypesUpsert_json>capp/EnterpriseIntegrator</com.loccana.masterdata.resource_._LoccanaMasterPartnerTypesUpsert_json>
     <com.loccana.masterdata.sequence_._LoccanaMasterUomsGetDetail>capp/EnterpriseServiceBus</com.loccana.masterdata.sequence_._LoccanaMasterUomsGetDetail>
@@ -66,6 +71,7 @@
     <com.loccana.masterdata.sequence_._GetItemsDetail>capp/EnterpriseServiceBus</com.loccana.masterdata.sequence_._GetItemsDetail>
     <com.loccana.masterdata.sequence_._LoccanaMasterBankAccountsGetDetail>capp/EnterpriseServiceBus</com.loccana.masterdata.sequence_._LoccanaMasterBankAccountsGetDetail>
     <com.example.resource_._currencyHistories_validator_json>capp/EnterpriseIntegrator</com.example.resource_._currencyHistories_validator_json>
+    <com.loccana.masterdata.sequence_._LoccanaMasterCoasGetList>capp/EnterpriseServiceBus</com.loccana.masterdata.sequence_._LoccanaMasterCoasGetList>
     <com.loccana.masterdata.api_._LoccanaMasterCoas>capp/EnterpriseServiceBus</com.loccana.masterdata.api_._LoccanaMasterCoas>
     <com.example.resource_._itemQtys_validator>capp/EnterpriseIntegrator</com.example.resource_._itemQtys_validator>
     <com.example.resource_._itemPrices_validator>capp/EnterpriseIntegrator</com.example.resource_._itemPrices_validator>
@@ -189,6 +195,12 @@
       <type>yaml</type>
     </dependency>
     <dependency>
+      <groupId>com.loccana.masterdata.sequence</groupId>
+      <artifactId>GetItemLists</artifactId>
+      <version>1.0.0</version>
+      <type>xml</type>
+    </dependency>
+    <dependency>
       <groupId>com.example.resource</groupId>
       <artifactId>partnerTypes_validator</artifactId>
       <version>1.0.0</version>
@@ -255,16 +267,34 @@
       <type>dbs</type>
     </dependency>
     <dependency>
+      <groupId>com.loccana.masterdata.sequence</groupId>
+      <artifactId>GetPartnersList</artifactId>
+      <version>1.0.0</version>
+      <type>xml</type>
+    </dependency>
+    <dependency>
       <groupId>com.loccana.masterdata.metadata</groupId>
       <artifactId>LoccanaMasterUoms_swagger</artifactId>
       <version>1.0.0</version>
       <type>yaml</type>
     </dependency>
     <dependency>
+      <groupId>com.example.resource</groupId>
+      <artifactId>itemList_validator</artifactId>
+      <version>1.0.0</version>
+      <type>zip</type>
+    </dependency>
+    <dependency>
       <groupId>com.loccana.masterdata.metadata</groupId>
       <artifactId>LoccanaMasterItems_swagger</artifactId>
       <version>1.0.0</version>
       <type>yaml</type>
+    </dependency>
+    <dependency>
+      <groupId>com.loccana.masterdata.sequence</groupId>
+      <artifactId>PostItemQty</artifactId>
+      <version>1.0.0</version>
+      <type>xml</type>
     </dependency>
     <dependency>
       <groupId>com.loccana.masterdata.api</groupId>
@@ -301,6 +331,12 @@
       <artifactId>LoccanaMasterItemTypes_swagger</artifactId>
       <version>1.0.0</version>
       <type>yaml</type>
+    </dependency>
+    <dependency>
+      <groupId>com.loccana.masterdata.sequence</groupId>
+      <artifactId>PostItemPrices</artifactId>
+      <version>1.0.0</version>
+      <type>xml</type>
     </dependency>
     <dependency>
       <groupId>com.loccana.masterdata.metadata</groupId>
@@ -341,6 +377,12 @@
     <dependency>
       <groupId>com.loccana.masterdata.sequence</groupId>
       <artifactId>LoccanaMasterBankAccountsGetDetail</artifactId>
+      <version>1.0.0</version>
+      <type>xml</type>
+    </dependency>
+    <dependency>
+      <groupId>com.loccana.masterdata.sequence</groupId>
+      <artifactId>LoccanaMasterCoasGetList</artifactId>
       <version>1.0.0</version>
       <type>xml</type>
     </dependency>

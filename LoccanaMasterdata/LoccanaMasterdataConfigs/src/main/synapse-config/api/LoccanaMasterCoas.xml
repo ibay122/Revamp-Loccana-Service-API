@@ -193,20 +193,16 @@
             <sequence key="LoccanaMasterGetResponseError"/>
         </faultSequence>
     </resource>
-    <resource methods="GET" uri-template="/list/parent/{id}">
+    <resource methods="GET" uri-template="/listCoas/coas/">
         <inSequence>
-            <property description="Item Type" expression="get-property('uri.var.id')" name="coaId" scope="default" type="STRING"/>
-            <log description="Log start" level="custom">
-                <property expression="get-property('coaId')" name="Get detail coa parents"/>
-            </log>
-            <sequence key="LoccanaMasterCoaParentsGetDetail"/>
+            <sequence key="LoccanaMasterCoasGetList"/>
             <filter regex="false" source="boolean(get-property('data'))">
                 <then>
-                    <property description="Error Message" name="message" scope="default" type="STRING" value="Item tidak ditemukan."/>
+                    <property description="Error Message" name="message" scope="default" type="STRING" value="Coa tidak ditemukan."/>
                     <sequence key="LoccanaMasterGetResponseError"/>
                 </then>
                 <else>
-                    <property description="Success Message" name="message" scope="default" type="STRING" value="Item ditemukan."/>
+                    <property description="Success Message" name="message" scope="default" type="STRING" value="Coa ditemukan."/>
                     <sequence key="LoccanaMasterGetResponseSuccess"/>
                 </else>
             </filter>
