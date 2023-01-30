@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="LoccanaMasterItemTypesGetList" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <log description="Catch" level="custom">
+        <property expression="get-property('itemTypesId')" name="Catch detail item id"/>
+    </log>
+    <dataServiceCall description="Get item types List" serviceName="LoccanaMasterdataDataService">
+        <operations type="single">
+            <operation name="getItemTypesLists"/>
+        </operations>
+        <source type="inline"/>
+        <target type="body"/>
+    </dataServiceCall>
+    <property expression="json-eval($)" name="resultData" scope="default" type="STRING"/>
+    <log description="Log start" level="custom">
+        <property expression="get-property('resultData')" name="Update item types id"/>
+    </log>
+    <filter regex="true" source="boolean(get-property('resultData'))">
+        <then>
+            <property expression="json-eval($.data)" name="data" scope="default" type="STRING"/>
+        </then>
+        <else/>
+    </filter>
+</sequence>

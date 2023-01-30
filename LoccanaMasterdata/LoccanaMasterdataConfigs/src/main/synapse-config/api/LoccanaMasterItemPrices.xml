@@ -21,10 +21,30 @@
         <outSequence/>
         <faultSequence>
             <property description="ErrorMessage" expression="get-property('ERROR_MESSAGE')" name="message" scope="default" type="STRING"/>
-            <sequence key="LoccanaMasterItemPricesGetResponseError"/>
+            <sequence key="LoccanaMasterGetResponseError"/>
         </faultSequence>
     </resource>
-    <resource methods="POST">
+    <resource methods="GET" uri-template="/itemPricesList/itemPrices">
+        <inSequence>
+            <sequence key="LoccanaMasterItemPricesGetList"/>
+            <filter regex="false" source="boolean(get-property('data'))">
+                <then>
+                    <property description="Error Message" name="message" scope="default" type="STRING" value="Item Price tidak ditemukan."/>
+                    <sequence key="LoccanaMasterGetResponseError"/>
+                </then>
+                <else>
+                    <property description="Success Message" name="message" scope="default" type="STRING" value="Item Price ditemukan."/>
+                    <sequence key="LoccanaMasterGetResponseSuccess"/>
+                </else>
+            </filter>
+        </inSequence>
+        <outSequence/>
+        <faultSequence>
+            <property description="ErrorMessage" expression="get-property('ERROR_MESSAGE')" name="message" scope="default" type="STRING"/>
+            <sequence key="LoccanaMasterGetResponseError"/>
+        </faultSequence>
+    </resource>
+    <!-- <resource methods="POST">
         <inSequence>
             <log description="debug start" level="custom">
                 <property expression="json-eval($)" name="debug"/>
@@ -86,5 +106,5 @@
             <property description="ErrorMessage" expression="get-property('ERROR_MESSAGE')" name="message" scope="default" type="STRING"/>
             <sequence key="LoccanaMasterItemPricesGetResponseError"/>
         </faultSequence>
-    </resource>
+    </resource> -->
 </api>

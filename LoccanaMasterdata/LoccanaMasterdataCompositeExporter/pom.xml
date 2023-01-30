@@ -15,9 +15,12 @@
   <description>LoccanaMasterdataCompositeExporter</description>
   <properties>
     <com.loccana.masterdata.api_._LoccanaMasterItemQtys>capp/EnterpriseServiceBus</com.loccana.masterdata.api_._LoccanaMasterItemQtys>
+    <com.loccana.masterdata.sequence_._LoccanaMasterItemPricesGetList>capp/EnterpriseServiceBus</com.loccana.masterdata.sequence_._LoccanaMasterItemPricesGetList>
     <com.loccana.masterdata.metadata_._LoccanaMasterPartners_metadata>capp/EnterpriseServiceBus</com.loccana.masterdata.metadata_._LoccanaMasterPartners_metadata>
     <com.loccana.masterdata.resource_._LoccanaMasterPartnersUpsert_json>capp/EnterpriseIntegrator</com.loccana.masterdata.resource_._LoccanaMasterPartnersUpsert_json>
+    <com.loccana.masterdata.sequence_._LoccanaMasterItemQtysGetList>capp/EnterpriseServiceBus</com.loccana.masterdata.sequence_._LoccanaMasterItemQtysGetList>
     <com.loccana.masterdata.sequence_._LoccanaMasterItemQtysGetDetail>capp/EnterpriseServiceBus</com.loccana.masterdata.sequence_._LoccanaMasterItemQtysGetDetail>
+    <com.loccana.masterdata.sequence_._LoccanaMasterPartnerTypesGetList>capp/EnterpriseServiceBus</com.loccana.masterdata.sequence_._LoccanaMasterPartnerTypesGetList>
     <com.example.resource_._partners_validator>capp/EnterpriseIntegrator</com.example.resource_._partners_validator>
     <com.loccana.masterdata.resource_._currencyHistories_validator>capp/EnterpriseIntegrator</com.loccana.masterdata.resource_._currencyHistories_validator>
     <com.loccana.masterdata.metadata_._LoccanaMasterItemPrices_swagger>capp/EnterpriseServiceBus</com.loccana.masterdata.metadata_._LoccanaMasterItemPrices_swagger>
@@ -31,6 +34,7 @@
     <com.loccana.masterdata.sequence_._LoccanaMasterCoaParentsGetDetail>capp/EnterpriseServiceBus</com.loccana.masterdata.sequence_._LoccanaMasterCoaParentsGetDetail>
     <com.loccana.masterdata.metadata_._LoccanaMasterItemPrices_metadata>capp/EnterpriseServiceBus</com.loccana.masterdata.metadata_._LoccanaMasterItemPrices_metadata>
     <com.loccana.masterdata.resource_._bankAccounts_vali>capp/EnterpriseIntegrator</com.loccana.masterdata.resource_._bankAccounts_vali>
+    <com.loccana.masterdata.sequence_._CoaUserActivities>capp/EnterpriseServiceBus</com.loccana.masterdata.sequence_._CoaUserActivities>
     <com.loccana.masterdata.api_._LoccanaMasterItemTypes>capp/EnterpriseServiceBus</com.loccana.masterdata.api_._LoccanaMasterItemTypes>
     <com.loccana.masterdata.sequence_._LoccanaMasterItemTypesGetDetail>capp/EnterpriseServiceBus</com.loccana.masterdata.sequence_._LoccanaMasterItemTypesGetDetail>
     <com.loccana.masterdata.metadata_._LoccanaMasterCoas_swagger>capp/EnterpriseServiceBus</com.loccana.masterdata.metadata_._LoccanaMasterCoas_swagger>
@@ -48,6 +52,8 @@
     <com.loccana.masterdata.metadata_._LoccanaMasterPartnerTypes_swagger>capp/EnterpriseServiceBus</com.loccana.masterdata.metadata_._LoccanaMasterPartnerTypes_swagger>
     <com.loccana.masterdata.sequence_._LoccanaMasterPartnersGetDetail>capp/EnterpriseServiceBus</com.loccana.masterdata.sequence_._LoccanaMasterPartnersGetDetail>
     <com.loccana.masterdata.sequence_._LoccanaMasterItemPricesGetDetail>capp/EnterpriseServiceBus</com.loccana.masterdata.sequence_._LoccanaMasterItemPricesGetDetail>
+    <com.loccana.masterdata.sequence_._LoccanaMasterUomsGetList>capp/EnterpriseServiceBus</com.loccana.masterdata.sequence_._LoccanaMasterUomsGetList>
+    <com.example.resource_._userActivities_validator.json>capp/EnterpriseIntegrator</com.example.resource_._userActivities_validator.json>
     <com.loccana.masterdata.metadata_._LoccanaMasterItems_metadata>capp/EnterpriseServiceBus</com.loccana.masterdata.metadata_._LoccanaMasterItems_metadata>
     <com.loccana.masterdata.dataservice_._LoccanaMasterdataDataService>capp/DataServicesServer</com.loccana.masterdata.dataservice_._LoccanaMasterdataDataService>
     <com.loccana.masterdata.sequence_._GetPartnersList>capp/EnterpriseServiceBus</com.loccana.masterdata.sequence_._GetPartnersList>
@@ -70,6 +76,7 @@
     <com.example.resource_._coas_validator_json>capp/EnterpriseIntegrator</com.example.resource_._coas_validator_json>
     <com.loccana.masterdata.sequence_._GetItemsDetail>capp/EnterpriseServiceBus</com.loccana.masterdata.sequence_._GetItemsDetail>
     <com.loccana.masterdata.sequence_._LoccanaMasterBankAccountsGetDetail>capp/EnterpriseServiceBus</com.loccana.masterdata.sequence_._LoccanaMasterBankAccountsGetDetail>
+    <com.loccana.masterdata.sequence_._LoccanaMasterItemTypesGetList>capp/EnterpriseServiceBus</com.loccana.masterdata.sequence_._LoccanaMasterItemTypesGetList>
     <com.example.resource_._currencyHistories_validator_json>capp/EnterpriseIntegrator</com.example.resource_._currencyHistories_validator_json>
     <com.loccana.masterdata.sequence_._LoccanaMasterCoasGetList>capp/EnterpriseServiceBus</com.loccana.masterdata.sequence_._LoccanaMasterCoasGetList>
     <com.loccana.masterdata.api_._LoccanaMasterCoas>capp/EnterpriseServiceBus</com.loccana.masterdata.api_._LoccanaMasterCoas>
@@ -87,6 +94,12 @@
       <type>xml</type>
     </dependency>
     <dependency>
+      <groupId>com.loccana.masterdata.sequence</groupId>
+      <artifactId>LoccanaMasterItemPricesGetList</artifactId>
+      <version>1.0.0</version>
+      <type>xml</type>
+    </dependency>
+    <dependency>
       <groupId>com.loccana.masterdata.metadata</groupId>
       <artifactId>LoccanaMasterPartners_metadata</artifactId>
       <version>1.0.0</version>
@@ -94,7 +107,19 @@
     </dependency>
     <dependency>
       <groupId>com.loccana.masterdata.sequence</groupId>
+      <artifactId>LoccanaMasterItemQtysGetList</artifactId>
+      <version>1.0.0</version>
+      <type>xml</type>
+    </dependency>
+    <dependency>
+      <groupId>com.loccana.masterdata.sequence</groupId>
       <artifactId>LoccanaMasterItemQtysGetDetail</artifactId>
+      <version>1.0.0</version>
+      <type>xml</type>
+    </dependency>
+    <dependency>
+      <groupId>com.loccana.masterdata.sequence</groupId>
+      <artifactId>LoccanaMasterPartnerTypesGetList</artifactId>
       <version>1.0.0</version>
       <type>xml</type>
     </dependency>
@@ -163,6 +188,12 @@
       <artifactId>LoccanaMasterItemPrices_metadata</artifactId>
       <version>1.0.0</version>
       <type>yaml</type>
+    </dependency>
+    <dependency>
+      <groupId>com.loccana.masterdata.sequence</groupId>
+      <artifactId>CoaUserActivities</artifactId>
+      <version>1.0.0</version>
+      <type>xml</type>
     </dependency>
     <dependency>
       <groupId>com.loccana.masterdata.api</groupId>
@@ -253,6 +284,18 @@
       <artifactId>LoccanaMasterItemPricesGetDetail</artifactId>
       <version>1.0.0</version>
       <type>xml</type>
+    </dependency>
+    <dependency>
+      <groupId>com.loccana.masterdata.sequence</groupId>
+      <artifactId>LoccanaMasterUomsGetList</artifactId>
+      <version>1.0.0</version>
+      <type>xml</type>
+    </dependency>
+    <dependency>
+      <groupId>com.example.resource</groupId>
+      <artifactId>userActivities_validator.json</artifactId>
+      <version>1.0.0</version>
+      <type>zip</type>
     </dependency>
     <dependency>
       <groupId>com.loccana.masterdata.metadata</groupId>
@@ -377,6 +420,12 @@
     <dependency>
       <groupId>com.loccana.masterdata.sequence</groupId>
       <artifactId>LoccanaMasterBankAccountsGetDetail</artifactId>
+      <version>1.0.0</version>
+      <type>xml</type>
+    </dependency>
+    <dependency>
+      <groupId>com.loccana.masterdata.sequence</groupId>
+      <artifactId>LoccanaMasterItemTypesGetList</artifactId>
       <version>1.0.0</version>
       <type>xml</type>
     </dependency>

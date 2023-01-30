@@ -58,3 +58,8 @@ paths:
       responses:
         default:
           description: Default response
+  /listUoms/uoms:
+    get:
+      responses:
+        default:
+          description: Default response

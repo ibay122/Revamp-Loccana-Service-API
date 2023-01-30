@@ -20,6 +20,7 @@
                 <property expression="json-eval($.uom_id)" name="uom_id" scope="default" type="STRING"/>
                 <property expression="json-eval($.partner_id)" name="partner_id" scope="default" type="STRING"/>
                 <property expression="json-eval($.vat)" name="vat" scope="default" type="STRING"/>
+                <property expression="json-eval($.status)" name="status" scope="default" type="STRING"/>
                 <property expression="json-eval($.unit_box)" name="unit_box" scope="default" type="STRING"/>
                 <property expression="get-property('SYSTEM_DATE', 'yyyy-MM-dd HH:mm:ss')" name="currentDate" scope="default" type="STRING"/>
             </propertyGroup>
@@ -33,6 +34,8 @@
                         <param evaluator="xml" expression="get-property('uom_id')" name="uom_id"/>
                         <param evaluator="xml" expression="get-property('partner_id')" name="partner_id"/>
                         <param evaluator="xml" expression="get-property('vat')" name="vat"/>
+                        <param evaluator="xml" expression="get-property('status')" name="status"/>
+                        <param evaluator="xml" expression="get-property('unit_box')" name="unit_box"/>
                         <param evaluator="xml" expression="get-property('currentDate')" name="created_at"/>
                         <param evaluator="xml" expression="get-property('currentDate')" name="updated_at"/>
                     </operation>
@@ -107,6 +110,8 @@
                         <param evaluator="xml" expression="get-property('uom_id')" name="uom_id"/>
                         <param evaluator="xml" expression="get-property('partner_id')" name="partner_id"/>
                         <param evaluator="xml" expression="get-property('vat')" name="vat"/>
+                        <param evaluator="xml" expression="get-property('status')" name="status"/>
+                        <param evaluator="xml" expression="get-property('unit_box')" name="unit_box"/>
                         <param evaluator="xml" expression="get-property('currentDate')" name="updated_at"/>
                         <param evaluator="xml" expression="get-property('itemsId')" name="id"/>
                     </operation>
@@ -116,7 +121,7 @@
             </dataServiceCall>
             <property name="messageType" scope="axis2" type="STRING" value="application/json"/>
             <property description="Get update status" expression="json-eval($.UpdatedRowCount.id)" name="result" scope="default" type="STRING"/>
-            <filter regex="1" source="get-property('result')">
+            <filter regex="true" source="boolean(get-property('result'))">
                 <then>
                     <property description="Success Message" name="message" scope="default" type="STRING" value="Update item berhasil."/>
                     <sequence key="LoccanaMasterGetResponseSuccess"/>
@@ -162,7 +167,7 @@
             </dataServiceCall>
             <property name="messageType" scope="axis2" type="STRING" value="application/json"/>
             <property description="Get update status" expression="json-eval($.UpdatedRowCount.id)" name="result" scope="default" type="STRING"/>
-            <filter regex="1" source="get-property('result')">
+            <filter regex="true" source="boolean(get-property('result'))">
                 <then>
                     <property description="Success Message" name="message" scope="default" type="STRING" value="Delete item berhasil."/>
                     <sequence key="LoccanaMasterGetResponseSuccess"/>
@@ -225,9 +230,9 @@
     </resource>
     <resource methods="GET" uri-template="/list/type/{type}">
         <inSequence>
-            <property description="Item Type" expression="get-property('uri.var.type')" name="itemsId" scope="default" type="STRING"/>
+            <property description="Item Type" expression="get-property('uri.var.type')" name="itemTypesId" scope="default" type="STRING"/>
             <log description="Log start" level="custom">
-                <property expression="get-property('itemsType')" name="Get detail item type"/>
+                <property expression="get-property('itemTypesId')" name="Get detail item type"/>
             </log>
             <sequence key="GetItemsTypeDetail"/>
             <filter regex="false" source="boolean(get-property('data'))">

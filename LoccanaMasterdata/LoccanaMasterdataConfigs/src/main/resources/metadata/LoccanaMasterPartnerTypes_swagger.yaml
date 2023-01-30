@@ -58,3 +58,8 @@ paths:
       responses:
         default:
           description: Default response
+  /partnerTypesList/partnerTypes:
+    get:
+      responses:
+        default:
+          description: Default response

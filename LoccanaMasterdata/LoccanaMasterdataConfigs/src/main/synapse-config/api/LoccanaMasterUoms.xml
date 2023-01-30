@@ -193,6 +193,26 @@
             <sequence key="LoccanaMasterGetResponseError"/>
         </faultSequence>
     </resource>
+    <resource methods="GET" uri-template="/listUoms/uoms">
+        <inSequence>
+            <sequence key="LoccanaMasterUomsGetList"/>
+            <filter regex="false" source="boolean(get-property('data'))">
+                <then>
+                    <property description="Error Message" name="message" scope="default" type="STRING" value="uom tidak ditemukan."/>
+                    <sequence key="LoccanaMasterGetResponseError"/>
+                </then>
+                <else>
+                    <property description="Success Message" name="message" scope="default" type="STRING" value="uom ditemukan."/>
+                    <sequence key="LoccanaMasterGetResponseSuccess"/>
+                </else>
+            </filter>
+        </inSequence>
+        <outSequence/>
+        <faultSequence>
+            <property description="ErrorMessage" expression="get-property('ERROR_MESSAGE')" name="message" scope="default" type="STRING"/>
+            <sequence key="LoccanaMasterGetResponseError"/>
+        </faultSequence>
+    </resource>
     <!--   <resource methods="POST" uri-template="/lists"> -->
     <!--         <inSequence> -->
     <!--             <validate cache-schema="true" source="json-eval($)"> -->

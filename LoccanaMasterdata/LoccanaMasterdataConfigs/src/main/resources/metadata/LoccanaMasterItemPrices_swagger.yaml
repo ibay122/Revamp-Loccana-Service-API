@@ -19,8 +19,8 @@ paths:
       responses:
         default:
           description: Default response
-  /:
-    post:
+  /itemPricesList/itemPrices:
+    get:
       responses:
         default:
           description: Default response

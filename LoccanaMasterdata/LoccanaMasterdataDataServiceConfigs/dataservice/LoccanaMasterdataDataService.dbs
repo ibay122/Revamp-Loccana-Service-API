@@ -2,9 +2,9 @@
   <description />
   <config id="DatasourceMasterData">
     <property name="driverClassName">com.mysql.jdbc.Driver</property>
-    <property name="url">jdbc:mysql://194.233.88.81:3306/loccana_masterdata</property>
+    <property name="url">jdbc:mysql://194.233.88.96:3306/loccana_masterdata</property>
     <property name="username">dbase</property>
-    <property name="password">Jmt0!22</property>
+    <property name="password">loccana</property>
   </config>
   
   <!-- Mulai Baris Bank Accounts -->
@@ -60,8 +60,7 @@
     FROM
       bank_accounts
     WHERE
-      status = 1
-      AND id = :id
+      id = :id
     </sql>
     <param name="id" sqlType="STRING" paramType="SCALAR" />
     <result outputType="json">{
@@ -196,8 +195,7 @@
     FROM
       coa
     WHERE
-      status = 1
-      AND id = :id
+      id = :id
     </sql>
     <param name="id" sqlType="STRING" paramType="SCALAR" />
     <result outputType="json">{
@@ -255,7 +253,6 @@
     <sql>UPDATE
       coa
     SET
-      id_parent = :id_parent,
       coa = :coa,
       description = :description,
       status = :status,
@@ -263,7 +260,6 @@
     WHERE
       id = :id
     </sql>
-    <param name="id_parent" sqlType="STRING" paramType="SCALAR" />
     <param name="coa" sqlType="STRING" paramType="SCALAR" />
     <param name="description" sqlType="STRING" paramType="SCALAR" />
     <param name="status" sqlType="STRING" paramType="SCALAR" />
@@ -306,7 +302,6 @@
     </operation>
   <operation name="updateCoas">
   <call-query href="updateCoasQuery">
-      <with-param name="id_parent" query-param="id_parent" />
       <with-param name="coa" query-param="coa" />
       <with-param name="description" query-param="description" />
       <with-param name="status" query-param="status" />
@@ -373,17 +368,44 @@
     <result useColumnNumbers="true" element="UpdatedRowCount" rowName="">
       <element name="id" xsdType="integer" column="1" />
     </result>
-    <!-- <result useColumnNumbers="true" outputType="json">{
-      "data": {
-        "id": "$id",
-        "name": "$name",
-        "symbol": "$symbol",
-        "description": "$description",
-        "status": "$status",
-        "created_at": "$created_at",
-        "updated_at": "$updated_at"
-      }
-    }</result> -->
+  </query>
+  <query id="getUomsListQuery" useConfig="DatasourceMasterData">
+    <sql>SELECT
+	  id,
+	  name,
+	  symbol,
+	  description,
+	  status,
+	  IFNULL(
+	    DATE_FORMAT(created_at, "%Y-%m-%d %H:%i:%s"),
+	    ''
+	  ) AS created_at,
+	  IFNULL(
+	    DATE_FORMAT(updated_at, "%Y-%m-%d %H:%i:%s"),
+	    ''
+	  ) AS updated_at
+	FROM
+	  uom
+	GROUP BY
+	  id
+	ORDER BY
+	  name ASC 
+    </sql>
+    <result outputType="json">{
+	  "data": {
+	    "uoms": [
+	      {
+	        "id": "$id",
+	        "name": "$name",
+	        "symbol": "$symbol",
+	        "description": "$description",
+	        "status": "$status",
+	        "created_at": "$created_at",
+	        "updated_at": "$updated_at"
+	      }
+	    ]
+	  }
+	}</result>
   </query>
   <query id="getUomsDetailQuery" useConfig="DatasourceMasterData">
 	    <sql>SELECT
@@ -403,8 +425,7 @@
 	    FROM
 	      uom
 	    WHERE
-	      status = 1
-	      AND id = :id
+	      id = :id
     </sql>
     <param name="id" sqlType="STRING" paramType="SCALAR" />
     <result outputType="json">{
@@ -456,6 +477,10 @@
       <with-param name="id" query-param="id" />
   </call-query>
   </operation>
+  <operation name="getUomsList">
+  <call-query href="getUomsListQuery">
+  </call-query>
+  </operation>
   <operation name="deleteUoms">
   <call-query href="deleteUomsQuery">
       <with-param name="id" query-param="id" />
@@ -466,34 +491,37 @@
   <!-- Mulai Baris Partners -->
   <query id="getPartnersDetailQuery" useConfig="DatasourceMasterData">
     <sql>SELECT
-      code,
-      name,
-      partner_type,
-      phone,
-      fax,
-      email,
-      address,
-      ship_address,
-      bank_name,
-      account_number,
-      status,
+      a.id,
+      a.code,
+      a.name,
+      a.partner_type,
+      a.phone,
+      a.fax,
+      a.email,
+      a.address,
+      a.ship_address,
+      a.bank_name,
+      a.account_number,
+      a.status,
+      b.name AS partnerType_name,
       IFNULL(
-        DATE_FORMAT(created_at, "%Y-%m-%d %H:%i:%s"),
+        DATE_FORMAT(a.created_at, "%Y-%m-%d %H:%i:%s"),
         ''
       ) AS created_at,
       IFNULL(
-        DATE_FORMAT(updated_at, "%Y-%m-%d %H:%i:%s"),
+        DATE_FORMAT(a.updated_at, "%Y-%m-%d %H:%i:%s"),
         ''
       ) AS updated_at
     FROM
-      partners
+      partners a
+      LEFT JOIN partner_types b ON a.partner_type = b.id 
     WHERE
-      status = 1
-      AND id = :id
+      a.id = :id
     </sql>
     <param name="id" sqlType="STRING" paramType="SCALAR" />
     <result outputType="json">{
       "data": {
+      	"id": "$id",
         "code": "$code",
         "name": "$name",
         "partner_type": "$partner_type",
@@ -504,6 +532,7 @@
         "ship_address": "$ship_address",
         "bank_name": "$bank_name",
         "account_number": "$account_number",
+        "partnerType_name": "$partnerType_name",
         "status": "$status",
         "created_at": "$created_at",
         "updated_at": "$updated_at"
@@ -512,6 +541,7 @@
   </query>
   <query id="getPartnersListQuery" useConfig="DatasourceMasterData">
     <sql>SELECT
+      a.id,
       a.code,
       a.name,
       a.partner_type,
@@ -535,8 +565,6 @@
     FROM
       partners a
       LEFT JOIN partner_types b ON a.partner_type = b.id
-    WHERE
-      a.status = 1
     GROUP BY
       a.id
     ORDER BY
@@ -546,6 +574,7 @@
       "data": {
         "partners": [
           {
+          	"id": "$id",
             "code": "$code",
             "name": "$name",
             "partner_type": "$partner_type",
@@ -630,7 +659,7 @@
       address = :address,
       ship_address = :ship_address,
       bank_name = :bank_name,
-      account_number = :bank_name,
+      account_number = :account_number,
       status = :status,
       updated_at = :updated_at
     WHERE
@@ -737,6 +766,7 @@
   </query>
   <query id="getPartnerTypesDetailQuery" useConfig="DatasourceMasterData">
     <sql>SELECT
+      id,
       name,
       status,
       IFNULL(
@@ -750,18 +780,52 @@
     FROM
       partner_types
     WHERE
-      status = 1
-      AND id = :id
+      id = :id
     </sql>
     <param name="id" paramType="SCALAR" sqlType="STRING" />
     <result outputType="json">{
       "data": {
+      	"id": "$id",
         "name": "$name",
         "status": "$status",
         "created_at": "$created_at",
         "updated_at": "$updated_at"
       }
     }</result>
+  </query>
+  <query id="getPartnerTypesListQuery" useConfig="DatasourceMasterData">
+    <sql>SELECT
+	  id,
+	  name,
+	  status,
+	  IFNULL(
+	    DATE_FORMAT(created_at, "%Y-%m-%d %H:%i:%s"),
+	    ''
+	  ) AS created_at,
+	  IFNULL(
+	    DATE_FORMAT(updated_at, "%Y-%m-%d %H:%i:%s"),
+	    ''
+	  ) AS updated_at
+	FROM
+	  partner_types
+	GROUP BY
+	  id
+	ORDER BY
+	  name ASC
+    </sql>
+    <result outputType="json">{
+  "data": {
+    "partner_types": [
+      {
+        "id": "$id",
+        "name": "$name",
+        "status": "$status",
+        "created_at": "$created_at",
+        "updated_at": "$updated_at"
+      }
+    ]
+  }
+}</result>
   </query>
   <query id="updatePartnerTypesQuery" useConfig="DatasourceMasterData" returnUpdatedRowCount="true">
     <sql>UPDATE
@@ -797,7 +861,11 @@
       <call-query href="getPartnerTypesDetailQuery">
         <with-param name="id" query-param="id" />
       </call-query>
-    </operation>
+  </operation>
+  <operation name="getPartnerTypesList">
+      <call-query href="getPartnerTypesListQuery">
+      </call-query>
+  </operation>
   <operation name="createPartnerTypes">
   <call-query href="createPartnerTypesQuery">
       <with-param name="name" query-param="name" />
@@ -824,22 +892,23 @@
   <!-- Mulai Baris Items -->
   <query id="getItemsDetailQuery" useConfig="DatasourceMasterData">
       <sql>SELECT
-          id,
-          item_code,
-          item_name,
-          item_description,
-          type_id,
-          uom_id,
-          partner_id,
-          vat,
-          status,
-          IFNULL(DATE_FORMAT(created_at, "%Y-%m-%d %H:%i:%s"), '') AS created_at,
-          IFNULL(DATE_FORMAT(updated_at, "%Y-%m-%d %H:%i:%s"), '') AS updated_at
+          a.id,
+          a.item_code,
+          a.item_name,
+          a.item_description,
+          a.type_id,
+          a.uom_id,
+          a.partner_id,
+          a.vat,
+          a.status,
+          b.unit_box,
+          IFNULL(DATE_FORMAT(a.created_at, "%Y-%m-%d %H:%i:%s"), '') AS created_at,
+          IFNULL(DATE_FORMAT(a.updated_at, "%Y-%m-%d %H:%i:%s"), '') AS updated_at
         FROM
-          items
+          items a
+          LEFT JOIN item_qty b ON a.id = b.item_id
         WHERE
-          status = 1
-          AND id = :id
+          a.id = :id
       </sql>
       <param name="id" paramType="SCALAR" sqlType="STRING" />
       <result outputType="json">{
@@ -852,6 +921,8 @@
             "uom_id": "$uom_id",
             "partner_id": "$partner_id",
             "vat": "$vat",
+            "status": "$status",
+            "unit_box": "$unit_box",
             "created_at": "$created_at",
             "updated_at": "$updated_at"
           }
@@ -955,8 +1026,7 @@
       items a
       LEFT JOIN item_types b ON a.type_id = b.id
       WHERE
-      a.status = 1
-      AND b.id = :type
+      b.id = :type
   </sql>
   <param name="type" paramType="SCALAR" sqlType="STRING" />
   <result outputType="json">{
@@ -979,18 +1049,17 @@
   <query id="updateItemsQuery" useConfig="DatasourceMasterData" returnUpdatedRowCount="true">
   <sql>UPDATE
       items a
-      JOIN `item_qty b ON a.id = b.` item_id `
+      JOIN item_qty b ON a.id = b. item_id
                   SET
                   a.item_code = :item_code ,
                   a.item_name = :item_name,
-                  a.item_description` = :item_description,
+                  a.item_description = :item_description,
       a.type_id = :type_id,
       a.uom_id = :uom_id,
       b.unit_box = :unit_box,
       a.partner_id = :partner_id,
       a.vat = :vat,
       a.status = :status,
-      a.created_at = :created_at,
       a.updated_at = :updated_at
       WHERE
       a.id = :id          
@@ -1011,10 +1080,15 @@
   <param name="id" sqlType="STRING" />
   </query>
   <query id="deleteItemsQuery" useConfig="DatasourceMasterData" returnUpdatedRowCount="true">
-  <sql>DELETE FROM
-      items
-  WHERE
-      id = :id
+  <sql>DELETE a,
+	b,
+	c
+	FROM
+	  loccana_masterdata.items a
+	  JOIN loccana_masterdata.item_price b ON a.id = b.item_id
+	  JOIN loccana_masterdata.item_qty c ON a.id = c.item_id
+	WHERE
+	  a.id = :id
   </sql>
   <result element="UpdatedRowCount" rowName="" useColumnNumbers="true">
       <element column="1" name="id" xsdType="integer" />
@@ -1031,6 +1105,7 @@
           uom_id,
           partner_id,
           vat,
+          status,
           created_at,
           updated_at
       )
@@ -1043,6 +1118,7 @@
           :uom_id,
           :partner_id,
           :vat,
+          :status,
           :created_at,
           :updated_at
       )
@@ -1057,6 +1133,7 @@
   <param name="uom_id" sqlType="STRING" />
   <param name="partner_id" sqlType="STRING" />
   <param name="vat" sqlType="STRING" />
+  <param name="status" sqlType="STRING" />
   <param name="created_at" sqlType="STRING" />
   <param name="updated_at" sqlType="STRING" />
   </query>
@@ -1142,8 +1219,7 @@
           LEFT JOIN loccana_masterdata.partner_types lmpt ON it.type_id = lmpt.id
           LEFT JOIN loccana_masterdata.uom lmu ON it.uom_id = lmu.id
           WHERE
-          it.status = 1
-          AND it.item_code LIKE CONCAT('%', :search, '%')
+          it.item_code LIKE CONCAT('%', :search, '%')
           OR it.item_name LIKE CONCAT('%', :search, '%')
           OR it.item_description LIKE CONCAT('%', :search, '%')
           ORDER BY
@@ -1184,8 +1260,7 @@
           FROM
               items
           WHERE
-              status = 1
-              AND item_code LIKE CONCAT('%', :search, '%')
+              item_code LIKE CONCAT('%', :search, '%')
               OR item_name LIKE CONCAT('%', :search, '%')
           </sql>
           <param name="search" paramType="SCALAR" sqlType="STRING" />
@@ -1197,177 +1272,282 @@
           </result>
     </query>
 
-    <query id="getItemPriceDetailQuery" useConfig="DatasourceMasterData">
-      <sql>SELECT
-        item_code,
-        item_name,
-        b.name AS partner_name,
-        c.top_price AS price_atas,
-        c.base_price AS price_dasar,
-        c.bottom_price AS price_bawah,
-        c.status_price AS status,
-        IFNULL(
-          DATE_FORMAT(c.created_at, "%Y-%m-%d %H:%i:%s"),
-          ''
-        ) AS created_at,
-        IFNULL(
-          DATE_FORMAT(c.updated_at, "%Y-%m-%d %H:%i:%s"),
-          ''
-        ) AS updated_at
-      FROM
-        items a
-        LEFT JOIN partners b ON a.partner_id = b.id
-        INNER JOIN item_price c ON a.id = c.item_id
-      WHERE
-        c.status_price = 1
-        AND c.id = :id
-      </sql>
-      <param name="id" paramType="SCALAR" sqlType="STRING" />
-      <result outputType="json">{
-        "data": {
-          "item_code": "$item_code",
-          "item_name": "$item_name",
-          "partner_name": "$partner_name",
-          "price_atas": "$price_atas",
-          "price_dasar": "$price_dasar",
-          "price_bawah": "$price_bawah",
-          "status": "$status",
-          "created_at": "$created_at",
-          "updated_at": "$updated_at"
-        }
-      }</result>
-    </query>
-  <query id="getItemQtysDetailQuery" useConfig="DatasourceMasterData">
-  <sql>SELECT
-      item_code,
-      item_name,
-      b.name AS partner_name,
-      c.base_qty,
-      c.unit_box,
-      c.qty_receipt,
-      c.qty_discount,
-      c.qty_bonus,
-      c.status_qty,
-      IFNULL(
-      DATE_FORMAT(c.created_at, "%Y-%m-%d %H:%i:%s"),
-      ''
-      ) AS created_at,
-      IFNULL(
-      DATE_FORMAT(c.updated_at, "%Y-%m-%d %H:%i:%s"),
-      ''
-      ) AS updated_at
-  FROM
-      items a
-      LEFT JOIN partners b ON a.partner_id = b.id
-      INNER JOIN item_qty c ON a.id = c.item_id
-  WHERE
-      c.status_qty = 1
-      AND c.id = :id
-  </sql>
-  <param name="id" paramType="SCALAR" sqlType="STRING" />
-  <result outputType="json">{
-      "data": {
-      "item_code": "$item_code",
-      "item_name": "$item_name",
-      "partner_name": "$partner_name",
-      "base_qty": "$base_qty",
-      "unit_box": "$unit_box",
-      "qty_receipt": "$qty_receipt",
-      "qty_discount": "$qty_discount",
-      "qty_bonus": "$qty_bonus",
-      "status_qty": "$status_qty",
-      "created_at": "$created_at",
-      "updated_at": "$updated_at"
-      }
-  }</result>
+   <query id="getItemPricesDetailQuery" useConfig="DatasourceMasterData">
+     <sql>SELECT
+       a.id,
+       a.item_code,
+       a.item_name,
+       b.name AS partner_name,
+       c.top_price AS price_atas,
+       c.base_price AS price_dasar,
+       c.bottom_price AS price_bawah,
+       c.status_price AS status,
+       IFNULL(
+         DATE_FORMAT(c.created_at, "%Y-%m-%d %H:%i:%s"),
+         ''
+       ) AS created_at,
+       IFNULL(
+         DATE_FORMAT(c.updated_at, "%Y-%m-%d %H:%i:%s"),
+         ''
+       ) AS updated_at
+     FROM
+       items a
+       LEFT JOIN partners b ON a.partner_id = b.id
+       INNER JOIN item_price c ON a.id = c.item_id
+     WHERE
+       a.id = :id
+     </sql>
+     <param name="id" paramType="SCALAR" sqlType="STRING" />
+     <result outputType="json">{
+       "data": {
+         "id": "$id",
+         "item_code": "$item_code",
+         "item_name": "$item_name",
+         "partner_name": "$partner_name",
+         "price_atas": "$price_atas",
+         "price_dasar": "$price_dasar",
+         "price_bawah": "$price_bawah",
+         "status": "$status",
+         "created_at": "$created_at",
+         "updated_at": "$updated_at"
+       }
+     }</result>
   </query>
-
-  <operation name="getItemsDetail">
-      <call-query href="getItemsDetailQuery">
-        <with-param name="id" query-param="id" />
-      </call-query>
-    </operation>
-  <operation name="getItemLists">
-  <call-query href="getItemListsQuery">
-  </call-query>
-  </operation>
-  <operation name="getItemsTypeDetail">
-  <call-query href="getItemsTypeDetailQuery">
-      <with-param name="type" query-param="type" />
-  </call-query>
-  </operation>
-  <operation name="updateItems">
-  <call-query href="updateItemsQuery">
-      <with-param name="item_code" query-param="item_code" />
-      <with-param name="item_name" query-param="item_name" />
-      <with-param name="item_description" query-param="item_description" />
-      <with-param name="type_id" query-param="type_id" />
-      <with-param name="uom_id" query-param="uom_id" />
-      <with-param name="unit_box" query-param="unit_box" />
-      <with-param name="partner_id" query-param="partner_id" />
-      <with-param name="vat" query-param="vat" />
-      <with-param name="updated_at" query-param="updated_at" />
-      <with-param name="id" query-param="id" />
-  </call-query>
-  </operation>
-  <operation name="deleteItems">
-  <call-query href="deleteItemsQuery">
-      <with-param name="id" query-param="id" />
-  </call-query>
-  </operation>
-  <operation name="createItems">
-  <call-query href="createItemsQuery">
-      <with-param name="item_code" query-param="item_code" />
-      <with-param name="item_name" query-param="item_name" />
-      <with-param name="item_description" query-param="item_description" />
-      <with-param name="type_id" query-param="type_id" />
-      <with-param name="uom_id" query-param="uom_id" />
-      <with-param name="partner_id" query-param="partner_id" />
-      <with-param name="vat" query-param="vat" />
-      <with-param name="created_at" query-param="created_at" />
-      <with-param name="updated_at" query-param="updated_at" />
-  </call-query>
-  </operation>
-  <operation name="createItemQty">
-  <call-query href="createItemQtyQuery">
-      <with-param name="item_id" query-param="item_id" />
-      <with-param name="unit_box" query-param="unit_box" />
-      <with-param name="status_qty" query-param="status_qty" />
-      <with-param name="created_at" query-param="created_at" />
-      <with-param name="updated_at" query-param="updated_at" />
-  </call-query>
-  </operation>
-  <operation name="createItemPrices">
-  <call-query href="createItemPricesQuery">
-      <with-param name="item_id" query-param="item_id" />
-      <with-param name="status_price" query-param="status_price" />
-      <with-param name="created_at" query-param="created_at" />
-      <with-param name="updated_at" query-param="updated_at" />
-  </call-query>
-  </operation>
-  <operation name="getItems">
-  <call-query href="getItemsQuery">
-      <with-param name="search" query-param="search" />
-      <with-param name="limit" query-param="limit" />
-      <with-param name="offset" query-param="offset" />
-  </call-query>
-  </operation>
-  <operation name="getItemsCount">
-  <call-query href="getItemsCountQuery">
-      <with-param name="search" query-param="search" />
-  </call-query>
-  </operation>
-
-  <operation name="getItemPricesDetail">
-  <call-query href="getItemPriceDetailQuery">
-      <with-param name="id" query-param="id" />
-  </call-query>
-  </operation>
-  <operation name="getItemQtysDetail">
-  <call-query href="getItemQtysDetailQuery">
-      <with-param name="id" query-param="id" />
-  </call-query>
-  </operation>
+  <query id="getItemPricesListQuery" useConfig="DatasourceMasterData">
+     <sql>SELECT
+	  a.id,
+	  a.item_code,
+	  a.item_name,
+	  b.name AS partner_name,
+	  c.top_price AS price_atas,
+	  c.base_price AS price_dasar,
+	  c.bottom_price AS price_bawah,
+	  c.status_price AS status,
+	  IFNULL(
+	    DATE_FORMAT(c.created_at, "%Y-%m-%d %H:%i:%s"),
+	    ''
+	  ) AS created_at,
+	  IFNULL(
+	    DATE_FORMAT(c.updated_at, "%Y-%m-%d %H:%i:%s"),
+	    ''
+	  ) AS updated_at
+	FROM
+	  items a
+	  LEFT JOIN partners b ON a.partner_id = b.id
+	  INNER JOIN item_price c ON a.id = c.item_id
+	GROUP BY
+	  a.id ORDER BY a.id ASC
+     </sql>
+     <result outputType="json">{
+	  "data": {
+	    "item_prices": [
+	      {
+	        "id": "$id",
+	        "item_code": "$item_code",
+	        "item_name": "$item_name",
+	        "partner_name": "$partner_name",
+	        "price_atas": "$price_atas",
+	        "price_dasar": "$price_dasar",
+	        "price_bawah": "$price_bawah",
+	        "status": "$status",
+	        "created_at": "$created_at",
+	        "updated_at": "$updated_at"
+	      }
+	    ]
+	  }
+	}</result>
+  </query>
+  
+	  <query id="getItemQtysDetailQuery" useConfig="DatasourceMasterData">
+	  <sql>SELECT
+	  	  a.id,
+	      a.item_code,
+	      a.item_name,
+	      b.name AS partner_name,
+	      c.base_qty,
+	      c.unit_box,
+	      c.qty_receipt,
+	      c.qty_discount,
+	      c.qty_bonus,
+	      c.status_qty,
+	      IFNULL(
+	      DATE_FORMAT(c.created_at, "%Y-%m-%d %H:%i:%s"),
+	      ''
+	      ) AS created_at,
+	      IFNULL(
+	      DATE_FORMAT(c.updated_at, "%Y-%m-%d %H:%i:%s"),
+	      ''
+	      ) AS updated_at
+	  FROM
+	      items a
+	      LEFT JOIN partners b ON a.partner_id = b.id
+	      INNER JOIN item_qty c ON a.id = c.item_id
+	  WHERE
+	      c.id = :id
+	  </sql>
+	  <param name="id" paramType="SCALAR" sqlType="STRING" />
+	  <result outputType="json">{
+	      "data": {
+	      "id": "$id",
+	      "item_code": "$item_code",
+	      "item_name": "$item_name",
+	      "partner_name": "$partner_name",
+	      "base_qty": "$base_qty",
+	      "unit_box": "$unit_box",
+	      "qty_receipt": "$qty_receipt",
+	      "qty_discount": "$qty_discount",
+	      "qty_bonus": "$qty_bonus",
+	      "status_qty": "$status_qty",
+	      "created_at": "$created_at",
+	      "updated_at": "$updated_at"
+	      }
+	  }</result>
+	  </query>
+	  <query id="getItemQtysListQuery" useConfig="DatasourceMasterData">
+	  <sql>SELECT
+		  a.id,
+		  a.item_code,
+		  a.item_name,
+		  b.name AS partner_name,
+		  c.base_qty,
+		  c.unit_box,
+		  c.qty_receipt,
+		  c.qty_discount,
+		  c.qty_bonus,
+		  c.status_qty,
+		  IFNULL(
+		    DATE_FORMAT(c.created_at, "%Y-%m-%d %H:%i:%s"),
+		    ''
+		  ) AS created_at,
+		  IFNULL(
+		    DATE_FORMAT(c.updated_at, "%Y-%m-%d %H:%i:%s"),
+		    ''
+		  ) AS updated_at
+		FROM
+		  items a
+		  LEFT JOIN partners b ON a.partner_id = b.id
+		  INNER JOIN item_qty c ON a.id = c.item_id
+		GROUP BY
+		  a.id ORDER BY a.id ASC
+	  </sql>
+	  <result outputType="json">{
+		  "data": {
+		    "item_qtys": [
+		      {
+		        "id": "$id",
+		        "item_code": "$item_code",
+		        "item_name": "$item_name",
+		        "partner_name": "$partner_name",
+		        "base_qty": "$base_qty",
+		        "unit_box": "$unit_box",
+		        "qty_receipt": "$qty_receipt",
+		        "qty_discount": "$qty_discount",
+		        "qty_bonus": "$qty_bonus",
+		        "status_qty": "$status_qty",
+		        "created_at": "$created_at",
+		        "updated_at": "$updated_at"
+		      }
+		    ]
+		  }
+		}</result>
+	  </query>
+	  
+	  <operation name="getItemsDetail">
+	      <call-query href="getItemsDetailQuery">
+	        <with-param name="id" query-param="id" />
+	      </call-query>
+	    </operation>
+	  <operation name="getItemLists">
+	  <call-query href="getItemListsQuery">
+	  </call-query>
+	  </operation>
+	  <operation name="getItemsTypeDetail">
+	  <call-query href="getItemsTypeDetailQuery">
+	      <with-param name="type" query-param="type" />
+	  </call-query>
+	  </operation>
+	  <operation name="updateItems">
+	  <call-query href="updateItemsQuery">
+	      <with-param name="item_code" query-param="item_code" />
+	      <with-param name="item_name" query-param="item_name" />
+	      <with-param name="item_description" query-param="item_description" />
+	      <with-param name="type_id" query-param="type_id" />
+	      <with-param name="uom_id" query-param="uom_id" />
+	      <with-param name="unit_box" query-param="unit_box" />
+	      <with-param name="partner_id" query-param="partner_id" />
+	      <with-param name="vat" query-param="vat" />
+	      <with-param name="status" query-param="status" />
+	      <with-param name="updated_at" query-param="updated_at" />
+	      <with-param name="id" query-param="id" />
+	  </call-query>
+	  </operation>
+	  <operation name="deleteItems">
+	  <call-query href="deleteItemsQuery">
+	      <with-param name="id" query-param="id" />
+	  </call-query>
+	  </operation>
+	  <operation name="createItems">
+	  <call-query href="createItemsQuery">
+	      <with-param name="item_code" query-param="item_code" />
+	      <with-param name="item_name" query-param="item_name" />
+	      <with-param name="item_description" query-param="item_description" />
+	      <with-param name="type_id" query-param="type_id" />
+	      <with-param name="uom_id" query-param="uom_id" />
+	      <with-param name="partner_id" query-param="partner_id" />
+	      <with-param name="vat" query-param="vat" />
+	      <with-param name="status" query-param="status" />
+	      <with-param name="created_at" query-param="created_at" />
+	      <with-param name="updated_at" query-param="updated_at" />
+	  </call-query>
+	  </operation>
+	  <operation name="createItemQty">
+	  <call-query href="createItemQtyQuery">
+	      <with-param name="item_id" query-param="item_id" />
+	      <with-param name="unit_box" query-param="unit_box" />
+	      <with-param name="status_qty" query-param="status_qty" />
+	      <with-param name="created_at" query-param="created_at" />
+	      <with-param name="updated_at" query-param="updated_at" />
+	  </call-query>
+	  </operation>
+	  <operation name="createItemPrices">
+	  <call-query href="createItemPricesQuery">
+	      <with-param name="item_id" query-param="item_id" />
+	      <with-param name="status_price" query-param="status_price" />
+	      <with-param name="created_at" query-param="created_at" />
+	      <with-param name="updated_at" query-param="updated_at" />
+	  </call-query>
+	  </operation>
+	  <operation name="getItems">
+	  <call-query href="getItemsQuery">
+	      <with-param name="search" query-param="search" />
+	      <with-param name="limit" query-param="limit" />
+	      <with-param name="offset" query-param="offset" />
+	  </call-query>
+	  </operation>
+	  <operation name="getItemsCount">
+	  <call-query href="getItemsCountQuery">
+	      <with-param name="search" query-param="search" />
+	  </call-query>
+	  </operation>
+	
+	  <operation name="getItemPricesDetail">
+	  <call-query href="getItemPricesDetailQuery">
+	      <with-param name="id" query-param="id" />
+	  </call-query>
+	  </operation>
+	  <operation name="getItemQtysDetail">
+	  <call-query href="getItemQtysDetailQuery">
+	      <with-param name="id" query-param="id" />
+	  </call-query>
+	  </operation>
+	  <operation name="getItemPricesList">
+	  <call-query href="getItemPricesListQuery">
+	  </call-query>
+	  </operation>
+	  <operation name="getItemQtysList">
+	  <call-query href="getItemQtysListQuery">
+	  </call-query>
+	  </operation>
   <!-- Akhir Baris -->
 
   <!-- Mulai Baris Item Types -->
@@ -1403,7 +1583,7 @@
   </query>
   <query id="getItemTypesDetailQuery" useConfig="DatasourceMasterData">
     <sql>SELECT
-      id,
+      id, 
       coa_id,
       name_type,
       description,
@@ -1419,12 +1599,12 @@
     FROM
       item_types
     WHERE
-      status = 1
-      AND id = :id
+      id = :id
     </sql>
     <param name="id" sqlType="STRING" paramType="SCALAR" />
     <result outputType="json">{
       "data": {
+      	"id": "$id",
         "coa_id": "$coa_id",
         "name_type": "$name_type",
         "description": "$description",
@@ -1433,6 +1613,34 @@
         "updated_at": "$updated_at"
       }
     }</result>
+  </query>
+  <query id="getItemTypesListsQuery" useConfig="DatasourceMasterData">
+    <sql>SELECT
+	  id,
+	  coa_id,
+	  name_type,
+	  description,
+	  status
+	FROM
+	  item_types
+	GROUP BY
+	  id
+	ORDER BY
+	  name_type ASC
+    </sql>
+    <result outputType="json">{
+	  "data": {
+	    "item_types": [
+	      {
+	        "id": "$id",
+	        "coa_id": "$coa_id",
+	        "name_type": "$name_type",
+	        "description": "$description",
+	        "status": "$status"
+	      }
+	    ]
+	  }
+	}</result>
   </query>
   <query id="updateItemTypesQuery" useConfig="DatasourceMasterData" returnUpdatedRowCount="true">
     <sql>UPDATE
@@ -1483,6 +1691,10 @@
       <with-param name="id" query-param="id" />
   </call-query>
   </operation>
+  <operation name="getItemTypesLists">
+  <call-query href="getItemTypesListsQuery">
+  </call-query>
+  </operation>
   <operation name="updateItemTypes">
   <call-query href="updateItemTypesQuery">
       <with-param name="coa_id" query-param="coa_id" />
@@ -1499,4 +1711,78 @@
   </call-query>
   </operation>
   <!-- Akhir Baris -->
+  
+	<!-- Mulai Baris User Activities -->
+	<query id="createUserActivitiesQuery" keyColumns="id" returnGeneratedKeys="true" useConfig="DatasourceMasterData">
+	   <sql>INSERT INTO
+	  user_activities (
+	    id_user,
+	    menu,
+	    aktivitas,
+	    keterangan,
+	    created_at,
+	    updated_at
+	  )
+	VALUES
+	  (
+	    :id_user,
+	    :menu,
+	    :aktivitas,
+	    :keterangan,
+	    :created_at,
+	    :updated_at
+	  )
+	</sql>
+	   <param name="id_user" sqlType="STRING" />
+	   <param name="menu" sqlType="STRING" />
+	   <param name="aktivitas" sqlType="STRING" />
+	   <param name="keterangan" sqlType="STRING" />
+	   <param name="created_at" sqlType="STRING" />
+	   <param name="updated_at" sqlType="STRING" />
+	   <result useColumnNumbers="true" element="return">
+	     <element name="id" xsdType="integer" column="1" />
+	   </result>
+	 </query>
+	  <query id="getUserActivitiesDetailQuery" useConfig="DatasourceMasterData">
+	    <sql>SELECT
+		  id,
+		  menu,
+		  aktivitas,
+		  keterangan,
+		  created_at,
+		  updated_at
+		FROM
+		  user_activities
+		WHERE
+		  id = :id
+		</sql>
+	    <param name="id" sqlType="STRING" paramType="SCALAR" />
+	    <result outputType="json">{
+		  "data": {
+		    "id": "$id",
+		    "id_user": "$id_user",
+		    "menu": "$menu",
+		    "aktivitas": "$aktivitas",
+		    "keterangan": "$keterangan",
+		    "created_at": "$created_at",
+		    "updated_at": "$updated_at"
+		  }
+		}</result>
+	  </query>
+	  
+	  <operation name="createUserActivities">
+	    <call-query href="createUserActivitiesQuery">
+	      <with-param name="id_user" query-param="id_user" />
+	      <with-param name="menu" query-param="menu" />
+	      <with-param name="aktivitas" query-param="aktivitas" />
+	      <with-param name="keterangan" query-param="keterangan" />
+	      <with-param name="created_at" query-param="created_at" />
+	      <with-param name="updated_at" query-param="updated_at" />
+	    </call-query>
+	  </operation>
+	  <operation name="getUserActivitiesDetail">
+	    <call-query href="getUserActivitiesDetailQuery">
+	      <with-param name="id" query-param="id" />
+	    </call-query>
+	  </operation>
 </data>

@@ -19,3 +19,8 @@ paths:
       responses:
         default:
           description: Default response
+  /itemQtysList/itemQtys/:
+    get:
+      responses:
+        default:
+          description: Default response

@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sequence name="GetItemsTypeDetail" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
-    <dataServiceCall description="Get item type detail" serviceName="LoccanaMasterdataDataService">
+<sequence name="LoccanaMasterUomsGetList" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <dataServiceCall description="Get uom detail" serviceName="LoccanaMasterdataDataService">
         <operations type="single">
-            <operation name="getItemTypesLists">
-                <param evaluator="xml" expression="get-property('itemTypesId')" name="id"/>
-            </operation>
+            <operation name="getUomsList"/>
         </operations>
         <source type="inline"/>
         <target type="body"/>
     </dataServiceCall>
     <property expression="json-eval($)" name="resultData" scope="default" type="STRING"/>
+    <log description="Log start" level="custom">
+        <property expression="get-property('resultData')" name="Update uom id"/>
+    </log>
     <filter regex="true" source="boolean(get-property('resultData'))">
         <then>
             <property expression="json-eval($.data)" name="data" scope="default" type="STRING"/>

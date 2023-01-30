@@ -8,20 +8,26 @@
         "item_name": {
             "type": "string"
         },
+        "item_description": {
+        	"type": "string"
+        },
         "type_id": {
             "type": "string"
         },
         "uom_id": {
-            "type": "integer"
+            "type": "string"
         },
         "partner_id": {
-            "type": "integer"
+            "type": "string"
         },
         "vat": {
             "type": "string"
         },
         "status": {
             "type": "string"
+        },
+        "unit_box": {
+        	"type": "string"
         }
     },
     "required": [
