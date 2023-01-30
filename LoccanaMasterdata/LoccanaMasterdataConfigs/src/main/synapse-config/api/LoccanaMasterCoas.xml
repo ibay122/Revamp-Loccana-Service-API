@@ -133,6 +133,7 @@
                     <sequence key="LoccanaMasterGetResponseError"/>
                 </then>
                 <else>
+                    <property description="store coa name" expression="json-eval($.data.coa)" name="coa" scope="default" type="STRING"/>
                     <property action="remove" name="data" scope="default"/>
                 </else>
             </filter>

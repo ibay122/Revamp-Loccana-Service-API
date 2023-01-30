@@ -9,9 +9,6 @@
                     <sequence key="LoccanaMasterGetResponseError"/>
                 </on-fail>
             </validate>
-            <log description="Log start" level="custom">
-                <property name="Log Message" value="Insert data items"/>
-            </log>
             <propertyGroup description="Parameter Input">
                 <property expression="json-eval($.item_code)" name="item_code" scope="default" type="STRING"/>
                 <property expression="json-eval($.item_name)" name="item_name" scope="default" type="STRING"/>
@@ -23,6 +20,9 @@
                 <property expression="json-eval($.status)" name="status" scope="default" type="STRING"/>
                 <property expression="json-eval($.unit_box)" name="unit_box" scope="default" type="STRING"/>
                 <property expression="get-property('SYSTEM_DATE', 'yyyy-MM-dd HH:mm:ss')" name="currentDate" scope="default" type="STRING"/>
+                <property expression="json-eval($.id_user)" name="id_user" scope="default" type="STRING"/>
+                <property name="menu" scope="default" type="STRING" value="Item"/>
+                <property name="operation" scope="default" type="STRING" value="1"/>
             </propertyGroup>
             <dataServiceCall description="Create items" serviceName="LoccanaMasterdataDataService">
                 <operations type="single">
@@ -52,6 +52,7 @@
                 <else/>
             </filter>
             <property description="Success data" expression="json-eval($.return)" name="returnId" scope="default" type="STRING"/>
+            <sequence key="ItemUserActivities"/>
             <property description="Success id" expression="json-eval($.return.id)" name="itemId" scope="default" type="STRING"/>
             <sequence key="PostItemQty"/>
             <sequence key="PostItemPrices"/>
@@ -86,10 +87,10 @@
                 <property expression="json-eval($.vat)" name="vat" scope="default" type="STRING"/>
                 <property expression="json-eval($.status)" name="status" scope="default" type="STRING"/>
                 <property expression="get-property('SYSTEM_DATE', 'yyyy-MM-dd HH:mm:ss')" name="currentDate" scope="default" type="STRING"/>
+                <property expression="json-eval($.id_user)" name="id_user" scope="default" type="STRING"/>
+                <property name="menu" scope="default" type="STRING" value="Item"/>
+                <property name="operation" scope="default" type="STRING" value="2"/>
             </propertyGroup>
-            <log description="Log start" level="custom">
-                <property expression="get-property('itemsId')" name="Update item id"/>
-            </log>
             <sequence key="GetItemsDetail"/>
             <filter regex="false" source="boolean(get-property('data'))">
                 <then>
@@ -123,6 +124,7 @@
             <property description="Get update status" expression="json-eval($.UpdatedRowCount.id)" name="result" scope="default" type="STRING"/>
             <filter regex="true" source="boolean(get-property('result'))">
                 <then>
+                    <sequence key="ItemUserActivities"/>
                     <property description="Success Message" name="message" scope="default" type="STRING" value="Update item berhasil."/>
                     <sequence key="LoccanaMasterGetResponseSuccess"/>
                 </then>
@@ -142,10 +144,11 @@
         <inSequence>
             <propertyGroup description="Parameter Update">
                 <property expression="get-property('uri.var.id')" name="itemsId" scope="default" type="STRING"/>
+                <property expression="get-property('SYSTEM_DATE', 'yyyy-MM-dd HH:mm:ss')" name="currentDate" scope="default" type="STRING"/>
+                <property expression="json-eval($.id_user)" name="id_user" scope="default" type="STRING"/>
+                <property name="menu" scope="default" type="STRING" value="Items"/>
+                <property name="operation" scope="default" type="STRING" value="3"/>
             </propertyGroup>
-            <log description="Log start" level="custom">
-                <property expression="get-property('itemsId')" name="Delete item id"/>
-            </log>
             <sequence key="GetItemsDetail"/>
             <filter regex="false" source="boolean(get-property('data'))">
                 <then>
@@ -153,6 +156,7 @@
                     <sequence key="LoccanaMasterGetResponseError"/>
                 </then>
                 <else>
+                    <property description="store item name" expression="json-eval($.data.coa)" name="coa" scope="default" type="STRING"/>
                     <property action="remove" name="data" scope="default"/>
                 </else>
             </filter>
@@ -169,6 +173,7 @@
             <property description="Get update status" expression="json-eval($.UpdatedRowCount.id)" name="result" scope="default" type="STRING"/>
             <filter regex="true" source="boolean(get-property('result'))">
                 <then>
+                    <sequence key="ItemUserActivities"/>
                     <property description="Success Message" name="message" scope="default" type="STRING" value="Delete item berhasil."/>
                     <sequence key="LoccanaMasterGetResponseSuccess"/>
                 </then>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="ItemUserActivities" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <switch source="get-property('operation')">
+        <case regex="1">
+            <property name="aktivitas" scope="default" type="STRING" value="Tambah"/>
+            <property expression="concat(concat('Tambah ',get-property('menu')), ' ', get-property('item_name'))" name="keterangan" scope="default" type="STRING"/>
+        </case>
+        <case regex="2">
+            <property name="aktivitas" scope="default" type="STRING" value="Update"/>
+            <property expression="concat(concat('Update ',get-property('menu')), ' ', get-property('item_name'))" name="keterangan" scope="default" type="STRING"/>
+        </case>
+        <case regex="3">
+            <property name="aktivitas" scope="default" type="STRING" value="Delete"/>
+            <property expression="concat(concat('Delete ',get-property('menu')), ' ', get-property('item_name'))" name="keterangan" scope="default" type="STRING"/>
+        </case>
+        <default/>
+    </switch>
+    <propertyGroup description="Parameter Input">
+        <property expression="get-property('menu')" name="menu" scope="default" type="STRING"/>
+        <property expression="get-property('aktivitas')" name="aktivitas" scope="default" type="STRING"/>
+        <property expression="get-property('keterangan')" name="keterangan" scope="default" type="STRING"/>
+    </propertyGroup>
+    <dataServiceCall description="Create user activities" serviceName="LoccanaMasterdataDataService">
+        <operations type="single">
+            <operation name="createUserActivities">
+                <param evaluator="xml" expression="get-property('id_user')" name="id_user"/>
+                <param evaluator="xml" expression="get-property('menu')" name="menu"/>
+                <param evaluator="xml" expression="get-property('aktivitas')" name="aktivitas"/>
+                <param evaluator="xml" expression="get-property('keterangan')" name="keterangan"/>
+                <param evaluator="xml" expression="get-property('currentDate')" name="created_at"/>
+                <param evaluator="xml" expression="get-property('currentDate')" name="updated_at"/>
+            </operation>
+        </operations>
+        <source type="inline"/>
+        <target type="body"/>
+    </dataServiceCall>
+    <!-- <property name="messageType" scope="axis2" type="STRING" value="application/json"/> -->
+    <!-- <property description="Result" expression="json-eval($)" name="result" scope="default" type="STRING"/> -->
+    <!-- <log description="Log start" level="custom">
+        <property expression="get-property('result')" name="test input2"/>
+    </log> -->
+    <!-- <filter regex="false" source="boolean(get-property('result'))">
+        <then>
+            <property description="Error Message" name="message" scope="default" type="STRING" value="Gagal menambahkan user Activities"/>
+            <sequence key="LoccanaMasterGetResponseError"/>
+        </then>
+        <else>
+            <property description="Success Message" name="message" scope="default" type="STRING" value="Tambah user Activities."/>
+            <property description="Success data" expression="json-eval($.return)" name="data" scope="default" type="STRING"/>
+            <sequence key="LoccanaMasterGetResponseSuccess"/>
+        </else>
+    </filter> -->
+</sequence>

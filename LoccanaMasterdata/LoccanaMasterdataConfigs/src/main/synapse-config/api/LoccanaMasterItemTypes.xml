@@ -2,9 +2,6 @@
 <api context="/loccana/master/item_types" name="LoccanaMasterItemTypes" xmlns="http://ws.apache.org/ns/synapse">
     <resource methods="POST">
         <inSequence>
-            <log description="debug start" level="custom">
-                <property expression="json-eval($)" name="debug"/>
-            </log>
             <validate cache-schema="true" source="json-eval($)">
                 <schema key="conf:schema/itemTypes_validator.json"/>
                 <on-fail>
@@ -12,15 +9,15 @@
                     <sequence key="LoccanaMasterGetResponseError"/>
                 </on-fail>
             </validate>
-            <log description="Log start" level="custom">
-                <property name="Log Message" value="Insert data item types"/>
-            </log>
             <propertyGroup description="Parameter Input">
                 <property expression="json-eval($.coa_id)" name="coa_id" scope="default" type="STRING"/>
                 <property expression="json-eval($.name_type)" name="name_type" scope="default" type="STRING"/>
                 <property expression="json-eval($.description)" name="description" scope="default" type="STRING"/>
                 <property expression="json-eval($.status)" name="status" scope="default" type="STRING"/>
                 <property expression="get-property('SYSTEM_DATE', 'yyyy-MM-dd HH:mm:ss')" name="currentDate" scope="default" type="STRING"/>
+                <property expression="json-eval($.id_user)" name="id_user" scope="default" type="STRING"/>
+                <property name="menu" scope="default" type="STRING" value="Item Type"/>
+                <property name="operation" scope="default" type="STRING" value="1"/>
             </propertyGroup>
             <dataServiceCall description="Create item" serviceName="LoccanaMasterdataDataService">
                 <operations type="single">
@@ -44,8 +41,9 @@
                     <sequence key="LoccanaMasterGetResponseError"/>
                 </then>
                 <else>
-                    <property description="Success Message" name="message" scope="default" type="STRING" value="Tambah item types berhasil."/>
                     <property description="Success data" expression="json-eval($.return)" name="data" scope="default" type="STRING"/>
+                    <sequence key="ItemTypeUserActivities"/>
+                    <property description="Success Message" name="message" scope="default" type="STRING" value="Tambah item types berhasil."/>
                     <sequence key="LoccanaMasterGetResponseSuccess"/>
                 </else>
             </filter>
@@ -97,10 +95,10 @@
                 <property expression="json-eval($.description)" name="description" scope="default" type="STRING"/>
                 <property expression="json-eval($.status)" name="status" scope="default" type="STRING"/>
                 <property expression="get-property('SYSTEM_DATE', 'yyyy-MM-dd HH:mm:ss')" name="currentDate" scope="default" type="STRING"/>
+                <property expression="json-eval($.id_user)" name="id_user" scope="default" type="STRING"/>
+                <property name="menu" scope="default" type="STRING" value="Item Type"/>
+                <property name="operation" scope="default" type="STRING" value="2"/>
             </propertyGroup>
-            <log description="Log start" level="custom">
-                <property expression="get-property('itemTypesId')" name="Update item types id"/>
-            </log>
             <sequence key="LoccanaMasterItemTypesGetDetail"/>
             <filter regex="false" source="boolean(get-property('data'))">
                 <then>
@@ -109,9 +107,6 @@
                 </then>
                 <else>
                     <property action="remove" name="data" scope="default"/>
-                    <log description="Log start" level="custom">
-                        <property expression="get-property('result')" name="debug"/>
-                    </log>
                 </else>
             </filter>
             <dataServiceCall description="Update item" serviceName="LoccanaMasterdataDataService">
@@ -130,11 +125,9 @@
             </dataServiceCall>
             <property name="messageType" scope="axis2" type="STRING" value="application/json"/>
             <property description="Get update status" expression="json-eval($.UpdatedRowCount.id)" name="result" scope="default" type="STRING"/>
-            <log description="Log start" level="custom">
-                <property expression="get-property('result')" name="debug"/>
-            </log>
-            <filter regex="1" source="get-property('result')">
+            <filter regex="true" source="boolean(get-property('result'))">
                 <then>
+                    <sequence key="ItemTypeUserActivities"/>
                     <property description="Success Message" name="message" scope="default" type="STRING" value="Update item types berhasil."/>
                     <sequence key="LoccanaMasterGetResponseSuccess"/>
                 </then>
@@ -154,10 +147,11 @@
         <inSequence>
             <propertyGroup description="Parameter Update">
                 <property expression="get-property('uri.var.id')" name="itemTypesId" scope="default" type="STRING"/>
+                <property expression="get-property('SYSTEM_DATE', 'yyyy-MM-dd HH:mm:ss')" name="currentDate" scope="default" type="STRING"/>
+                <property expression="json-eval($.id_user)" name="id_user" scope="default" type="STRING"/>
+                <property name="menu" scope="default" type="STRING" value="Item Type"/>
+                <property name="operation" scope="default" type="STRING" value="3"/>
             </propertyGroup>
-            <log description="Log start" level="custom">
-                <property expression="get-property('itemTypesId')" name="Delete item id"/>
-            </log>
             <sequence key="LoccanaMasterItemTypesGetDetail"/>
             <filter regex="false" source="boolean(get-property('data'))">
                 <then>
@@ -165,6 +159,7 @@
                     <sequence key="LoccanaMasterResponseError"/>
                 </then>
                 <else>
+                    <property description="store item type" expression="json-eval($.data.name_type)" name="name_type" scope="default" type="STRING"/>
                     <property action="remove" name="data" scope="default"/>
                 </else>
             </filter>
@@ -179,8 +174,9 @@
             </dataServiceCall>
             <property name="messageType" scope="axis2" type="STRING" value="application/json"/>
             <property description="Get update status" expression="json-eval($.UpdatedRowCount.id)" name="result" scope="default" type="STRING"/>
-            <filter regex="1" source="get-property('result')">
+            <filter regex="true" source="boolean(get-property('result'))">
                 <then>
+                    <sequence key="ItemTypeUserActivities"/>
                     <property description="Success Message" name="message" scope="default" type="STRING" value="Delete item types berhasil."/>
                     <sequence key="LoccanaMasterGetResponseSuccess"/>
                 </then>

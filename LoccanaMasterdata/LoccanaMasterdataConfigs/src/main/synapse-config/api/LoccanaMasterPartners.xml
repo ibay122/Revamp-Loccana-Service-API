@@ -3,9 +3,6 @@
     <resource methods="GET" uri-template="/{id}">
         <inSequence>
             <property description="get partner Id" expression="get-property('uri.var.id')" name="partnerId" scope="default" type="STRING"/>
-            <log description="Log start" level="custom">
-                <property expression="get-property('partnerId')" name="Get detail partner id"/>
-            </log>
             <sequence key="LoccanaMasterPartnersGetDetail"/>
             <filter regex="false" source="boolean(get-property('data'))">
                 <then>
@@ -46,9 +43,6 @@
     </resource>
     <resource methods="POST">
         <inSequence>
-            <log description="debug start" level="custom">
-                <property expression="json-eval($)" name="debug"/>
-            </log>
             <validate cache-schema="true" source="json-eval($)">
                 <schema key="conf:schema/partners_validator.json"/>
                 <on-fail>
@@ -56,9 +50,6 @@
                     <sequence key="LoccanaMasterGetResponseError"/>
                 </on-fail>
             </validate>
-            <log description="Log start" level="custom">
-                <property name="Log Message" value="Insert data partner"/>
-            </log>
             <propertyGroup description="Parameter Input">
                 <property expression="json-eval($.code)" name="code" scope="default" type="STRING"/>
                 <property expression="json-eval($.name)" name="name" scope="default" type="STRING"/>
@@ -72,6 +63,9 @@
                 <property expression="json-eval($.account_number)" name="account_number" scope="default" type="STRING"/>
                 <property expression="json-eval($.status)" name="status" scope="default" type="STRING"/>
                 <property expression="get-property('SYSTEM_DATE', 'yyyy-MM-dd HH:mm:ss')" name="currentDate" scope="default" type="STRING"/>
+                <property expression="json-eval($.id_user)" name="id_user" scope="default" type="STRING"/>
+                <property name="menu" scope="default" type="STRING" value="Partner"/>
+                <property name="operation" scope="default" type="STRING" value="1"/>
             </propertyGroup>
             <dataServiceCall description="Create partner" serviceName="LoccanaMasterdataDataService">
                 <operations type="single">
@@ -102,8 +96,9 @@
                     <sequence key="LoccanaMasterGetResponseError"/>
                 </then>
                 <else>
-                    <property description="Success Message" name="message" scope="default" type="STRING" value="Tambah partner berhasil."/>
                     <property description="Success data" expression="json-eval($.return)" name="data" scope="default" type="STRING"/>
+                    <sequence key="PartnerUserActivities"/>
+                    <property description="Success Message" name="message" scope="default" type="STRING" value="Tambah partner berhasil."/>
                     <sequence key="LoccanaMasterGetResponseSuccess"/>
                 </else>
             </filter>
@@ -138,10 +133,10 @@
                 <property expression="json-eval($.account_number)" name="account_number" scope="default" type="STRING"/>
                 <property expression="json-eval($.status)" name="status" scope="default" type="STRING"/>
                 <property expression="get-property('SYSTEM_DATE', 'yyyy-MM-dd HH:mm:ss')" name="currentDate" scope="default" type="STRING"/>
+                <property expression="json-eval($.id_user)" name="id_user" scope="default" type="STRING"/>
+                <property name="menu" scope="default" type="STRING" value="Partner"/>
+                <property name="operation" scope="default" type="STRING" value="2"/>
             </propertyGroup>
-            <log description="Log start" level="custom">
-                <property expression="get-property('partnerId')" name="Update partner id"/>
-            </log>
             <sequence key="LoccanaMasterPartnersGetDetail"/>
             <filter regex="false" source="boolean(get-property('data'))">
                 <then>
@@ -178,11 +173,9 @@
             </dataServiceCall>
             <property name="messageType" scope="axis2" type="STRING" value="application/json"/>
             <property description="Get update status" expression="json-eval($.UpdatedRowCount.id)" name="result" scope="default" type="STRING"/>
-            <log description="Log start" level="custom">
-                <property expression="get-property('result')" name="debug"/>
-            </log>
-            <filter regex="1" source="get-property('result')">
+            <filter regex="true" source="boolean(get-property('result'))">
                 <then>
+                    <sequence key="PartnerUserActivities"/>
                     <property description="Success Message" name="message" scope="default" type="STRING" value="Update partner berhasil."/>
                     <sequence key="LoccanaMasterGetResponseSuccess"/>
                 </then>
@@ -202,10 +195,11 @@
         <inSequence>
             <propertyGroup description="Parameter Update">
                 <property expression="get-property('uri.var.id')" name="partnerId" scope="default" type="STRING"/>
+                <property expression="get-property('SYSTEM_DATE', 'yyyy-MM-dd HH:mm:ss')" name="currentDate" scope="default" type="STRING"/>
+                <property expression="json-eval($.id_user)" name="id_user" scope="default" type="STRING"/>
+                <property name="menu" scope="default" type="STRING" value="Partner"/>
+                <property name="operation" scope="default" type="STRING" value="3"/>
             </propertyGroup>
-            <log description="Log start" level="custom">
-                <property expression="get-property('partnerId')" name="Delete partner id"/>
-            </log>
             <sequence key="LoccanaMasterPartnersGetDetail"/>
             <filter regex="false" source="boolean(get-property('data'))">
                 <then>
@@ -213,6 +207,7 @@
                     <sequence key="LoccanaMasterResponseError"/>
                 </then>
                 <else>
+                    <property description="store partner name" expression="json-eval($.data.name)" name="name" scope="default" type="STRING"/>
                     <property action="remove" name="data" scope="default"/>
                 </else>
             </filter>
@@ -227,8 +222,9 @@
             </dataServiceCall>
             <property name="messageType" scope="axis2" type="STRING" value="application/json"/>
             <property description="Get update status" expression="json-eval($.UpdatedRowCount.id)" name="result" scope="default" type="STRING"/>
-            <filter regex="1" source="get-property('result')">
+            <filter regex="true" source="boolean(get-property('result'))">
                 <then>
+                    <sequence key="PartnerUserActivities"/>
                     <property description="Success Message" name="message" scope="default" type="STRING" value="Delete partner berhasil."/>
                     <sequence key="LoccanaMasterGetResponseSuccess"/>
                 </then>

@@ -32,9 +32,10 @@
     <com.loccana.masterdata.api_._LoccanaMasterUoms>capp/EnterpriseServiceBus</com.loccana.masterdata.api_._LoccanaMasterUoms>
     <com.loccana.masterdata.api_._LoccanaMasterBankAccounts>capp/EnterpriseServiceBus</com.loccana.masterdata.api_._LoccanaMasterBankAccounts>
     <com.loccana.masterdata.sequence_._LoccanaMasterCoaParentsGetDetail>capp/EnterpriseServiceBus</com.loccana.masterdata.sequence_._LoccanaMasterCoaParentsGetDetail>
+    <com.loccana.masterdata.sequence_._PartnerUserActivities>capp/EnterpriseServiceBus</com.loccana.masterdata.sequence_._PartnerUserActivities>
     <com.loccana.masterdata.metadata_._LoccanaMasterItemPrices_metadata>capp/EnterpriseServiceBus</com.loccana.masterdata.metadata_._LoccanaMasterItemPrices_metadata>
+    <com.loccana.masterdata.sequence_._ItemTypeUserActivities>capp/EnterpriseServiceBus</com.loccana.masterdata.sequence_._ItemTypeUserActivities>
     <com.loccana.masterdata.resource_._bankAccounts_vali>capp/EnterpriseIntegrator</com.loccana.masterdata.resource_._bankAccounts_vali>
-    <com.loccana.masterdata.sequence_._CoaUserActivities>capp/EnterpriseServiceBus</com.loccana.masterdata.sequence_._CoaUserActivities>
     <com.loccana.masterdata.api_._LoccanaMasterItemTypes>capp/EnterpriseServiceBus</com.loccana.masterdata.api_._LoccanaMasterItemTypes>
     <com.loccana.masterdata.sequence_._LoccanaMasterItemTypesGetDetail>capp/EnterpriseServiceBus</com.loccana.masterdata.sequence_._LoccanaMasterItemTypesGetDetail>
     <com.loccana.masterdata.metadata_._LoccanaMasterCoas_swagger>capp/EnterpriseServiceBus</com.loccana.masterdata.metadata_._LoccanaMasterCoas_swagger>
@@ -43,20 +44,24 @@
     <com.loccana.masterdata.sequence_._GetItemLists>capp/EnterpriseServiceBus</com.loccana.masterdata.sequence_._GetItemLists>
     <com.example.resource_._partnerTypes_validator>capp/EnterpriseIntegrator</com.example.resource_._partnerTypes_validator>
     <com.loccana.masterdata.resource_._coas_validator>capp/EnterpriseIntegrator</com.loccana.masterdata.resource_._coas_validator>
+    <com.loccana.masterdata.sequence_._UomUserActivities>capp/EnterpriseServiceBus</com.loccana.masterdata.sequence_._UomUserActivities>
     <com.example.resource_._uoms_validator>capp/EnterpriseIntegrator</com.example.resource_._uoms_validator>
     <com.loccana.masterdata.metadata_._LoccanaMasterPartnerTypes_metadata>capp/EnterpriseServiceBus</com.loccana.masterdata.metadata_._LoccanaMasterPartnerTypes_metadata>
     <com.loccana.masterdata.api_._LoccanaMasterPartnerTypes>capp/EnterpriseServiceBus</com.loccana.masterdata.api_._LoccanaMasterPartnerTypes>
     <com.loccana.masterdata.api_._LoccanaMasterItems>capp/EnterpriseServiceBus</com.loccana.masterdata.api_._LoccanaMasterItems>
     <artifact.types>jaggery/app=zip,synapse/priority-executor=xml,synapse/inbound-endpoint=xml,service/rule=aar,synapse/message-store=xml,event/stream=json,service/meta=xml,datasource/datasource=xml,synapse/proxy-service=xml,bpel/workflow=zip,synapse/sequence=xml,synapse/endpointTemplate=xml,carbon/application=car,wso2/gadget=dar,synapse/api=xml,synapse/event-source=xml,synapse/message-processors=xml,event/receiver=xml,lib/dataservice/validator=jar,synapse/template=xml,synapse/endpoint=xml,lib/carbon/ui=jar,lib/synapse/mediator=jar,synapse/metadata=yaml,event/publisher=xml,synapse/local-entry=xml,synapse/task=xml,webapp/jaxws=war,registry/resource=zip,synapse/configuration=xml,service/axis2=aar,synapse/lib=zip,synapse/sequenceTemplate=xml,event/execution-plan=siddhiql,service/dataservice=dbs,web/application=war,lib/library/bundle=jar</artifact.types>
+    <com.loccana.masterdata.sequence_._PartnerTypeUserActivities>capp/EnterpriseServiceBus</com.loccana.masterdata.sequence_._PartnerTypeUserActivities>
     <com.loccana.masterdata.metadata_._LoccanaMasterItemTypes_metadata>capp/EnterpriseServiceBus</com.loccana.masterdata.metadata_._LoccanaMasterItemTypes_metadata>
     <com.loccana.masterdata.metadata_._LoccanaMasterPartnerTypes_swagger>capp/EnterpriseServiceBus</com.loccana.masterdata.metadata_._LoccanaMasterPartnerTypes_swagger>
     <com.loccana.masterdata.sequence_._LoccanaMasterPartnersGetDetail>capp/EnterpriseServiceBus</com.loccana.masterdata.sequence_._LoccanaMasterPartnersGetDetail>
+    <com.loccana.masterdata.sequence_._ItemUserActivities>capp/EnterpriseServiceBus</com.loccana.masterdata.sequence_._ItemUserActivities>
     <com.loccana.masterdata.sequence_._LoccanaMasterItemPricesGetDetail>capp/EnterpriseServiceBus</com.loccana.masterdata.sequence_._LoccanaMasterItemPricesGetDetail>
     <com.loccana.masterdata.sequence_._LoccanaMasterUomsGetList>capp/EnterpriseServiceBus</com.loccana.masterdata.sequence_._LoccanaMasterUomsGetList>
     <com.example.resource_._userActivities_validator.json>capp/EnterpriseIntegrator</com.example.resource_._userActivities_validator.json>
     <com.loccana.masterdata.metadata_._LoccanaMasterItems_metadata>capp/EnterpriseServiceBus</com.loccana.masterdata.metadata_._LoccanaMasterItems_metadata>
     <com.loccana.masterdata.dataservice_._LoccanaMasterdataDataService>capp/DataServicesServer</com.loccana.masterdata.dataservice_._LoccanaMasterdataDataService>
     <com.loccana.masterdata.sequence_._GetPartnersList>capp/EnterpriseServiceBus</com.loccana.masterdata.sequence_._GetPartnersList>
+    <com.loccana.masterdata.sequence_._CoaUserActivities>capp/EnterpriseServiceBus</com.loccana.masterdata.sequence_._CoaUserActivities>
     <com.loccana.masterdata.metadata_._LoccanaMasterUoms_swagger>capp/EnterpriseServiceBus</com.loccana.masterdata.metadata_._LoccanaMasterUoms_swagger>
     <com.example.resource_._itemList_validator>capp/EnterpriseIntegrator</com.example.resource_._itemList_validator>
     <com.loccana.masterdata.metadata_._LoccanaMasterItems_swagger>capp/EnterpriseServiceBus</com.loccana.masterdata.metadata_._LoccanaMasterItems_swagger>
@@ -184,6 +189,12 @@
       <type>xml</type>
     </dependency>
     <dependency>
+      <groupId>com.loccana.masterdata.sequence</groupId>
+      <artifactId>PartnerUserActivities</artifactId>
+      <version>1.0.0</version>
+      <type>xml</type>
+    </dependency>
+    <dependency>
       <groupId>com.loccana.masterdata.metadata</groupId>
       <artifactId>LoccanaMasterItemPrices_metadata</artifactId>
       <version>1.0.0</version>
@@ -191,7 +202,7 @@
     </dependency>
     <dependency>
       <groupId>com.loccana.masterdata.sequence</groupId>
-      <artifactId>CoaUserActivities</artifactId>
+      <artifactId>ItemTypeUserActivities</artifactId>
       <version>1.0.0</version>
       <type>xml</type>
     </dependency>
@@ -238,6 +249,12 @@
       <type>zip</type>
     </dependency>
     <dependency>
+      <groupId>com.loccana.masterdata.sequence</groupId>
+      <artifactId>UomUserActivities</artifactId>
+      <version>1.0.0</version>
+      <type>xml</type>
+    </dependency>
+    <dependency>
       <groupId>com.example.resource</groupId>
       <artifactId>uoms_validator</artifactId>
       <version>1.0.0</version>
@@ -262,6 +279,12 @@
       <type>xml</type>
     </dependency>
     <dependency>
+      <groupId>com.loccana.masterdata.sequence</groupId>
+      <artifactId>PartnerTypeUserActivities</artifactId>
+      <version>1.0.0</version>
+      <type>xml</type>
+    </dependency>
+    <dependency>
       <groupId>com.loccana.masterdata.metadata</groupId>
       <artifactId>LoccanaMasterItemTypes_metadata</artifactId>
       <version>1.0.0</version>
@@ -276,6 +299,12 @@
     <dependency>
       <groupId>com.loccana.masterdata.sequence</groupId>
       <artifactId>LoccanaMasterPartnersGetDetail</artifactId>
+      <version>1.0.0</version>
+      <type>xml</type>
+    </dependency>
+    <dependency>
+      <groupId>com.loccana.masterdata.sequence</groupId>
+      <artifactId>ItemUserActivities</artifactId>
       <version>1.0.0</version>
       <type>xml</type>
     </dependency>
@@ -312,6 +341,12 @@
     <dependency>
       <groupId>com.loccana.masterdata.sequence</groupId>
       <artifactId>GetPartnersList</artifactId>
+      <version>1.0.0</version>
+      <type>xml</type>
+    </dependency>
+    <dependency>
+      <groupId>com.loccana.masterdata.sequence</groupId>
+      <artifactId>CoaUserActivities</artifactId>
       <version>1.0.0</version>
       <type>xml</type>
     </dependency>

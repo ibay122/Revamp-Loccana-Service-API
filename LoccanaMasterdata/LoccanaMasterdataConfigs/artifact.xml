@@ -152,4 +152,19 @@
     <artifact name="CoaUserActivities" groupId="com.loccana.masterdata.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
         <file>src/main/synapse-config/sequences/CoaUserActivities.xml</file>
     </artifact>
+    <artifact name="ItemUserActivities" groupId="com.loccana.masterdata.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/ItemUserActivities.xml</file>
+    </artifact>
+    <artifact name="ItemTypeUserActivities" groupId="com.loccana.masterdata.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/ItemTypeUserActivities.xml</file>
+    </artifact>
+    <artifact name="PartnerUserActivities" groupId="com.loccana.masterdata.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/PartnerUserActivities.xml</file>
+    </artifact>
+    <artifact name="PartnerTypeUserActivities" groupId="com.loccana.masterdata.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/PartnerTypeUserActivities.xml</file>
+    </artifact>
+    <artifact name="UomUserActivities" groupId="com.loccana.masterdata.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/UomUserActivities.xml</file>
+    </artifact>
 </artifacts>
