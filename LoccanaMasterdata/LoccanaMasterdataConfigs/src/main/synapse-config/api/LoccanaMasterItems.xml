@@ -49,16 +49,17 @@
                     <property description="Error Message" name="message" scope="default" type="STRING" value="Gagal menambahkan items."/>
                     <sequence key="LoccanaMasterGetResponseError"/>
                 </then>
-                <else/>
+                <else>
+                    <property description="Success data" expression="json-eval($.return)" name="returnId" scope="default" type="STRING"/>
+                    <property description="Success id" expression="json-eval($.return.id)" name="itemId" scope="default" type="STRING"/>
+                    <sequence key="PostItemQty"/>
+                    <sequence key="PostItemPrices"/>
+                    <property description="Success Message" name="message" scope="default" type="STRING" value="Tambah item berhasil."/>
+                    <property description="Success data" expression="get-property('returnId')" name="data" scope="default" type="STRING"/>
+                    <sequence key="ItemUserActivities"/>
+                    <sequence key="LoccanaMasterGetResponseSuccess"/>
+                </else>
             </filter>
-            <property description="Success data" expression="json-eval($.return)" name="returnId" scope="default" type="STRING"/>
-            <sequence key="ItemUserActivities"/>
-            <property description="Success id" expression="json-eval($.return.id)" name="itemId" scope="default" type="STRING"/>
-            <sequence key="PostItemQty"/>
-            <sequence key="PostItemPrices"/>
-            <property description="Success Message" name="message" scope="default" type="STRING" value="Tambah item berhasil."/>
-            <property description="Success data" expression="get-property('returnId')" name="data" scope="default" type="STRING"/>
-            <sequence key="LoccanaMasterGetResponseSuccess"/>
         </inSequence>
         <outSequence/>
         <faultSequence>
@@ -192,9 +193,6 @@
     <resource methods="GET" uri-template="/{id}">
         <inSequence>
             <property description="Item Id" expression="get-property('uri.var.id')" name="itemsId" scope="default" type="STRING"/>
-            <log description="Log start" level="custom">
-                <property expression="get-property('itemsId')" name="Get detail item id"/>
-            </log>
             <sequence key="GetItemsDetail"/>
             <filter regex="false" source="boolean(get-property('data'))">
                 <then>
@@ -236,9 +234,6 @@
     <resource methods="GET" uri-template="/list/type/{type}">
         <inSequence>
             <property description="Item Type" expression="get-property('uri.var.type')" name="itemTypesId" scope="default" type="STRING"/>
-            <log description="Log start" level="custom">
-                <property expression="get-property('itemTypesId')" name="Get detail item type"/>
-            </log>
             <sequence key="GetItemsTypeDetail"/>
             <filter regex="false" source="boolean(get-property('data'))">
                 <then>
@@ -266,9 +261,6 @@
                     <sequence key="LoccanaMasterGetResponseError"/>
                 </on-fail>
             </validate>
-            <log description="Log start get list" level="custom">
-                <property name="Log Message" value="List items"/>
-            </log>
             <propertyGroup description="Parameter Input">
                 <property expression="json-eval($.search)" name="search" scope="default" type="STRING"/>
                 <property expression="json-eval($.limit)" name="limit" scope="default" type="STRING"/>

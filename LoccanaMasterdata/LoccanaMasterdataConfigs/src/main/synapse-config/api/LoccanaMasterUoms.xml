@@ -57,9 +57,9 @@
     <resource methods="GET" uri-template="/{id}">
         <inSequence>
             <property description="uom Id" expression="get-property('uri.var.id')" name="uomId" scope="default" type="STRING"/>
-            <log description="Log start" level="custom">
+            <!-- <log description="Log start" level="custom">
                 <property expression="get-property('uomId')" name="Get detail uoms id"/>
-            </log>
+            </log> -->
             <sequence key="LoccanaMasterUomsGetDetail"/>
             <filter regex="false" source="boolean(get-property('data'))">
                 <then>

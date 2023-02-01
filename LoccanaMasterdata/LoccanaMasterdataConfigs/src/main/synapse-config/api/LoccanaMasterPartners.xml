@@ -145,9 +145,9 @@
                 </then>
                 <else>
                     <property action="remove" name="data" scope="default"/>
-                    <log description="Log start" level="custom">
+                    <!-- <log description="Log start" level="custom">
                         <property expression="get-property('result')" name="debug"/>
-                    </log>
+                    </log> -->
                 </else>
             </filter>
             <dataServiceCall description="Update partner" serviceName="LoccanaMasterdataDataService">

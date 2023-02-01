@@ -57,9 +57,6 @@
     <resource methods="GET" uri-template="/{id}">
         <inSequence>
             <property description="get item types Id" expression="get-property('uri.var.id')" name="itemTypesId" scope="default" type="STRING"/>
-            <log description="Log start" level="custom">
-                <property expression="get-property('itemTypesId')" name="Get detail item types id"/>
-            </log>
             <sequence key="LoccanaMasterItemTypesGetDetail"/>
             <filter regex="false" source="boolean(get-property('data'))">
                 <then>

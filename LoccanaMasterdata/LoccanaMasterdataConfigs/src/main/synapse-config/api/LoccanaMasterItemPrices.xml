@@ -3,9 +3,6 @@
     <resource methods="GET" uri-template="/{id}">
         <inSequence>
             <property description="Item Price Id" expression="get-property('uri.var.id')" name="itemPriceId" scope="default" type="STRING"/>
-            <log description="Log start" level="custom">
-                <property expression="get-property('itemPriceId')" name="Get detail item price id"/>
-            </log>
             <sequence key="LoccanaMasterItemPricesGetDetail"/>
             <filter regex="false" source="boolean(get-property('data'))">
                 <then>

@@ -53,9 +53,9 @@
     <resource methods="GET" uri-template="/{id}">
         <inSequence>
             <property description="get partner types Id" expression="get-property('uri.var.id')" name="partnerTypesId" scope="default" type="STRING"/>
-            <log description="Log start" level="custom">
+            <!-- <log description="Log start" level="custom">
                 <property expression="get-property('partnerTypesId')" name="Get detail partner types id"/>
-            </log>
+            </log> -->
             <sequence key="LoccanaMasterPartnerTypesGetDetail"/>
             <filter regex="false" source="boolean(get-property('data'))">
                 <then>
