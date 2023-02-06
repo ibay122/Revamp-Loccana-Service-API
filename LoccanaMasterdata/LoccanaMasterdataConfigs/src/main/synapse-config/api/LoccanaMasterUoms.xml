@@ -17,7 +17,7 @@
                 <property expression="get-property('SYSTEM_DATE', 'yyyy-MM-dd HH:mm:ss')" name="currentDate" scope="default" type="STRING"/>
                 <property expression="json-eval($.id_user)" name="id_user" scope="default" type="STRING"/>
                 <property name="menu" scope="default" type="STRING" value="UOM"/>
-                <property name="operation" scope="default" type="STRING" value="1"/>
+                <property name="aktivitas" scope="default" type="STRING" value="Tambah"/>
             </propertyGroup>
             <dataServiceCall description="Create uom" serviceName="LoccanaMasterdataDataService">
                 <operations type="single">
@@ -37,13 +37,14 @@
             <property description="Result" expression="json-eval($)" name="result" scope="default" type="STRING"/>
             <filter regex="false" source="boolean(get-property('result'))">
                 <then>
-                    <property description="Error Message" name="message" scope="default" type="STRING" value="Gagal menambahkan uom."/>
+                    <property description="Error Message" expression="concat('Gagal menambahkan UOM ', get-property('name'))" name="message" scope="default" type="STRING"/>
+                    <sequence key="InsertUserActivities"/>
                     <sequence key="LoccanaMasterGetResponseError"/>
                 </then>
                 <else>
                     <property description="Success data" expression="json-eval($.return)" name="data" scope="default" type="STRING"/>
-                    <sequence key="UomUserActivities"/>
-                    <property description="Success Message" name="message" scope="default" type="STRING" value="Tambah uom berhasil."/>
+                    <property description="Success Message" expression="concat('Tambah UOM ', get-property('name'), ' berhasil.')" name="message" scope="default" type="STRING"/>
+                    <sequence key="InsertUserActivities"/>
                     <sequence key="LoccanaMasterGetResponseSuccess"/>
                 </else>
             </filter>
@@ -57,17 +58,17 @@
     <resource methods="GET" uri-template="/{id}">
         <inSequence>
             <property description="uom Id" expression="get-property('uri.var.id')" name="uomId" scope="default" type="STRING"/>
-            <!-- <log description="Log start" level="custom">
+            <log description="Log start" level="custom">
                 <property expression="get-property('uomId')" name="Get detail uoms id"/>
-            </log> -->
+            </log>
             <sequence key="LoccanaMasterUomsGetDetail"/>
             <filter regex="false" source="boolean(get-property('data'))">
                 <then>
-                    <property description="Error Message" name="message" scope="default" type="STRING" value="uom tidak ditemukan."/>
+                    <property description="Error Message" expression="concat('UOM dengan id ', get-property('uomId'), ' tidak ditemukan')" name="message" scope="default" type="STRING"/>
                     <sequence key="LoccanaMasterGetResponseError"/>
                 </then>
                 <else>
-                    <property description="Success Message" name="message" scope="default" type="STRING" value="uom ditemukan."/>
+                    <property description="Success Message" name="message" scope="default" type="STRING" value="partner type ditemukan."/>
                     <sequence key="LoccanaMasterGetResponseSuccess"/>
                 </else>
             </filter>
@@ -80,7 +81,6 @@
     </resource>
     <resource methods="PUT" uri-template="/{id}">
         <inSequence>
-            <property description="get uom id" expression="get-property('uri.var.id')" name="uomId" scope="default" type="STRING"/>
             <validate cache-schema="true" source="json-eval($)">
                 <schema key="conf:schema/uoms_validator.json"/>
                 <on-fail>
@@ -97,7 +97,7 @@
                 <property expression="get-property('SYSTEM_DATE', 'yyyy-MM-dd HH:mm:ss')" name="currentDate" scope="default" type="STRING"/>
                 <property expression="json-eval($.id_user)" name="id_user" scope="default" type="STRING"/>
                 <property name="menu" scope="default" type="STRING" value="UOM"/>
-                <property name="operation" scope="default" type="STRING" value="2"/>
+                <property name="aktivitas" scope="default" type="STRING" value="Update"/>
             </propertyGroup>
             <log description="Log start" level="custom">
                 <property expression="get-property('uomId')" name="Update uoms id"/>
@@ -105,14 +105,11 @@
             <sequence key="LoccanaMasterUomsGetDetail"/>
             <filter regex="false" source="boolean(get-property('data'))">
                 <then>
-                    <property description="Error Message" name="message" scope="default" type="STRING" value="uom tidak ditemukan."/>
+                    <property description="Error Message" expression="concat('UOM dengan id ', get-property('uomId'), ' tidak ditemukan')" name="message" scope="default" type="STRING"/>
                     <sequence key="LoccanaMasterGetResponseError"/>
                 </then>
                 <else>
                     <property action="remove" name="data" scope="default"/>
-                    <log description="Log start" level="custom">
-                        <property expression="get-property('result')" name="debug"/>
-                    </log>
                 </else>
             </filter>
             <dataServiceCall description="Update uom" serviceName="LoccanaMasterdataDataService">
@@ -131,14 +128,16 @@
             </dataServiceCall>
             <property name="messageType" scope="axis2" type="STRING" value="application/json"/>
             <property description="Get update status" expression="json-eval($.UpdatedRowCount.id)" name="result" scope="default" type="STRING"/>
-            <filter regex="1" source="get-property('result')">
+            <filter regex="true" source="boolean(get-property('result'))">
                 <then>
-                    <sequence key="UomUserActivities"/>
-                    <property description="Success Message" name="message" scope="default" type="STRING" value="Update uom berhasil."/>
+                    <property description="Success Message" expression="concat('Update UOM ', get-property('name'), ' dengan id ',get-property('uomId'), ' berhasil.')" name="message" scope="default" type="STRING"/>
+                    <property description="Success data" expression="json-eval($.return)" name="data" scope="default" type="STRING"/>
+                    <sequence key="InsertUserActivities"/>
                     <sequence key="LoccanaMasterGetResponseSuccess"/>
                 </then>
                 <else>
-                    <property description="Error Message" name="message" scope="default" type="STRING" value="Update uom gagal."/>
+                    <property description="Error Message" expression="concat('Gagal update UOM ', get-property('name'))" name="message" scope="default" type="STRING"/>
+                    <sequence key="InsertUserActivities"/>
                     <sequence key="LoccanaMasterGetResponseError"/>
                 </else>
             </filter>
@@ -156,12 +155,12 @@
                 <property expression="get-property('SYSTEM_DATE', 'yyyy-MM-dd HH:mm:ss')" name="currentDate" scope="default" type="STRING"/>
                 <property expression="json-eval($.id_user)" name="id_user" scope="default" type="STRING"/>
                 <property name="menu" scope="default" type="STRING" value="UOM"/>
-                <property name="operation" scope="default" type="STRING" value="3"/>
+                <property name="aktivitas" scope="default" type="STRING" value="Delete"/>
             </propertyGroup>
             <sequence key="LoccanaMasterUomsGetDetail"/>
             <filter regex="false" source="boolean(get-property('data'))">
                 <then>
-                    <property description="Error Message" name="message" scope="default" type="STRING" value="uom tidak ditemukan."/>
+                    <property description="Error Message" expression="concat('UOM dengan id ', get-property('uomId'), ' tidak ditemukan')" name="message" scope="default" type="STRING"/>
                     <sequence key="LoccanaMasterGetResponseError"/>
                 </then>
                 <else>
@@ -180,15 +179,17 @@
             </dataServiceCall>
             <property name="messageType" scope="axis2" type="STRING" value="application/json"/>
             <property description="Get update status" expression="json-eval($.UpdatedRowCount.id)" name="result" scope="default" type="STRING"/>
-            <filter regex="1" source="get-property('result')">
+            <filter regex="false" source="boolean(get-property('result'))">
                 <then>
-                    <sequence key="UomUserActivities"/>
-                    <property description="Success Message" name="message" scope="default" type="STRING" value="Delete uom berhasil."/>
-                    <sequence key="LoccanaMasterGetResponseSuccess"/>
+                    <property description="Error Message" expression="concat('Gagal menambahkan UOM ', get-property('name'))" name="message" scope="default" type="STRING"/>
+                    <sequence key="InsertUserActivities"/>
+                    <sequence key="LoccanaMasterGetResponseError"/>
                 </then>
                 <else>
-                    <property description="Error Message" name="message" scope="default" type="STRING" value="Delete uom gagal."/>
-                    <sequence key="LoccanaMasterGetResponseError"/>
+                    <property description="Success Message" expression="concat('Tambah UOM ', get-property('name'), ' dengan id ',get-property('uomId'), ' berhasil.')" name="message" scope="default" type="STRING"/>
+                    <property description="Success data" expression="json-eval($.return)" name="data" scope="default" type="STRING"/>
+                    <sequence key="InsertUserActivities"/>
+                    <sequence key="LoccanaMasterGetResponseSuccess"/>
                 </else>
             </filter>
         </inSequence>

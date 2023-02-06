@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/loccana/master/coa_sub" name="LoccanaMasterCoaSubs" xmlns="http://ws.apache.org/ns/synapse">
+    <resource methods="POST">
+        <inSequence>
+            <validate cache-schema="true" source="json-eval($)">
+                <schema key="conf:schema/coaSub_validator.json"/>
+                <on-fail>
+                    <property description="Error Message" expression="$ctx:ERROR_MESSAGE" name="message" scope="default" type="STRING"/>
+                    <sequence key="LoccanaMasterGetResponseError"/>
+                </on-fail>
+            </validate>
+            <log description="Log start" level="custom">
+                <property name="Log Message" value="Insert data sub COA"/>
+            </log>
+            <propertyGroup description="Parameter Input">
+                <property expression="json-eval($.coa_sub_id)" name="coa_sub_id" scope="default" type="STRING"/>
+                <property expression="json-eval($.coa_type_id)" name="coa_type_id" scope="default" type="STRING"/>
+                <property expression="json-eval($.sub_name)" name="sub_name" scope="default" type="STRING"/>
+                <property expression="json-eval($.parent_id)" name="parent_id" scope="default" type="STRING"/>
+                <property expression="get-property('SYSTEM_DATE', 'yyyy-MM-dd HH:mm:ss')" name="currentDate" scope="default" type="STRING"/>
+                <property expression="json-eval($.id_user)" name="id_user" scope="default" type="STRING"/>
+                <property name="menu" scope="default" type="STRING" value="Sub COA"/>
+                <property name="aktivitas" scope="default" type="STRING" value="Tambah"/>
+            </propertyGroup>
+            <dataServiceCall description="Create coa sub" serviceName="LoccanaMasterdataDataService">
+                <operations type="single">
+                    <operation name="createCoaSub">
+                        <param evaluator="xml" expression="get-property('coa_sub_id')" name="coa_sub_id"/>
+                        <param evaluator="xml" expression="get-property('coa_type_id')" name="coa_type_id"/>
+                        <param evaluator="xml" expression="get-property('sub_name')" name="sub_name"/>
+                        <param evaluator="xml" expression="get-property('parent_id')" name="parent_id"/>
+                    </operation>
+                </operations>
+                <source type="inline"/>
+                <target type="body"/>
+            </dataServiceCall>
+            <property name="messageType" scope="axis2" type="STRING" value="application/json"/>
+            <property description="Result" expression="json-eval($)" name="result" scope="default" type="STRING"/>
+            <filter regex="false" source="boolean(get-property('result'))">
+                <then>
+                    <property description="Error Message" expression="concat('Gagal menambahkan sub COA ', get-property('sub_name'))" name="message" scope="default" type="STRING"/>
+                    <sequence key="InsertUserActivities"/>
+                    <sequence key="LoccanaMasterGetResponseError"/>
+                </then>
+                <else>
+                    <property description="Success Message" expression="concat('Tambah sub COA ', get-property('sub_name'), ' berhasil.')" name="message" scope="default" type="STRING"/>
+                    <property description="Success data" expression="json-eval($.return)" name="data" scope="default" type="STRING"/>
+                    <sequence key="InsertUserActivities"/>
+                    <sequence key="LoccanaMasterGetResponseSuccess"/>
+                </else>
+            </filter>
+        </inSequence>
+        <outSequence/>
+        <faultSequence>
+            <property description="ErrorMessage" expression="get-property('ERROR_MESSAGE')" name="message" scope="default" type="STRING"/>
+            <sequence key="InsertUserActivities"/>
+            <sequence key="LoccanaMasterGetResponseError"/>
+        </faultSequence>
+    </resource>
+    <resource methods="GET" uri-template="/{id}">
+        <inSequence>
+            <property description="coa Id" expression="get-property('uri.var.id')" name="subCoaId" scope="default" type="STRING"/>
+            <log description="Log start" level="custom">
+                <property name="Log Message" value="Get data sub COA"/>
+            </log>
+            <sequence key="LoccanaMasterCoaSubGetDetail"/>
+            <filter regex="false" source="boolean(get-property('data'))">
+                <then>
+                    <property description="Error Message" name="message" scope="default" type="STRING" value="sub coa tidak ditemukan."/>
+                    <sequence key="LoccanaMasterGetResponseError"/>
+                </then>
+                <else>
+                    <property description="Success Message" name="message" scope="default" type="STRING" value="sub coa ditemukan."/>
+                    <sequence key="LoccanaMasterGetResponseSuccess"/>
+                </else>
+            </filter>
+        </inSequence>
+        <outSequence/>
+        <faultSequence>
+            <property description="ErrorMessage" expression="get-property('ERROR_MESSAGE')" name="message" scope="default" type="STRING"/>
+            <sequence key="LoccanaMasterGetResponseError"/>
+        </faultSequence>
+    </resource>
+    <resource methods="GET" uri-template="/list/coa_sub">
+        <inSequence>
+            <log description="Log start" level="custom">
+                <property name="Log Message" value="List select data sub coas"/>
+            </log>
+            <dataServiceCall description="Get coas lists" serviceName="LoccanaMasterdataDataService">
+                <operations type="single">
+                    <operation name="getCoaSubList"/>
+                </operations>
+                <source type="inline"/>
+                <target type="body"/>
+            </dataServiceCall>
+            <property expression="json-eval($)" name="resultData" scope="default" type="STRING"/>
+            <filter regex="true" source="boolean(get-property('resultData'))">
+                <then>
+                    <property expression="json-eval($.data)" name="data" scope="default" type="STRING"/>
+                </then>
+                <else/>
+            </filter>
+            <filter regex="false" source="boolean(get-property('data'))">
+                <then>
+                    <property description="Error Message" name="message" scope="default" type="STRING" value="Sub Coa tidak ditemukan."/>
+                    <sequence key="LoccanaMasterGetResponseError"/>
+                </then>
+                <else>
+                    <property description="Success Message" name="message" scope="default" type="STRING" value="Sub Coa ditemukan."/>
+                    <sequence key="LoccanaMasterGetResponseSuccess"/>
+                </else>
+            </filter>
+        </inSequence>
+        <outSequence/>
+        <faultSequence>
+            <property description="ErrorMessage" expression="get-property('ERROR_MESSAGE')" name="message" scope="default" type="STRING"/>
+            <sequence key="LoccanaMasterGetResponseError"/>
+        </faultSequence>
+    </resource>
+    <resource methods="PUT" uri-template="/{id}">
+        <inSequence>
+            <validate cache-schema="true" source="json-eval($)">
+                <schema key="conf:schema/coaSub_validator.json"/>
+                <on-fail>
+                    <property description="Error Message" expression="$ctx:ERROR_MESSAGE" name="message" scope="default" type="STRING"/>
+                    <sequence key="LoccanaMasterGetResponseError"/>
+                </on-fail>
+            </validate>
+            <log description="Log start" level="custom">
+                <property name="Log Message" value="Update data sub coa"/>
+            </log>
+            <propertyGroup description="Parameter Update">
+                <property expression="get-property('uri.var.id')" name="subCoaId" scope="default" type="STRING"/>
+                <property expression="json-eval($.coa_sub_id)" name="coa_sub_id" scope="default" type="STRING"/>
+                <property expression="json-eval($.coa_type_id)" name="coa_type_id" scope="default" type="STRING"/>
+                <property expression="json-eval($.sub_name)" name="sub_name" scope="default" type="STRING"/>
+                <property expression="json-eval($.parent_id)" name="parent_id" scope="default" type="STRING"/>
+                <property expression="get-property('SYSTEM_DATE', 'yyyy-MM-dd HH:mm:ss')" name="currentDate" scope="default" type="STRING"/>
+                <property expression="json-eval($.id_user)" name="id_user" scope="default" type="STRING"/>
+                <property name="menu" scope="default" type="STRING" value="Sub COA"/>
+                <property name="aktivitas" scope="default" type="STRING" value="Update"/>
+            </propertyGroup>
+            <sequence key="LoccanaMasterCoaSubGetDetail"/>
+            <filter regex="false" source="boolean(get-property('data'))">
+                <then>
+                    <property description="Error Message" expression="concat('Sub COA dengan id ', get-property('subCoaId'), ' tidak ditemukan')" name="message" scope="default" type="STRING"/>
+                    <sequence key="LoccanaMasterGetResponseError"/>
+                </then>
+                <else>
+                    <property action="remove" name="data" scope="default"/>
+                </else>
+            </filter>
+            <dataServiceCall description="Update coa" serviceName="LoccanaMasterdataDataService">
+                <operations type="single">
+                    <operation name="updateCoaSub">
+                        <param evaluator="xml" expression="get-property('coa_sub_id')" name="coa_sub_id"/>
+                        <param evaluator="xml" expression="get-property('coa_type_id')" name="coa_type_id"/>
+                        <param evaluator="xml" expression="get-property('sub_name')" name="sub_name"/>
+                        <param evaluator="xml" expression="get-property('parent_id')" name="parent_id"/>
+                        <param evaluator="xml" expression="get-property('subCoaId')" name="id"/>
+                    </operation>
+                </operations>
+                <source type="inline"/>
+                <target type="body"/>
+            </dataServiceCall>
+            <property name="messageType" scope="axis2" type="STRING" value="application/json"/>
+            <property description="Get update status" expression="json-eval($.UpdatedRowCount.id)" name="result" scope="default" type="STRING"/>
+            <filter regex="true" source="boolean(get-property('result'))">
+                <then>
+                    <property description="Success Message" expression="concat('Update COA ', get-property('sub_name'), ' dengan id ',get-property('subCoaId'), ' berhasil.')" name="message" scope="default" type="STRING"/>
+                    <property description="Success data" expression="json-eval($.return)" name="data" scope="default" type="STRING"/>
+                    <sequence key="InsertUserActivities"/>
+                    <sequence key="LoccanaMasterGetResponseSuccess"/>
+                </then>
+                <else>
+                    <property description="Error Message" expression="concat('Gagal update COA ', get-property('sub_name'))" name="message" scope="default" type="STRING"/>
+                    <sequence key="InsertUserActivities"/>
+                    <sequence key="LoccanaMasterGetResponseError"/>
+                </else>
+            </filter>
+        </inSequence>
+        <outSequence/>
+        <faultSequence>
+            <property description="ErrorMessage" expression="get-property('ERROR_MESSAGE')" name="message" scope="default" type="STRING"/>
+            <sequence key="LoccanaMasterGetResponseError"/>
+        </faultSequence>
+    </resource>
+    <resource methods="DELETE" uri-template="/{id}">
+        <inSequence>
+            <log description="Log start" level="custom">
+                <property name="Log Message" value="Delete data sub coa"/>
+            </log>
+            <propertyGroup description="Parameter Update">
+                <property expression="get-property('uri.var.id')" name="subCoaId" scope="default" type="STRING"/>
+                <property expression="get-property('SYSTEM_DATE', 'yyyy-MM-dd HH:mm:ss')" name="currentDate" scope="default" type="STRING"/>
+                <property expression="json-eval($.id_user)" name="id_user" scope="default" type="STRING"/>
+                <property name="menu" scope="default" type="STRING" value="Sub COA"/>
+                <property name="aktivitas" scope="default" type="STRING" value="Delete"/>
+            </propertyGroup>
+            <sequence key="LoccanaMasterCoaSubGetDetail"/>
+            <filter regex="false" source="boolean(get-property('data'))">
+                <then>
+                    <property description="Error Message" expression="concat('COA dengan id ', get-property('subCoaId'), ' tidak ditemukan')" name="message" scope="default" type="STRING"/>
+                    <sequence key="InsertUserActivities"/>
+                    <sequence key="LoccanaMasterGetResponseError"/>
+                </then>
+                <else>
+                    <property description="store coa name" expression="json-eval($.data.sub_name)" name="sub_name" scope="default" type="STRING"/>
+                    <property action="remove" name="data" scope="default"/>
+                </else>
+            </filter>
+            <dataServiceCall description="Delete coa" serviceName="LoccanaMasterdataDataService">
+                <operations type="single">
+                    <operation name="deleteCoas">
+                        <param evaluator="xml" expression="get-property('subCoaId')" name="id"/>
+                    </operation>
+                </operations>
+                <source type="inline"/>
+                <target type="body"/>
+            </dataServiceCall>
+            <property name="messageType" scope="axis2" type="STRING" value="application/json"/>
+            <property description="Get update status" expression="json-eval($.UpdatedRowCount.id)" name="result" scope="default" type="STRING"/>
+            <filter regex="true" source="boolean(get-property('result'))">
+                <then>
+                    <property description="Success Message" expression="concat(concat('Delete sub COA ', get-property('sub_name')),' berhasil.')" name="message" scope="default" type="STRING"/>
+                    <property description="Success Message" expression="get-property('subCoaId')" name="data" scope="default" type="STRING"/>
+                    <sequence key="InsertUserActivities"/>
+                    <sequence key="LoccanaMasterGetResponseSuccess"/>
+                </then>
+                <else>
+                    <property description="Error Message" expression="concat(concat('Delete sub COA ', get-property('sub_name')),' gagal.')" name="message" scope="default" type="STRING"/>
+                    <property description="Error Message" expression="get-property('subCoaId')" name="data" scope="default" type="STRING"/>
+                    <sequence key="InsertUserActivities"/>
+                    <sequence key="LoccanaMasterGetResponseError"/>
+                </else>
+            </filter>
+        </inSequence>
+        <outSequence/>
+        <faultSequence>
+            <property description="ErrorMessage" expression="get-property('ERROR_MESSAGE')" name="message" scope="default" type="STRING"/>
+            <sequence key="LoccanaMasterGetResponseError"/>
+        </faultSequence>
+    </resource>
+</api>

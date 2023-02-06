@@ -1,26 +1,11 @@
 openapi: 3.0.1
 info:
-  title: LoccanaMasterItems
-  description: API Definition of LoccanaMasterItems
+  title: LoccanaMasterCoaSubs
+  description: API Definition of LoccanaMasterCoaSubs
   version: 1.0.0
 servers:
-- url: http://localhost:8290/loccana/master/items
+- url: http://localhost:8290/loccana/master/coa_sub
 paths:
-  /lists:
-    post:
-      requestBody:
-        description: Sample Payload
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                payload:
-                  type: object
-        required: false
-      responses:
-        default:
-          description: Default response
   /:
     post:
       responses:
@@ -73,12 +58,7 @@ paths:
       responses:
         default:
           description: Default response
-  /listItems/items:
-    get:
-      responses:
-        default:
-          description: Default response
-  /listItems/type:
+  /list/coa_sub:
     get:
       responses:
         default:

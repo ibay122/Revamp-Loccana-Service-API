@@ -2,14 +2,29 @@
     "$schema": "http://json-schema.org/draft-04/schema#",
     "type": "object",
     "properties": {
-        "coa": {
+        "coa_id": {
             "type": "string"
         },
-        "description": {
+        "coa_sub_id": {
+        	"type": "string"
+        },
+        "coa_code": {
+            "type": "string"
+        },
+        "coa_name": {
+        	"type": "string"
+        },
+        "remark": {
+        	"type": "string"
+        },
+        "fl_adjustment": {
+            "type": "string"
+        },
+        "status": {
         	"type": "string"
         }
     },
     "required": [
-        "coa"
+        "coa_code","coa_name"
     ]
 }

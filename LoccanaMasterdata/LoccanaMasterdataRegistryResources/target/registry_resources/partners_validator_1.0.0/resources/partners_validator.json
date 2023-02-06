@@ -2,7 +2,37 @@
     "$schema": "http://json-schema.org/draft-04/schema#",
     "type": "object",
     "properties": {
+        "code": {
+            "type": "string"
+        },
         "name": {
+            "type": "string"
+        },
+        "partner_type": {
+            "type": "string"
+        },
+        "phone": {
+            "type": "string"
+        },
+        "fax": {
+            "type": "string"
+        },
+        "email": {
+            "type": "string"
+        },
+        "address": {
+            "type": "string"
+        },
+        "ship_address": {
+            "type": "string"
+        },
+        "bank_name": {
+            "type": "string"
+        },
+        "account_number": {
+            "type": "string"
+        },
+        "status": {
             "type": "string"
         }
     },

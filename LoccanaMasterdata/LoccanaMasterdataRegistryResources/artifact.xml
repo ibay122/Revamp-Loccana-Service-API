@@ -87,4 +87,20 @@
             <properties/>
         </item>
     </artifact>
+    <artifact name="coaSub_validator" groupId="com.example.resource" version="1.0.0" type="registry/resource" serverRole="EnterpriseIntegrator">
+        <item>
+            <file>coaSub_validator.json</file>
+            <path>/_system/config/schema</path>
+            <mediaType>application/json</mediaType>
+            <properties/>
+        </item>
+    </artifact>
+    <artifact name="coaType_validator" groupId="com.example.resource" version="1.0.0" type="registry/resource" serverRole="EnterpriseIntegrator">
+        <item>
+            <file>coaType_validator.json</file>
+            <path>/_system/config/schema</path>
+            <mediaType>application/json</mediaType>
+            <properties/>
+        </item>
+    </artifact>
 </artifacts>

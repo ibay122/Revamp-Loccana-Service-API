@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sequence name="LoccanaMasterCoasGetList" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
-    <dataServiceCall description="Get coas lists" serviceName="LoccanaMasterdataDataService">
+<sequence name="LoccanaMasterGetItemsDetail" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <dataServiceCall description="Get item detail" serviceName="LoccanaMasterdataDataService">
         <operations type="single">
-            <operation name="getConcatCoasList"/>
+            <operation name="getItemsDetail">
+                <param evaluator="xml" expression="get-property('itemsId')" name="id"/>
+            </operation>
         </operations>
         <source type="inline"/>
         <target type="body"/>

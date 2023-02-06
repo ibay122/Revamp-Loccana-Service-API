@@ -2,20 +2,17 @@
     "$schema": "http://json-schema.org/draft-04/schema#",
     "type": "object",
     "properties": {
-        "name": {
+        "coa_sub_id": {
             "type": "string"
         },
-        "symbol": {
+        "coa_type_id": {
+        	"type": "string"
+        },
+        "sub_name": {
             "type": "string"
         },
-        "description": {
-            "type": "string"
-        },
-        "status": {
-            "type": "string"
+        "parent_id": {
+        	"type": "string"
         }
-    },
-    "required": [
-        "name", "symbol"
-    ]
+    }
 }

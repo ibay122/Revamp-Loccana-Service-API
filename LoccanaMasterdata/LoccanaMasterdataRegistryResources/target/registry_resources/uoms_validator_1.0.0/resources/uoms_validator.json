@@ -7,6 +7,12 @@
         },
         "symbol": {
             "type": "string"
+        },
+        "description": {
+            "type": "string"
+        },
+        "status": {
+            "type": "string"
         }
     },
     "required": [

@@ -58,7 +58,7 @@ paths:
       responses:
         default:
           description: Default response
-  /listCoas/coas/:
+  /listCoas/concat_coas/:
     get:
       responses:
         default:
