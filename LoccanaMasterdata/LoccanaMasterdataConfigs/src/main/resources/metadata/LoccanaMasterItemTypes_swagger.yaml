@@ -58,12 +58,7 @@ paths:
       responses:
         default:
           description: Default response
-  /listCoas/coas/:
-    get:
-      responses:
-        default:
-          description: Default response
-  /itemTypesList/itemTypes:
+  /lists/item_types:
     get:
       responses:
         default:

@@ -78,8 +78,3 @@ paths:
       responses:
         default:
           description: Default response
-  /listItems/type:
-    get:
-      responses:
-        default:
-          description: Default response

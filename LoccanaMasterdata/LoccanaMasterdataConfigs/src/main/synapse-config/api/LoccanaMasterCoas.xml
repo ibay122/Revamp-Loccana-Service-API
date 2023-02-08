@@ -47,13 +47,13 @@
             <filter regex="false" source="boolean(get-property('result'))">
                 <then>
                     <property description="Error Message" expression="concat('Gagal menambahkan COA ', get-property('coa_name'))" name="message" scope="default" type="STRING"/>
-                    <sequence key="InsertUserActivities"/>
+                    <sequence key="LoccanaMasterInsertUserActivities"/>
                     <sequence key="LoccanaMasterGetResponseError"/>
                 </then>
                 <else>
                     <property description="Success Message" expression="concat('Tambah COA ', get-property('coa_name'), ' dengan kode ',get-property('coa_code'), ' berhasil.')" name="message" scope="default" type="STRING"/>
                     <property description="Success data" expression="json-eval($.return)" name="data" scope="default" type="STRING"/>
-                    <sequence key="InsertUserActivities"/>
+                    <sequence key="LoccanaMasterInsertUserActivities"/>
                     <sequence key="LoccanaMasterGetResponseSuccess"/>
                 </else>
             </filter>
@@ -61,7 +61,7 @@
         <outSequence/>
         <faultSequence>
             <property description="ErrorMessage" expression="get-property('ERROR_MESSAGE')" name="message" scope="default" type="STRING"/>
-            <sequence key="InsertUserActivities"/>
+            <sequence key="LoccanaMasterInsertUserActivities"/>
             <sequence key="LoccanaMasterGetResponseError"/>
         </faultSequence>
     </resource>
@@ -124,12 +124,12 @@
                 <then>
                     <property description="Success Message" expression="concat('Update COA ', get-property('coa_name'), ' dengan kode ',get-property('coa_code'), ' berhasil.')" name="message" scope="default" type="STRING"/>
                     <property description="Success data" expression="json-eval($.return)" name="data" scope="default" type="STRING"/>
-                    <sequence key="InsertUserActivities"/>
+                    <sequence key="LoccanaMasterInsertUserActivities"/>
                     <sequence key="LoccanaMasterGetResponseSuccess"/>
                 </then>
                 <else>
                     <property description="Error Message" expression="concat('Gagal update COA ', get-property('coa_name'))" name="message" scope="default" type="STRING"/>
-                    <sequence key="InsertUserActivities"/>
+                    <sequence key="LoccanaMasterInsertUserActivities"/>
                     <sequence key="LoccanaMasterGetResponseError"/>
                 </else>
             </filter>
@@ -137,6 +137,7 @@
         <outSequence/>
         <faultSequence>
             <property description="ErrorMessage" expression="get-property('ERROR_MESSAGE')" name="message" scope="default" type="STRING"/>
+            <sequence key="LoccanaMasterInsertUserActivities"/>
             <sequence key="LoccanaMasterGetResponseError"/>
         </faultSequence>
     </resource>
@@ -155,8 +156,8 @@
             <sequence key="LoccanaMasterCoasGetDetail"/>
             <filter regex="false" source="boolean(get-property('data'))">
                 <then>
-                    <property description="Error Message" expression="concat('COA dengan nama ', get-property('coa_name'), ' tidak ditemukan')" name="message" scope="default" type="STRING"/>
-                    <sequence key="InsertUserActivities"/>
+                    <property description="Error Message" expression="concat('COA dengan id ', get-property('coaId'), ' tidak ditemukan')" name="message" scope="default" type="STRING"/>
+                    <sequence key="LoccanaMasterInsertUserActivities"/>
                     <sequence key="LoccanaMasterGetResponseError"/>
                 </then>
                 <else>
@@ -180,13 +181,13 @@
                 <then>
                     <property description="Success Message" expression="concat(concat('Delete COA ', get-property('coa_name')),' berhasil.')" name="message" scope="default" type="STRING"/>
                     <property description="Success Message" expression="get-property('coaId')" name="data" scope="default" type="STRING"/>
-                    <sequence key="InsertUserActivities"/>
+                    <sequence key="LoccanaMasterInsertUserActivities"/>
                     <sequence key="LoccanaMasterGetResponseSuccess"/>
                 </then>
                 <else>
                     <property description="Error Message" expression="concat(concat('Delete COA ', get-property('coa_name')),' gagal.')" name="message" scope="default" type="STRING"/>
                     <property description="Error Message" expression="get-property('coaId')" name="data" scope="default" type="STRING"/>
-                    <sequence key="InsertUserActivities"/>
+                    <sequence key="LoccanaMasterInsertUserActivities"/>
                     <sequence key="LoccanaMasterGetResponseError"/>
                 </else>
             </filter>
@@ -194,6 +195,7 @@
         <outSequence/>
         <faultSequence>
             <property description="ErrorMessage" expression="get-property('ERROR_MESSAGE')" name="message" scope="default" type="STRING"/>
+            <sequence key="LoccanaMasterInsertUserActivities"/>
             <sequence key="LoccanaMasterGetResponseError"/>
         </faultSequence>
     </resource>
@@ -206,11 +208,11 @@
             <sequence key="LoccanaMasterCoasGetDetail"/>
             <filter regex="false" source="boolean(get-property('data'))">
                 <then>
-                    <property description="Error Message" name="message" scope="default" type="STRING" value="coa tidak ditemukan."/>
+                    <property description="Error Message" name="message" scope="default" type="STRING" value="COA tidak ditemukan."/>
                     <sequence key="LoccanaMasterGetResponseError"/>
                 </then>
                 <else>
-                    <property description="Success Message" name="message" scope="default" type="STRING" value="coa ditemukan."/>
+                    <property description="Success Message" name="message" scope="default" type="STRING" value="COA ditemukan."/>
                     <sequence key="LoccanaMasterGetResponseSuccess"/>
                 </else>
             </filter>
@@ -242,11 +244,11 @@
             </filter>
             <filter regex="false" source="boolean(get-property('data'))">
                 <then>
-                    <property description="Error Message" name="message" scope="default" type="STRING" value="Coa tidak ditemukan."/>
+                    <property description="Error Message" name="message" scope="default" type="STRING" value="Concat COA tidak ditemukan."/>
                     <sequence key="LoccanaMasterGetResponseError"/>
                 </then>
                 <else>
-                    <property description="Success Message" name="message" scope="default" type="STRING" value="Concat Coa ditemukan."/>
+                    <property description="Success Message" name="message" scope="default" type="STRING" value="Concat COA ditemukan."/>
                     <sequence key="LoccanaMasterGetResponseSuccess"/>
                 </else>
             </filter>

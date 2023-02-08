@@ -39,13 +39,13 @@
             <filter regex="false" source="boolean(get-property('result'))">
                 <then>
                     <property description="Error Message" expression="concat('Gagal menambahkan sub COA ', get-property('sub_name'))" name="message" scope="default" type="STRING"/>
-                    <sequence key="InsertUserActivities"/>
+                    <sequence key="LoccanaMasterInsertUserActivities"/>
                     <sequence key="LoccanaMasterGetResponseError"/>
                 </then>
                 <else>
                     <property description="Success Message" expression="concat('Tambah sub COA ', get-property('sub_name'), ' berhasil.')" name="message" scope="default" type="STRING"/>
                     <property description="Success data" expression="json-eval($.return)" name="data" scope="default" type="STRING"/>
-                    <sequence key="InsertUserActivities"/>
+                    <sequence key="LoccanaMasterInsertUserActivities"/>
                     <sequence key="LoccanaMasterGetResponseSuccess"/>
                 </else>
             </filter>
@@ -53,7 +53,7 @@
         <outSequence/>
         <faultSequence>
             <property description="ErrorMessage" expression="get-property('ERROR_MESSAGE')" name="message" scope="default" type="STRING"/>
-            <sequence key="InsertUserActivities"/>
+            <sequence key="LoccanaMasterInsertUserActivities"/>
             <sequence key="LoccanaMasterGetResponseError"/>
         </faultSequence>
     </resource>
@@ -66,11 +66,11 @@
             <sequence key="LoccanaMasterCoaSubGetDetail"/>
             <filter regex="false" source="boolean(get-property('data'))">
                 <then>
-                    <property description="Error Message" name="message" scope="default" type="STRING" value="sub coa tidak ditemukan."/>
+                    <property description="Error Message" name="message" scope="default" type="STRING" value="Sub COA tidak ditemukan."/>
                     <sequence key="LoccanaMasterGetResponseError"/>
                 </then>
                 <else>
-                    <property description="Success Message" name="message" scope="default" type="STRING" value="sub coa ditemukan."/>
+                    <property description="Success Message" name="message" scope="default" type="STRING" value="Sub COA ditemukan."/>
                     <sequence key="LoccanaMasterGetResponseSuccess"/>
                 </else>
             </filter>
@@ -102,11 +102,11 @@
             </filter>
             <filter regex="false" source="boolean(get-property('data'))">
                 <then>
-                    <property description="Error Message" name="message" scope="default" type="STRING" value="Sub Coa tidak ditemukan."/>
+                    <property description="Error Message" name="message" scope="default" type="STRING" value="Sub COA tidak ditemukan."/>
                     <sequence key="LoccanaMasterGetResponseError"/>
                 </then>
                 <else>
-                    <property description="Success Message" name="message" scope="default" type="STRING" value="Sub Coa ditemukan."/>
+                    <property description="Success Message" name="message" scope="default" type="STRING" value="Sub COA ditemukan."/>
                     <sequence key="LoccanaMasterGetResponseSuccess"/>
                 </else>
             </filter>
@@ -167,14 +167,14 @@
             <property description="Get update status" expression="json-eval($.UpdatedRowCount.id)" name="result" scope="default" type="STRING"/>
             <filter regex="true" source="boolean(get-property('result'))">
                 <then>
-                    <property description="Success Message" expression="concat('Update COA ', get-property('sub_name'), ' dengan id ',get-property('subCoaId'), ' berhasil.')" name="message" scope="default" type="STRING"/>
+                    <property description="Success Message" expression="concat('Update sub COA ', get-property('sub_name'), ' dengan id ',get-property('subCoaId'), ' berhasil.')" name="message" scope="default" type="STRING"/>
                     <property description="Success data" expression="json-eval($.return)" name="data" scope="default" type="STRING"/>
-                    <sequence key="InsertUserActivities"/>
+                    <sequence key="LoccanaMasterInsertUserActivities"/>
                     <sequence key="LoccanaMasterGetResponseSuccess"/>
                 </then>
                 <else>
-                    <property description="Error Message" expression="concat('Gagal update COA ', get-property('sub_name'))" name="message" scope="default" type="STRING"/>
-                    <sequence key="InsertUserActivities"/>
+                    <property description="Error Message" expression="concat('Gagal update sub COA ', get-property('sub_name'))" name="message" scope="default" type="STRING"/>
+                    <sequence key="LoccanaMasterInsertUserActivities"/>
                     <sequence key="LoccanaMasterGetResponseError"/>
                 </else>
             </filter>
@@ -182,6 +182,7 @@
         <outSequence/>
         <faultSequence>
             <property description="ErrorMessage" expression="get-property('ERROR_MESSAGE')" name="message" scope="default" type="STRING"/>
+            <sequence key="LoccanaMasterInsertUserActivities"/>
             <sequence key="LoccanaMasterGetResponseError"/>
         </faultSequence>
     </resource>
@@ -200,8 +201,8 @@
             <sequence key="LoccanaMasterCoaSubGetDetail"/>
             <filter regex="false" source="boolean(get-property('data'))">
                 <then>
-                    <property description="Error Message" expression="concat('COA dengan id ', get-property('subCoaId'), ' tidak ditemukan')" name="message" scope="default" type="STRING"/>
-                    <sequence key="InsertUserActivities"/>
+                    <property description="Error Message" expression="concat('Sub COA dengan id ', get-property('subCoaId'), ' tidak ditemukan')" name="message" scope="default" type="STRING"/>
+                    <sequence key="LoccanaMasterInsertUserActivities"/>
                     <sequence key="LoccanaMasterGetResponseError"/>
                 </then>
                 <else>
@@ -224,13 +225,13 @@
                 <then>
                     <property description="Success Message" expression="concat(concat('Delete sub COA ', get-property('sub_name')),' berhasil.')" name="message" scope="default" type="STRING"/>
                     <property description="Success Message" expression="get-property('subCoaId')" name="data" scope="default" type="STRING"/>
-                    <sequence key="InsertUserActivities"/>
+                    <sequence key="LoccanaMasterInsertUserActivities"/>
                     <sequence key="LoccanaMasterGetResponseSuccess"/>
                 </then>
                 <else>
                     <property description="Error Message" expression="concat(concat('Delete sub COA ', get-property('sub_name')),' gagal.')" name="message" scope="default" type="STRING"/>
                     <property description="Error Message" expression="get-property('subCoaId')" name="data" scope="default" type="STRING"/>
-                    <sequence key="InsertUserActivities"/>
+                    <sequence key="LoccanaMasterInsertUserActivities"/>
                     <sequence key="LoccanaMasterGetResponseError"/>
                 </else>
             </filter>
@@ -238,6 +239,7 @@
         <outSequence/>
         <faultSequence>
             <property description="ErrorMessage" expression="get-property('ERROR_MESSAGE')" name="message" scope="default" type="STRING"/>
+            <sequence key="LoccanaMasterInsertUserActivities"/>
             <sequence key="LoccanaMasterGetResponseError"/>
         </faultSequence>
     </resource>

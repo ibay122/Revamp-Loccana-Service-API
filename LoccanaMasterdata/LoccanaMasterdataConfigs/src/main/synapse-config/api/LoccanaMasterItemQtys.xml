@@ -6,11 +6,11 @@
             <sequence key="LoccanaMasterItemQtysGetDetail"/>
             <filter regex="false" source="boolean(get-property('data'))">
                 <then>
-                    <property description="Error Message" name="message" scope="default" type="STRING" value="Item Quantity tidak ditemukan."/>
+                    <property description="Error Message" name="message" scope="default" type="STRING" value="Item quantity tidak ditemukan."/>
                     <sequence key="LoccanaMasterGetResponseError"/>
                 </then>
                 <else>
-                    <property description="Success Message" name="message" scope="default" type="STRING" value="Item Quantity ditemukan."/>
+                    <property description="Success Message" name="message" scope="default" type="STRING" value="Item quantity ditemukan."/>
                     <sequence key="LoccanaMasterGetResponseSuccess"/>
                 </else>
             </filter>
@@ -23,14 +23,30 @@
     </resource>
     <resource methods="GET" uri-template="/itemQtysList/itemQtys/">
         <inSequence>
-            <sequence key="LoccanaMasterItemQtysGetList"/>
+            <dataServiceCall description="Get Item Qtys List" serviceName="LoccanaMasterdataDataService">
+                <operations type="single">
+                    <operation name="getItemQtysList"/>
+                </operations>
+                <source type="inline"/>
+                <target type="body"/>
+            </dataServiceCall>
+            <property expression="json-eval($)" name="resultData" scope="default" type="STRING"/>
+            <!-- <log description="Log start" level="custom">
+		        <property expression="get-property('resultData')" name="Update item qtys id"/>
+		    </log> -->
+            <filter regex="true" source="boolean(get-property('resultData'))">
+                <then>
+                    <property expression="json-eval($.data)" name="data" scope="default" type="STRING"/>
+                </then>
+                <else/>
+            </filter>
             <filter regex="false" source="boolean(get-property('data'))">
                 <then>
-                    <property description="Error Message" name="message" scope="default" type="STRING" value="Item Quantity tidak ditemukan."/>
+                    <property description="Error Message" name="message" scope="default" type="STRING" value="Item quantity tidak ditemukan."/>
                     <sequence key="LoccanaMasterGetResponseError"/>
                 </then>
                 <else>
-                    <property description="Success Message" name="message" scope="default" type="STRING" value="Item Quantity ditemukan."/>
+                    <property description="Success Message" name="message" scope="default" type="STRING" value="Item quantity ditemukan."/>
                     <sequence key="LoccanaMasterGetResponseSuccess"/>
                 </else>
             </filter>

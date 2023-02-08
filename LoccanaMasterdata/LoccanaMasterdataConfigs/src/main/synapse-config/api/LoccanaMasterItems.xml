@@ -127,13 +127,13 @@
             <filter regex="false" source="boolean(get-property('result'))">
                 <then>
                     <property description="Error Message" expression="concat('Gagal menambahkan item ', get-property('item_name'))" name="message" scope="default" type="STRING"/>
-                    <sequence key="InsertUserActivities"/>
+                    <sequence key="LoccanaMasterInsertUserActivities"/>
                     <sequence key="LoccanaMasterGetResponseError"/>
                 </then>
                 <else>
                     <property description="Success Message" expression="concat('Tambah item ', get-property('item_name'), ' dengan kode ',get-property('item_code'), ' berhasil.')" name="message" scope="default" type="STRING"/>
                     <property description="Success data" expression="json-eval($.return)" name="data" scope="default" type="STRING"/>
-                    <sequence key="InsertUserActivities"/>
+                    <sequence key="LoccanaMasterInsertUserActivities"/>
                     <sequence key="LoccanaMasterGetResponseSuccess"/>
                 </else>
             </filter>
@@ -141,7 +141,7 @@
         <outSequence/>
         <faultSequence>
             <property description="ErrorMessage" expression="get-property('ERROR_MESSAGE')" name="message" scope="default" type="STRING"/>
-            <sequence key="InsertUserActivities"/>
+            <sequence key="LoccanaMasterInsertUserActivities"/>
             <sequence key="LoccanaMasterGetResponseError"/>
         </faultSequence>
     </resource>
@@ -177,7 +177,7 @@
             <filter regex="false" source="boolean(get-property('data'))">
                 <then>
                     <property description="Error Message" expression="concat(concat('Item dengan id ',get-property('itemsId')),' tidak ditemukan')" name="message" scope="default" type="STRING"/>
-                    <sequence key="InsertUserActivities"/>
+                    <sequence key="LoccanaMasterInsertUserActivities"/>
                     <sequence key="LoccanaMasterGetResponseError"/>
                 </then>
                 <else>
@@ -209,11 +209,12 @@
                 <then>
                     <property description="Success Message" expression="concat('Update item ', get-property('item_name'), ' dengan kode ',get-property('item_code'), ' berhasil.')" name="message" scope="default" type="STRING"/>
                     <property description="Success data" expression="get-property('itemsId')" name="data" scope="default" type="STRING"/>
-                    <sequence key="InsertUserActivities"/>
+                    <sequence key="LoccanaMasterInsertUserActivities"/>
                     <sequence key="LoccanaMasterGetResponseSuccess"/>
                 </then>
                 <else>
-                    <property description="Error Message" name="message" scope="default" type="STRING" value="Update Item gagal."/>
+                    <property description="Success Message" expression="concat('Gagal update item ', get-property('item_name'), ' dengan kode ', get-property('item_code'))" name="message" scope="default" type="STRING"/>
+                    <sequence key="LoccanaMasterInsertUserActivities"/>
                     <sequence key="LoccanaMasterGetResponseError"/>
                 </else>
             </filter>
@@ -221,7 +222,7 @@
         <outSequence/>
         <faultSequence>
             <property description="ErrorMessage" expression="get-property('ERROR_MESSAGE')" name="message" scope="default" type="STRING"/>
-            <sequence key="InsertUserActivities"/>
+            <sequence key="LoccanaMasterInsertUserActivities"/>
             <sequence key="LoccanaMasterGetResponseError"/>
         </faultSequence>
     </resource>
@@ -238,7 +239,7 @@
             <filter regex="false" source="boolean(get-property('data'))">
                 <then>
                     <property description="Error Message" expression="concat(concat('Item dengan id ',get-property('itemsId')),' tidak ditemukan')" name="message" scope="default" type="STRING"/>
-                    <sequence key="InsertUserActivities"/>
+                    <sequence key="LoccanaMasterInsertUserActivities"/>
                     <sequence key="LoccanaMasterGetResponseError"/>
                 </then>
                 <else>
@@ -262,12 +263,12 @@
                 <then>
                     <property description="Success Message" expression="concat('Delete item ', get-property('item_name'), ' dengan kode ',get-property('item_code'), ' berhasil.')" name="message" scope="default" type="STRING"/>
                     <property description="Success data" expression="json-eval($.return)" name="data" scope="default" type="STRING"/>
-                    <sequence key="InsertUserActivities"/>
+                    <sequence key="LoccanaMasterInsertUserActivities"/>
                     <sequence key="LoccanaMasterGetResponseSuccess"/>
                 </then>
                 <else>
-                    <property description="Error Message" expression="concat('Gagal update item ', get-property('name'))" name="message" scope="default" type="STRING"/>
-                    <sequence key="InsertUserActivities"/>
+                    <property description="Error Message" expression="concat('Gagal delete item ', get-property('name'))" name="message" scope="default" type="STRING"/>
+                    <sequence key="LoccanaMasterInsertUserActivities"/>
                     <sequence key="LoccanaMasterGetResponseError"/>
                 </else>
             </filter>
@@ -275,8 +276,7 @@
         <outSequence/>
         <faultSequence>
             <property description="ErrorMessage" expression="get-property('ERROR_MESSAGE')" name="message" scope="default" type="STRING"/>
-            <property name="operation" scope="default" type="STRING" value="4"/>
-            <sequence key="InsertUserActivities"/>
+            <sequence key="LoccanaMasterInsertUserActivities"/>
             <sequence key="LoccanaMasterGetResponseError"/>
         </faultSequence>
     </resource>
@@ -289,7 +289,7 @@
             <sequence key="LoccanaMasterGetItemsDetail"/>
             <filter regex="false" source="boolean(get-property('data'))">
                 <then>
-                    <property description="Error Message" expression="concat(concat('Item dengan id ',get-property('itemsId')),' tidak ditemukan')" name="message" scope="default" type="STRING"/>
+                    <property description="Error Message" expression="concat('Item dengan id ', get-property('itemsId'), ' tidak ditemukan')" name="message" scope="default" type="STRING"/>
                     <sequence key="LoccanaMasterGetResponseError"/>
                 </then>
                 <else>
@@ -306,7 +306,20 @@
     </resource>
     <resource methods="GET" uri-template="/listItems/items">
         <inSequence>
-            <sequence key="LoccanaMasterGetItemLists"/>
+            <dataServiceCall description="Get item lists" serviceName="LoccanaMasterdataDataService">
+                <operations type="single">
+                    <operation name="getItemLists"/>
+                </operations>
+                <source type="inline"/>
+                <target type="body"/>
+            </dataServiceCall>
+            <property expression="json-eval($)" name="resultData" scope="default" type="STRING"/>
+            <filter regex="true" source="boolean(get-property('resultData'))">
+                <then>
+                    <property expression="json-eval($.data)" name="data" scope="default" type="STRING"/>
+                </then>
+                <else/>
+            </filter>
             <filter regex="false" source="boolean(get-property('data'))">
                 <then>
                     <property description="Error Message" name="message" scope="default" type="STRING" value="Item tidak ditemukan."/>
@@ -314,26 +327,6 @@
                 </then>
                 <else>
                     <property description="Success Message" name="message" scope="default" type="STRING" value="Item ditemukan."/>
-                    <sequence key="LoccanaMasterGetResponseSuccess"/>
-                </else>
-            </filter>
-        </inSequence>
-        <outSequence/>
-        <faultSequence>
-            <property description="ErrorMessage" expression="get-property('ERROR_MESSAGE')" name="message" scope="default" type="STRING"/>
-            <sequence key="LoccanaMasterGetResponseError"/>
-        </faultSequence>
-    </resource>
-    <resource methods="GET" uri-template="/listItems/type">
-        <inSequence>
-            <sequence key="LoccanaMasterItemTypesGetList"/>
-            <filter regex="false" source="boolean(get-property('data'))">
-                <then>
-                    <property description="Error Message" name="message" scope="default" type="STRING" value="Item type tidak ditemukan."/>
-                    <sequence key="LoccanaMasterGetResponseError"/>
-                </then>
-                <else>
-                    <property description="Success Message" name="message" scope="default" type="STRING" value="Item type ditemukan."/>
                     <sequence key="LoccanaMasterGetResponseSuccess"/>
                 </else>
             </filter>

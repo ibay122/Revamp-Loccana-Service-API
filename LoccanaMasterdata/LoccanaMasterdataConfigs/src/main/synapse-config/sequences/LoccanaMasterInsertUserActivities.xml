@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="LoccanaMasterInsertUserActivities" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <!-- <switch source="get-property('operation')">
+        <case regex="1">
+            <property expression="get-property('activity')" name="aktivitas" scope="default" type="STRING"/>
+            <property expression="concat(concat('Berhasil tambah ',get-property('menu')), ' ', get-property('code'))" name="keterangan" scope="default" type="STRING"/>
+        </case>
+        <case regex="2">
+            <property expression="get-property('activity')" name="aktivitas" scope="default" type="STRING"/>
+            <property expression="concat(concat('Berhasil update ',get-property('menu')), ' ', get-property('code'))" name="keterangan" scope="default" type="STRING"/>
+        </case>
+        <case regex="3">
+            <property expression="get-property('activity')" name="aktivitas" scope="default" type="STRING"/>
+            <property expression="concat(concat('Berhasil delete ',get-property('menu')), ' ', get-property('code'))" name="keterangan" scope="default" type="STRING"/>
+        </case>
+        <case regex="4">
+            <property expression="get-property('activity')" name="aktivitas" scope="default" type="STRING"/>
+            <property expression="get-property('message')" name="keterangan" scope="default" type="STRING"/>
+        </case>
+        <default/>
+    </switch> -->
+    <propertyGroup description="Parameter Input">
+        <property expression="get-property('id_user')" name="id_user" scope="default" type="STRING"/>
+        <property expression="get-property('menu')" name="menu" scope="default" type="STRING"/>
+        <property expression="get-property('aktivitas')" name="aktivitas" scope="default" type="STRING"/>
+        <property expression="get-property('message')" name="keterangan" scope="default" type="STRING"/>
+    </propertyGroup>
+    <dataServiceCall description="Create user activities" serviceName="LoccanaMasterdataDataService">
+        <operations type="single">
+            <operation name="createUserActivities">
+                <param evaluator="xml" expression="get-property('id_user')" name="id_user"/>
+                <param evaluator="xml" expression="get-property('menu')" name="menu"/>
+                <param evaluator="xml" expression="get-property('aktivitas')" name="aktivitas"/>
+                <param evaluator="xml" expression="get-property('keterangan')" name="keterangan"/>
+                <param evaluator="xml" expression="get-property('currentDate')" name="created_at"/>
+                <param evaluator="xml" expression="get-property('currentDate')" name="updated_at"/>
+            </operation>
+        </operations>
+        <source type="inline"/>
+        <target type="body"/>
+    </dataServiceCall>
+    <property name="messageType" scope="axis2" type="STRING" value="application/json"/>
+    <property description="Result" expression="json-eval($)" name="result" scope="default" type="STRING"/>
+</sequence>

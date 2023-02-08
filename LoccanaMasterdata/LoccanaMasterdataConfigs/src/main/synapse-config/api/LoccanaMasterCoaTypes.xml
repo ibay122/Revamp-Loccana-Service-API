@@ -35,13 +35,13 @@
             <filter regex="false" source="boolean(get-property('result'))">
                 <then>
                     <property description="Error Message" expression="concat('Gagal menambahkan type COA ', get-property('type_name'))" name="message" scope="default" type="STRING"/>
-                    <sequence key="InsertUserActivities"/>
+                    <sequence key="LoccanaMasterInsertUserActivities"/>
                     <sequence key="LoccanaMasterGetResponseError"/>
                 </then>
                 <else>
                     <property description="Success Message" expression="concat('Tambah type COA ', get-property('type_name'), ' berhasil.')" name="message" scope="default" type="STRING"/>
                     <property description="Success data" expression="json-eval($.return)" name="data" scope="default" type="STRING"/>
-                    <sequence key="InsertUserActivities"/>
+                    <sequence key="LoccanaMasterInsertUserActivities"/>
                     <sequence key="LoccanaMasterGetResponseSuccess"/>
                 </else>
             </filter>
@@ -49,7 +49,7 @@
         <outSequence/>
         <faultSequence>
             <property description="ErrorMessage" expression="get-property('ERROR_MESSAGE')" name="message" scope="default" type="STRING"/>
-            <sequence key="InsertUserActivities"/>
+            <sequence key="LoccanaMasterInsertUserActivities"/>
             <sequence key="LoccanaMasterGetResponseError"/>
         </faultSequence>
     </resource>
@@ -62,11 +62,11 @@
             <sequence key="LoccanaMasterCoaTypeGetDetail"/>
             <filter regex="false" source="boolean(get-property('data'))">
                 <then>
-                    <property description="Error Message" name="message" scope="default" type="STRING" value="type COA tidak ditemukan."/>
+                    <property description="Error Message" name="message" scope="default" type="STRING" value="Type COA tidak ditemukan."/>
                     <sequence key="LoccanaMasterGetResponseError"/>
                 </then>
                 <else>
-                    <property description="Success Message" name="message" scope="default" type="STRING" value="type COA ditemukan."/>
+                    <property description="Success Message" name="message" scope="default" type="STRING" value="Type COA ditemukan."/>
                     <sequence key="LoccanaMasterGetResponseSuccess"/>
                 </else>
             </filter>
@@ -161,12 +161,12 @@
                 <then>
                     <property description="Success Message" expression="concat('Update type COA ', get-property('type_name'), ' dengan id ',get-property('typeCoaId'), ' berhasil.')" name="message" scope="default" type="STRING"/>
                     <property description="Success data" expression="json-eval($.return)" name="data" scope="default" type="STRING"/>
-                    <sequence key="InsertUserActivities"/>
+                    <sequence key="LoccanaMasterInsertUserActivities"/>
                     <sequence key="LoccanaMasterGetResponseSuccess"/>
                 </then>
                 <else>
                     <property description="Error Message" expression="concat('Gagal update type COA ', get-property('type_name'))" name="message" scope="default" type="STRING"/>
-                    <sequence key="InsertUserActivities"/>
+                    <sequence key="LoccanaMasterInsertUserActivities"/>
                     <sequence key="LoccanaMasterGetResponseError"/>
                 </else>
             </filter>
@@ -174,6 +174,7 @@
         <outSequence/>
         <faultSequence>
             <property description="ErrorMessage" expression="get-property('ERROR_MESSAGE')" name="message" scope="default" type="STRING"/>
+            <sequence key="LoccanaMasterInsertUserActivities"/>
             <sequence key="LoccanaMasterGetResponseError"/>
         </faultSequence>
     </resource>
@@ -193,7 +194,7 @@
             <filter regex="false" source="boolean(get-property('data'))">
                 <then>
                     <property description="Error Message" expression="concat('Type COA dengan id ', get-property('typeCoaId'), ' tidak ditemukan')" name="message" scope="default" type="STRING"/>
-                    <sequence key="InsertUserActivities"/>
+                    <sequence key="LoccanaMasterInsertUserActivities"/>
                     <sequence key="LoccanaMasterGetResponseError"/>
                 </then>
                 <else>
@@ -216,13 +217,13 @@
                 <then>
                     <property description="Success Message" expression="concat(concat('Delete type COA ', get-property('type_name')),' berhasil.')" name="message" scope="default" type="STRING"/>
                     <property description="Success Message" expression="get-property('typeCoaId')" name="data" scope="default" type="STRING"/>
-                    <sequence key="InsertUserActivities"/>
+                    <sequence key="LoccanaMasterInsertUserActivities"/>
                     <sequence key="LoccanaMasterGetResponseSuccess"/>
                 </then>
                 <else>
                     <property description="Error Message" expression="concat(concat('Delete type COA ', get-property('type_name')),' gagal.')" name="message" scope="default" type="STRING"/>
                     <property description="Error Message" expression="get-property('typeCoaId')" name="data" scope="default" type="STRING"/>
-                    <sequence key="InsertUserActivities"/>
+                    <sequence key="LoccanaMasterInsertUserActivities"/>
                     <sequence key="LoccanaMasterGetResponseError"/>
                 </else>
             </filter>
@@ -230,6 +231,7 @@
         <outSequence/>
         <faultSequence>
             <property description="ErrorMessage" expression="get-property('ERROR_MESSAGE')" name="message" scope="default" type="STRING"/>
+            <sequence key="LoccanaMasterInsertUserActivities"/>
             <sequence key="LoccanaMasterGetResponseError"/>
         </faultSequence>
     </resource>

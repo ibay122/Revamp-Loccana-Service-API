@@ -10,9 +10,9 @@
         <target type="body"/>
     </dataServiceCall>
     <property expression="json-eval($)" name="resultData" scope="default" type="STRING"/>
-    <log description="Log start" level="custom">
+    <!-- <log description="Log start" level="custom">
         <property expression="get-property('resultData')" name="Update sub coa id"/>
-    </log>
+    </log> -->
     <filter regex="true" source="boolean(get-property('resultData'))">
         <then>
             <property expression="json-eval($.data)" name="data" scope="default" type="STRING"/>
